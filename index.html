@@ -2,650 +2,767 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eurotrip 2026 — Carol &amp; Naka</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Europa 2026 — Carol &amp; Naka</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0F2C59">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <style>
-    /* CSS HARDCODED - PALETA PREMIUM EUROPEIA DE LUXO */
+    /* SISTEMA DE DESIGN & CORES COMPANION V2 */
+    :root {
+      --navy: #0F2C59;      /* Primário */
+      --terra: #D37556;     /* Acento / CTAs */
+      --cream: #FDFDFB;     /* Fundo */
+      --text-primary: #1A1A2E;
+      --text-secondary: #666666;
+      --card-bg: #FFFFFF;
+      --border: #E8E4DC;
+      --success: #2D8653;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    /* Dark Mode Automático */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --cream: #0F1118;
+        --card-bg: #1A1D27;
+        --border: #2A2D3A;
+        --text-primary: #F0EDE8;
+        --text-secondary: #9A97A0;
+        --navy: #3C639B;
+        --terra: #E48D70;
+      }
+    }
+
     *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-    
-    html {
-      font-size: 16px;
-      scroll-behavior: smooth;
-    }
-    
+
     body {
       font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
-      background-color: #FDFDFB; /* Creme Alabaster de Luxo */
-      color: #1E252B; /* Cinza Escuro Antracite */
-      min-height: 100vh;
-      line-height: 1.6;
+      background-color: var(--cream);
+      color: var(--text-primary);
+      font-size: 16px;
+      line-height: 1.5;
       -webkit-font-smoothing: antialiased;
-      padding-bottom: 5.5rem; /* Espaço para o botão flutuante no rodapé */
+      padding-bottom: calc(76px + env(safe-area-inset-bottom));
     }
-    
-    /* Cabeçalho de Luxo com Efeito de Vidro Sutil */
-    .header-wrapper {
-      background-color: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid #EAE6DF; /* Soft Warm Sand */
-      padding: 2rem 0 1.75rem 0;
-      margin-bottom: 1.5rem;
+
+    /* CABEÇALHO FIXO SIMPLIFICADO */
+    .header-bar {
+      background-color: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 16px;
+      text-align: center;
       position: sticky;
       top: 0;
-      z-index: 800;
+      z-index: 500;
     }
-    
-    .header {
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 0 1.25rem;
-    }
-    
-    .header h1 {
-      font-size: 26px;
+
+    .header-bar h1 {
+      font-size: 20px;
       font-weight: 700;
-      color: #0F2C59; /* Imperial Deep Navy */
+      color: var(--navy);
       display: flex;
       align-items: center;
-      gap: 10px;
-      letter-spacing: -0.02em;
+      justify-content: center;
+      gap: 6px;
     }
-    
-    .header p {
-      font-size: 13.5px;
-      color: #606F7B;
-      margin-top: 6px;
-      line-height: 1.6;
-    }
-    
-    /* Dashboard de Categorias (Grade no topo) */
-    .category-dashboard {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 1.75rem;
-    }
-    
-    @media (max-width: 600px) {
-      .category-dashboard {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-      }
-    }
-    
-    .category-tile {
-      background-color: #FFFFFF;
-      border: 1px solid #EAE6DF;
-      border-radius: 16px;
-      padding: 1.1rem 0.85rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    .category-tile:hover {
-      transform: translateY(-2px);
-      border-color: #0F2C59;
-      box-shadow: 0 6px 20px rgba(15, 44, 89, 0.04);
-    }
-    
-    /* Estado Ativo: Anel azul real de destaque super premium */
-    .category-tile.active {
-      border-color: #0F2C59;
-      background-color: #FFFFFF;
-      box-shadow: 0 0 0 2px #0F2C59, 0 8px 20px rgba(15, 44, 89, 0.08);
-    }
-    
-    .category-tile.active .tile-title {
-      color: #0F2C59;
-    }
-    
-    .tile-emoji {
-      font-size: 26px;
-      margin-bottom: 6px;
-      user-select: none;
-    }
-    
-    .tile-title {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: #1E252B;
-      transition: color 0.2s;
-    }
-    
-    .tile-desc {
-      font-size: 10px;
-      color: #606F7B;
-      margin-top: 2px;
-      line-height: 1.3;
-    }
-    
-    /* Layout dos Paineis de Conteúdo */
-    .guide {
+
+    /* CONTÊINER DE VIEWS */
+    .view {
+      display: none;
+      padding: 16px;
+      animation: viewFade 0.2s ease-out;
       max-width: 680px;
       margin: 0 auto;
-      padding: 0.5rem 1.25rem 3.5rem 1.25rem;
     }
-    
-    .panel {
-      display: none;
-      animation: fadeIn 0.25s ease-out;
-    }
-    
-    .panel.active {
+
+    .view.active {
       display: block;
     }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+
+    @keyframes viewFade {
+      from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    
-    /* Rótulo de Seção Estilizado */
-    .section-label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #0F2C59;
-      margin: 2rem 0 1rem 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      user-select: none;
-    }
-    
-    .section-label::after {
-      content: "";
-      flex-grow: 1;
-      height: 1px;
-      background-color: #EAE6DF;
-    }
-    
-    /* Grid de Cards (2 colunas no desktop, 1 no mobile) */
-    .panel-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    
-    @media (max-width: 600px) {
-      .panel-grid {
-        grid-template-columns: 1fr;
-        gap: 10px;
-      }
-    }
-    
-    /* Cards de Experiência Interativos */
-    .card {
-      background-color: #FFFFFF;
-      border: 1px solid #EAE6DF;
-      border-radius: 16px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .card:hover {
-      transform: translateY(-3px);
-      border-color: #0F2C59;
-      box-shadow: 0 10px 24px rgba(15, 44, 89, 0.04);
-    }
-    
-    /* Área da Imagem do Card com Proporção de Tela Modificada */
-    .card-img {
-      height: 155px;
-      position: relative;
-      background-color: #EFEEDB; /* Fallback sutil */
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .fallback-emoji {
-      font-size: 48px;
-      z-index: 1;
-      user-select: none;
-    }
-    
-    .card-img img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      z-index: 2;
-      transition: opacity 0.3s ease-in-out;
-    }
-    
-    .card-img img.loaded {
-      opacity: 1;
-    }
-    
-    /* Conteúdo do Card */
-    .card-content {
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-    
-    .card-head {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 0.75rem;
-    }
-    
-    .icon-box {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
+
+    h2 {
       font-size: 18px;
-      user-select: none;
-    }
-    
-    /* Paleta de Cores dos Ícones */
-    .ib-blue { background-color: #EBF1F7; color: #0F2C59; }
-    .ib-teal { background-color: #E4F5F1; color: #0E7F61; }
-    .ib-amber { background-color: #FDF3E3; color: #B26C11; }
-    .ib-purple { background-color: #F2EFFD; color: #583BB8; }
-    .ib-green { background-color: #ECF5E6; color: #538C1B; }
-    .ib-coral { background-color: #FAF0ED; color: #D37556; } /* Terracotta */
-    
-    .card-title-box {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .card-title {
-      font-size: 14.5px;
       font-weight: 600;
-      color: #1E252B;
-      line-height: 1.4;
-    }
-    
-    .card-sub {
-      font-size: 11.5px;
-      color: #606F7B;
-      margin-top: 1px;
-    }
-    
-    .card-body {
-      font-size: 12.5px;
-      color: #606F7B;
-      line-height: 1.6;
-      margin-bottom: 0.95rem;
-      flex-grow: 1;
-    }
-    
-    .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-    }
-    
-    .tag {
-      font-size: 9.5px;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    
-    /* Classes de Tags */
-    .tag-free { background-color: #ECF5E6; color: #538C1B; }
-    .tag-tip { background-color: #FDF3E3; color: #B26C11; }
-    .tag-food { background-color: #FAF0ED; color: #D37556; }
-    .tag-transport { background-color: #EBF1F7; color: #0F2C59; }
-    .tag-local { background-color: #F2EFFD; color: #583BB8; }
-    .tag-show { background-color: #F5EAFF; color: #8F34EB; }
-    .tag-tech { background-color: #E3F6FA; color: #1282A2; }
-    
-    /* Boxes de Destaque Internos */
-    .highlight-box {
-      background-color: #FFFFFF;
-      border-radius: 12px;
-      padding: 1rem 1.15rem;
-      margin-top: 12px;
-      font-size: 12.5px;
-      color: #606F7B;
-      line-height: 1.65;
-      border-left: 3.5px solid #0F2C59; /* Deep Navy */
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-    }
-    
-    .warn-box {
-      background-color: #FFFFFF;
-      border-radius: 12px;
-      padding: 1rem 1.15rem;
-      margin-top: 12px;
-      font-size: 12.5px;
-      color: #606F7B;
-      line-height: 1.65;
-      border-left: 3.5px solid #D37556; /* Terracotta */
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-    }
-    
-    /* Layouts Internos Específicos */
-    .mini-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 12px;
-    }
-    
-    @media (max-width: 480px) {
-      .mini-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .mini-card {
-      background-color: #FFFFFF;
-      border: 1px solid #EAE6DF;
-      border-radius: 12px;
-      padding: 0.95rem 1.1rem;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.01);
-    }
-    
-    .mini-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1E252B;
+      color: var(--navy);
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
     }
-    
-    .mini-body {
-      font-size: 11.5px;
-      color: #606F7B;
-      margin-top: 4px;
+
+    /* CARDS PADRÃO */
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .mono {
+      font-family: 'SF Mono', Consolas, Monaco, monospace;
+      font-size: 14px;
+    }
+
+    /* SEÇÃO INÍCIO (HOME VIEW) */
+    .dest-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .dest-badge {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .weather-badge {
+      background-color: var(--cream);
+      border: 1px solid var(--border);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .big-btn-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 16px 0;
+    }
+
+    .big-btn {
+      min-height: 52px;
+      background-color: var(--navy);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .big-btn.accent {
+      background-color: var(--terra);
+    }
+
+    .big-btn:active {
+      transform: scale(0.98);
+      opacity: 0.9;
+    }
+
+    .alert-banner {
+      background-color: var(--cream);
+      border-left: 4px solid var(--terra);
+      border-right: 1px solid var(--border);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      border-radius: var(--radius);
+      font-size: 13.5px;
       line-height: 1.5;
     }
-    
-    /* Lista de Comidas e Sobremesas */
-    .food-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 12px;
-    }
-    
-    .food-card {
-      background-color: #FFFFFF;
-      border: 1px solid #EAE6DF;
-      border-radius: 14px;
-      overflow: hidden;
-      display: flex;
-      align-items: stretch;
-      min-height: 115px;
-      transition: all 0.2s;
-    }
-    
-    .food-card:hover {
-      border-color: #0F2C59;
-      box-shadow: 0 5px 16px rgba(15, 44, 89, 0.03);
-    }
-    
-    .food-card-img {
-      width: 105px;
-      background-color: #EFEEDB;
+
+    /* SEÇÃO AGENDA (TIMELINE VIEW) */
+    .timeline-container {
       position: relative;
-      overflow: hidden;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding-left: 20px;
+      margin-top: 10px;
     }
-    
-    .food-card-img span {
-      font-size: 32px;
-      z-index: 1;
-    }
-    
-    .food-card-img img {
+
+    .timeline-container::before {
+      content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      z-index: 2;
-      transition: opacity 0.3s;
+      left: 6px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background-color: var(--border);
     }
-    
-    .food-card-img img.loaded {
-      opacity: 1;
+
+    .timeline-day-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      margin-bottom: 16px;
+      position: relative;
+      scroll-margin-top: 80px;
     }
-    
-    .food-card-info {
-      padding: 0.95rem 1.15rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      flex-grow: 1;
+
+    .timeline-day-card.today {
+      border: 2px solid var(--terra);
     }
-    
-    .food-card-head {
+
+    .timeline-day-card::before {
+      content: "";
+      position: absolute;
+      left: -19px;
+      top: 22px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--border);
+      border: 2px solid var(--card-bg);
+    }
+
+    .timeline-day-card.today::before {
+      background-color: var(--terra);
+    }
+
+    .day-header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 3px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
     }
-    
-    .food-card-title {
-      font-size: 13.5px;
-      font-weight: 600;
-      color: #1E252B;
-    }
-    
-    .food-card-orig {
-      font-size: 10.5px;
-      color: #606F7B;
-      font-style: italic;
-    }
-    
-    .food-card-desc {
-      font-size: 11.5px;
-      color: #606F7B;
-      line-height: 1.55;
-    }
-    
-    /* BOTÃO FLUTUANTE DE NAVEGAÇÃO / MENU MÓVEL */
-    .floating-nav-container {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px); /* Oculto inicialmente */
-      z-index: 900;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    .floating-nav-container.visible {
-      transform: translateX(-50%) translateY(0);
-    }
-    
-    .floating-nav-btn {
-      background-color: #1E252B;
-      color: #FFFFFF;
-      border: none;
-      border-radius: 30px;
-      padding: 11px 24px;
-      font-size: 13.5px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      font-family: inherit;
-    }
-    
-    .floating-nav-btn:hover {
-      background-color: #0F2C59;
-      transform: scale(1.04);
-    }
-    
-    .floating-nav-btn:active {
-      transform: scale(0.96);
-    }
-    
-    /* LISTA DE MENU DO EXPLORAR */
-    .menu-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    
-    .menu-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0.75rem 0.95rem;
-      background-color: #F8F7F4;
-      border: 1px solid #EAE6DF;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    
-    .menu-item:hover {
-      border-color: #0F2C59;
-      background-color: #FFFFFF;
-      box-shadow: 0 4px 12px rgba(15, 44, 89, 0.04);
-    }
-    
-    .menu-item-emoji {
-      font-size: 22px;
-      width: 38px;
-      height: 38px;
-      background-color: #FFFFFF;
-      border: 1px solid #EAE6DF;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    
-    .menu-item-info {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .menu-item-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #1E252B;
-    }
-    
-    .menu-item-desc {
-      font-size: 10.5px;
-      color: #606F7B;
-      margin-top: 1px;
-    }
-    
-    /* BOTÃO INTERATIVO DE COPIAR ENDEREÇO */
-    .copy-address-btn {
-      background-color: #F8F7F4;
-      border: 1px solid #EAE6DF;
-      color: #606F7B;
-      font-size: 10px;
+
+    .day-title {
+      font-size: 15px;
       font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 6px;
+      color: var(--navy);
+    }
+
+    .day-city {
+      font-size: 12.5px;
+      color: var(--terra);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .agenda-slot {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .agenda-slot:last-child {
+      border-bottom: none;
+    }
+
+    .agenda-time {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      background-color: var(--cream);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-top: 2px;
+      min-width: 48px;
+      text-align: center;
+    }
+
+    .agenda-content {
+      flex-grow: 1;
+    }
+
+    .agenda-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .agenda-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Botão de Cópia (Tap Target Acessível) */
+    .copy-btn {
+      min-height: 48px;
+      min-width: 48px;
+      background-color: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 3px;
-      transition: all 0.2s ease;
-      margin-left: 6px;
+      justify-content: center;
+      transition: background-color 0.2s, color 0.2s;
+      flex-shrink: 0;
       font-family: inherit;
-      vertical-align: middle;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
     }
-    
-    .copy-address-btn:hover {
-      background-color: #0F2C59;
-      border-color: #0F2C59;
+
+    .copy-btn:hover {
+      background-color: var(--navy);
       color: #FFFFFF;
+      border-color: var(--navy);
+    }
+
+    .copy-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* Controles de Status da Agenda */
+    .agenda-status-btn {
+      min-height: 48px;
+      padding: 0 10px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background-color: var(--cream);
+      color: var(--text-secondary);
+      cursor: pointer;
+      flex-shrink: 0;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 78px;
+      transition: all 0.2s;
+    }
+
+    .agenda-status-btn.status-pending {
+      color: var(--text-secondary);
+      border-color: var(--border);
+    }
+
+    .agenda-status-btn.status-done {
+      background-color: #E6F4EA;
+      color: var(--success);
+      border-color: #B7E1CD;
+    }
+
+    .agenda-status-btn.status-skipped {
+      background-color: #FEF7E0;
+      color: #B26C11;
+      border-color: #FCE8B2;
+    }
+
+    .agenda-slot.done .agenda-title {
+      text-decoration: line-through;
+      color: var(--text-secondary);
+      opacity: 0.6;
     }
     
-    .copy-address-btn:active {
-      transform: scale(0.94);
+    .agenda-slot.done .agenda-desc {
+      opacity: 0.5;
     }
-    
-    /* NOTIFICAÇÃO TOAST FLUTUANTE */
+
+    .agenda-slot.skipped .agenda-title {
+      font-style: italic;
+      color: var(--text-secondary);
+      opacity: 0.7;
+    }
+
+    /* SEÇÃO DESTINOS (CARDS EXPANSÍVEIS) */
+    .dest-accordion {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .accordion-header {
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 16px;
+      background-color: var(--card-bg);
+      user-select: none;
+    }
+
+    .accordion-header::after {
+      content: "▼";
+      font-size: 11px;
+      transition: transform 0.2s;
+      color: var(--text-secondary);
+    }
+
+    .dest-accordion.active .accordion-header::after {
+      transform: rotate(180deg);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      border-top: 0 solid var(--border);
+    }
+
+    .dest-accordion.active .accordion-content {
+      max-height: 2500px; /* Suficiente para o conteúdo vertical */
+      border-top: 1px solid var(--border);
+      overflow-y: auto;
+    }
+
+    .accordion-inner {
+      padding: 16px;
+    }
+
+    .accordion-inner p {
+      font-size: 13.5px;
+      margin-bottom: 10px;
+    }
+
+    .accordion-inner ul {
+      margin-left: 18px;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .accordion-inner li {
+      margin-bottom: 4px;
+    }
+
+    .accordion-inner img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      margin: 8px 0;
+      border: 1px solid var(--border);
+    }
+
+    /* SEÇÃO ESSENCIAIS */
+    .essenciais-tab-container {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      overflow-x: auto;
+    }
+
+    .essenciais-tab {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background-color: var(--card-bg);
+      color: var(--text-secondary);
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .essenciais-tab.active {
+      background-color: var(--navy);
+      color: #FFFFFF;
+      border-color: var(--navy);
+    }
+
+    .subview {
+      display: none;
+    }
+
+    .subview.active {
+      display: block;
+    }
+
+    /* Conversor de Câmbio */
+    .fx-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .fx-input-group {
+      display: flex;
+      align-items: center;
+      background-color: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      min-height: 48px;
+    }
+
+    .fx-label {
+      padding: 0 12px;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--navy);
+      background-color: var(--border);
+      min-width: 60px;
+      text-align: center;
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fx-input {
+      flex-grow: 1;
+      border: none;
+      background: none;
+      padding: 0 12px;
+      font-family: inherit;
+      font-size: 16px;
+      color: var(--text-primary);
+      width: 100%;
+      height: 100%;
+    }
+
+    .fx-input:focus {
+      outline: none;
+    }
+
+    .fx-update-btn {
+      min-height: 48px;
+      background-color: var(--navy);
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      margin-top: 6px;
+    }
+
+    /* Checklist de Mala */
+    .checklist-category {
+      margin-bottom: 16px;
+    }
+
+    .checklist-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+      cursor: pointer;
+    }
+
+    .checklist-item:last-child {
+      border-bottom: none;
+    }
+
+    .checklist-item input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--navy);
+      cursor: pointer;
+    }
+
+    .checklist-item.checked span {
+      text-decoration: line-through;
+      color: var(--text-secondary);
+      opacity: 0.6;
+    }
+
+    /* DICTIONARY VIEW (FRASES) */
+    .frases-header-btns {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .frases-lang-btn {
+      flex-grow: 1;
+      min-height: 48px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background-color: var(--card-bg);
+      color: var(--text-secondary);
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .frases-lang-btn.active {
+      background-color: var(--navy);
+      color: #FFFFFF;
+      border-color: var(--navy);
+    }
+
+    .frase-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .frase-info {
+      flex-grow: 1;
+    }
+
+    .frase-pt {
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .frase-translated {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 2px;
+    }
+
+    .frase-pronunciation {
+      font-size: 12px;
+      font-style: italic;
+      color: var(--terra);
+      margin-top: 1px;
+    }
+
+    .frase-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    /* BARRA DE NAVEGAÇÃO FIXA INFERIOR */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: calc(64px + env(safe-area-inset-bottom));
+      background-color: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding-bottom: env(safe-area-inset-bottom);
+      z-index: 1000;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .bottom-nav {
+        background-color: rgba(26, 29, 39, 0.92);
+      }
+    }
+
+    .nav-btn {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 0;
+      flex-grow: 1;
+      height: 100%;
+      font-family: inherit;
+      transition: color 0.15s ease-out;
+    }
+
+    .nav-btn.active {
+      color: var(--navy);
+    }
+
+    .nav-icon {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+      margin-bottom: 3px;
+    }
+
+    /* TOAST DE NOTIFICAÇÃO (SOBRE A BOTTOM BAR) */
     .toast-container {
       position: fixed;
-      bottom: 28px;
+      bottom: calc(76px + env(safe-area-inset-bottom));
       left: 50%;
       transform: translateX(-50%) translateY(100px);
       z-index: 2000;
       background-color: rgba(30, 37, 43, 0.96);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: #FFFFFF;
-      padding: 10px 22px;
+      padding: 10px 20px;
       border-radius: 30px;
-      font-size: 12.5px;
+      font-size: 13px;
       font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 8px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s;
+      gap: 6px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
       pointer-events: none;
       opacity: 0;
+      white-space: nowrap;
     }
-    
+
     .toast-container.show {
       transform: translateX(-50%) translateY(0);
       opacity: 1;
     }
-    
-    .toast-emoji {
-      font-size: 16px;
-    }
-    
-    /* MODAL BOTTOM-SHEET RESPONSIVO */
+
+    /* MODAL GAVETA RESPONSIVA (BOTTOM-SHEET / POPUP) */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(15, 44, 89, 0.35); /* Soft Navy Overlay */
+      background-color: rgba(15, 44, 89, 0.35);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
-      z-index: 1000;
+      z-index: 1500;
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.25s;
@@ -653,14 +770,14 @@
       align-items: flex-end;
       justify-content: center;
     }
-    
+
     .modal-overlay.open {
       opacity: 1;
       visibility: visible;
     }
-    
+
     .modal-box {
-      background-color: #FFFFFF;
+      background-color: var(--card-bg);
       border-radius: 24px 24px 0 0;
       width: 100%;
       max-width: 600px;
@@ -668,1358 +785,1144 @@
       display: flex;
       flex-direction: column;
       transform: translateY(100%);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       box-shadow: 0 -10px 30px rgba(15, 44, 89, 0.08);
+      padding-bottom: env(safe-area-inset-bottom);
     }
-    
+
     .modal-overlay.open .modal-box {
       transform: translateY(0);
     }
-    
+
     .modal-handle-area {
       padding: 12px 0 6px 0;
       cursor: pointer;
       display: flex;
       justify-content: center;
     }
-    
+
     .modal-handle {
       width: 40px;
       height: 4px;
-      background-color: #EAE6DF;
+      background-color: var(--border);
       border-radius: 2px;
-      transition: background-color 0.2s;
     }
-    
-    .modal-handle-area:hover .modal-handle {
-      background-color: #CFCBC3;
-    }
-    
+
     .modal-header {
-      padding: 0 1.5rem 0.85rem 1.5rem;
-      border-bottom: 1px solid #EAE6DF;
+      padding: 0 1.25rem 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    
+
     .modal-title-text {
       font-size: 15.5px;
       font-weight: 700;
-      color: #0F2C59;
-      letter-spacing: -0.01em;
+      color: var(--navy);
     }
-    
+
     .modal-close {
-      background-color: #F8F7F4;
+      background-color: var(--cream);
       border: none;
       border-radius: 50%;
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       cursor: pointer;
-      font-size: 12px;
-      color: #606F7B;
+      font-size: 11px;
+      color: var(--text-secondary);
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.2s;
     }
-    
-    .modal-close:hover {
-      background-color: #0F2C59;
-      color: #FFFFFF;
-    }
-    
+
     .modal-body {
-      padding: 1.5rem;
+      padding: 1.25rem;
       overflow-y: auto;
       font-size: 13.5px;
-      color: #606F7B;
-      line-height: 1.7;
+      color: var(--text-secondary);
+      line-height: 1.6;
     }
-    
+
     .modal-body p {
       margin-bottom: 12px;
     }
-    
-    .modal-body p:last-child {
-      margin-bottom: 0;
-    }
-    
+
     .modal-body strong {
-      color: #1E252B;
+      color: var(--text-primary);
       font-weight: 600;
     }
-    
+
     .modal-body ul {
       margin-left: 18px;
       margin-bottom: 12px;
     }
-    
+
     .modal-body li {
       margin-bottom: 6px;
-    }
-    
-    .modal-img-container {
-      width: 100%;
-      margin: 14px 0;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid #EAE6DF;
-      background-color: #EFEEDB;
-      box-shadow: 0 4px 12px rgba(15, 44, 89, 0.03);
-    }
-    
-    .modal-body-img {
-      width: 100%;
-      height: auto;
-      max-height: 280px;
-      object-fit: cover;
-      display: block;
-      opacity: 0;
-      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    .modal-body-img.loaded {
-      opacity: 1;
-    }
-    
-    @media (min-width: 768px) {
-      .modal-overlay {
-        align-items: center;
-      }
-      
-      .modal-box {
-        border-radius: 16px;
-        max-height: 75vh;
-        transform: scale(0.96);
-        opacity: 0;
-        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
-      }
-      
-      .modal-overlay.open .modal-box {
-        transform: scale(1);
-        opacity: 1;
-      }
-      
-      .modal-handle-area {
-        display: none;
-      }
-      
-      .modal-header {
-        padding: 1.5rem 1.5rem 0.85rem 1.5rem;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- CABEÇALHO -->
-  <div class="header-wrapper">
-    <div class="header">
-      <h1>🇪🇺 Carol &amp; Naka 2026</h1>
-      <p>O guia de viagem definitivo para a jornada pela Alemanha (Leipzig &amp; Berlim) e Romênia (Timișoara). Cronograma de parcerias da DBFZ, FOSS4G, show do Critical Role Live e dicas autênticas locais de Junho-Julho de 2026.</p>
+  <!-- CABEÇALHO FIXO -->
+  <div class="header-bar">
+    <h1>🇪🇺 Carol &amp; Naka 2026</h1>
+  </div>
+
+  <!-- VIEW 1: INÍCIO (HOME VIEW) -->
+  <div class="view active" id="view-inicio">
+    <div class="card">
+      <div class="label">Destino Atual</div>
+      <div class="dest-row">
+        <span class="dest-badge" id="dest-name">Carregando...</span>
+        <span class="weather-badge" id="dest-weather">--°C</span>
+      </div>
+      <p id="dest-tips" style="font-size: 13.5px; line-height: 1.5;"></p>
+    </div>
+
+    <div class="card">
+      <div class="label">Compromisso Próximo</div>
+      <p id="next-event-text" style="font-size: 14.5px; font-weight: 600; color: var(--navy);"></p>
+      <p id="next-event-time" style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;"></p>
+    </div>
+
+    <div class="big-btn-container">
+      <button class="big-btn" onclick="copyHotelAddress()">
+        <svg class="nav-icon" style="margin-bottom: 0; fill: #FFFFFF;" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span>📍 Endereço do Hotel</span>
+      </button>
+      <button class="big-btn accent" onclick="openHelpModal()">
+        <svg class="nav-icon" style="margin-bottom: 0; fill: #FFFFFF;" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        <span>🆘 Ajuda rápida</span>
+      </button>
+    </div>
+
+    <div class="alert-banner" id="current-notice">
+      Lembrete ativo da viagem carregando...
     </div>
   </div>
 
-  <!-- CONTEÚDO PRINCIPAL -->
-  <div class="guide">
+  <!-- VIEW 2: AGENDA (TIMELINE VIEW) -->
+  <div class="view" id="view-agenda">
+    <h2>📅 Linha do Tempo Diária</h2>
+    <div class="timeline-container" id="timeline-container">
+      <!-- Injeção dos dias via JS -->
+    </div>
+  </div>
+
+  <!-- VIEW 3: DESTINOS (CARDS EXPANSÍVEIS) -->
+  <div class="view" id="view-destinos">
+    <h2>🗺️ Cidades &amp; Recomendações</h2>
     
-    <!-- DASHBOARD DE NAVEGAÇÃO -->
-    <div class="category-dashboard">
-      <div class="category-tile active" data-id="logistica" onclick="selectCategory('logistica', this)">
-        <span class="tile-emoji">📅</span>
-        <span class="tile-title">Itinerário &amp; Log</span>
-        <span class="tile-desc">Cronograma &amp; Trens</span>
-      </div>
-      <div class="category-tile" data-id="timisoara" onclick="selectCategory('timisoara', this)">
-        <span class="tile-emoji">🇷🇴</span>
-        <span class="tile-title">Timișoara</span>
-        <span class="tile-desc">FOSS4G &amp; Praças</span>
-      </div>
-      <div class="category-tile" data-id="berlim-hist" onclick="selectCategory('berlim-hist', this)">
-        <span class="tile-emoji">🏛️</span>
-        <span class="tile-title">Berlim Histórica</span>
-        <span class="tile-desc">Muro &amp; Museus</span>
-      </div>
-      <div class="category-tile" data-id="berlim-alt" onclick="selectCategory('berlim-alt', this)">
-        <span class="tile-emoji">🎨</span>
-        <span class="tile-title">Berlim Alt &amp; Show</span>
-        <span class="tile-desc">Critical Role &amp; Lazer</span>
-      </div>
-      <div class="category-tile" data-id="leipzig" onclick="selectCategory('leipzig', this)">
-        <span class="tile-emoji">🎼</span>
-        <span class="tile-title">Leipzig</span>
-        <span class="tile-desc">DBFZ &amp; Bach</span>
-      </div>
-      <div class="category-tile" data-id="gastronomia" onclick="selectCategory('gastronomia', this)">
-        <span class="tile-emoji">🥨</span>
-        <span class="tile-title">Gastronomia</span>
-        <span class="tile-desc">Pratos &amp; Bebidas</span>
-      </div>
-      <div class="category-tile" data-id="idiomas" onclick="selectCategory('idiomas', this)">
-        <span class="tile-emoji">🗣️</span>
-        <span class="tile-title">Idiomas</span>
-        <span class="tile-desc">Romeno &amp; Alemão</span>
-      </div>
-      <div class="category-tile" data-id="checklist" onclick="selectCategory('checklist', this)">
-        <span class="tile-emoji">🧳</span>
-        <span class="tile-title">Checklist</span>
-        <span class="tile-desc">Malas &amp; Schengen</span>
+    <!-- ACCORDION LEIPZIG -->
+    <div class="dest-accordion" id="acc-leipzig">
+      <div class="accordion-header" onclick="toggleAccordion('acc-leipzig')">Leipzig 🎼 (23 a 26 Jun)</div>
+      <div class="accordion-content">
+        <div class="accordion-inner">
+          <img src="plagwitz.jpg" alt="Canais de Plagwitz" loading="lazy" onerror="this.style.display='none'">
+          <p><strong>🚇 Transporte:</strong> Pegue o bonde <strong>Tram Linha 3</strong> (sentido Taucha ou Sommerfeld) e desça na estação <em>DBFZ / Heiterblick</em> para ir à DBFZ. Utilize o app oficial da Deutsche Bahn (DB Navigator) para horários e bilhetes.</p>
+          <p><strong>🔬 DBFZ:</strong> German Biomass Research Centre. Código de vestimenta acadêmica é o <em>Smart Casual</em>. Reuniões de cooperação científica nos dias 24 e 25 de Junho.
+            <br>📍 Torgauer Straße 116, 04347 Leipzig <button class="copy-address-btn" style="min-height: 48px; min-width: 48px; padding: 2px 8px; font-family: inherit; font-size: 11px; font-weight: 700; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--cream); cursor: pointer;" onclick="copyText('Torgauer Straße 116, 04347 Leipzig')">📋 Copiar</button>
+          </p>
+          <img src="dbfz-center.jpg" alt="Campus DBFZ Leipzig" loading="lazy" onerror="this.style.display='none'">
+          <p><strong>🍽️ Gastronomia:</strong> Auerbachs Keller é o restaurante clássico medieval situado na galeria Mädlerpassage. Reserva recomendada. Não deixe de saborear cervejas regionais.</p>
+          <p><strong>🏛️ Turismo:</strong> Igreja <strong>Thomaskirche</strong> (túmulo e estátua de Bach) e o polo criativo de arte e galerias **Spinnerei**.</p>
+          <img src="bach-leipzig.jpg" alt="Igreja Thomaskirche (Bach)" loading="lazy" onerror="this.style.display='none'">
+          <p style="color: var(--terra); font-weight: 700;">⚠️ Alerta: Valide o seu bilhete de transporte nas maquininhas da plataforma antes de subir a bordo do Tram!</p>
+        </div>
       </div>
     </div>
 
-    <!-- LOGÍSTICA & ITINERÁRIO -->
-    <div class="panel active" id="logistica">
-      <p class="section-label">O Cronograma Exato da Viagem</p>
-      <div class="panel-grid">
-        
-        <div class="card" onclick="openModal('d-itinerario-detalhado', 'Itinerário Oficial Dia a Dia', '📅')">
-          <div class="card-img">
-            <span class="fallback-emoji">📅</span>
-            <img src="itinerary.jpg" alt="Itinerário Oficial" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-blue">📅</div>
-              <div class="card-title-box">
-                <div class="card-title">Cronograma Completo</div>
-                <div class="card-sub">Junho a Julho de 2026</div>
-              </div>
-            </div>
-            <div class="card-body">A sequência exata de cidades, deslocamentos de trem, voos internos, conexões e hotéis organizados para facilitar sua consulta diária.</div>
-            <div class="card-tags">
-              <span class="tag tag-transport">leipzig &amp; berlim</span>
-              <span class="tag tag-transport">timisoara</span>
-              <span class="tag tag-tip">voos e conexões</span>
-            </div>
+    <!-- ACCORDION BERLIM -->
+    <div class="dest-accordion" id="acc-berlim">
+      <div class="accordion-header" onclick="toggleAccordion('acc-berlim')">Berlim 🏛️ (Estadias 1 &amp; 2)</div>
+      <div class="accordion-content">
+        <div class="accordion-inner">
+          <img src="uber-arena.jpg" alt="Uber Arena" loading="lazy" onerror="this.style.display='none'">
+          <p><strong>🚇 Transporte:</strong> Rede BVG de metrô (U-Bahn) e trens (S-Bahn). Bilhete zonas ABC cobre aeroporto e centro. **Importante:** A validação é obrigatória. Não validar acarreta multa de €60 cobrada por fiscais à paisana.</p>
+          <p><strong>⚔️ Uber Arena (Show do Critical Role - 07 Jul):</strong>
+            <br>📍 Uber-Platz 1, 10243 Berlin <button class="copy-address-btn" style="min-height: 48px; min-width: 48px; padding: 2px 8px; font-family: inherit; font-size: 11px; font-weight: 700; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--cream); cursor: pointer;" onclick="copyText('Uber-Platz 1, 10243 Berlin')">📋 Copiar</button>
+            <br>• Mochilas grandes são proibidas! Levar apenas bolsas muito pequenas (folha A4 ou menor).
+            <br>• Portões abrem às 18h. Chegue 1h mais cedo se quiser garantir o merchandising oficial sem filas. Show começa às 20h.
+            <br>• Estação de metrô mais próxima: Warschauer Straße.
+          </p>
+          <p><strong>🏛️ Roteiro Histórico:</strong> East Side Gallery (Muro de Berlim), Checkpoint Charlie, Memorial do Holocausto e Reichstag (reserva grátis obrigatória online semanas antes).</p>
+          <img src="brandenburg.jpg" alt="Portão de Brandemburgo" loading="lazy" onerror="this.style.display='none'">
+          <p><strong>🎨 Lazer &amp; Alternativo:</strong> Mauerpark aos domingos (feira de pulgas e o famoso karaokê público ao ar livre no anfiteatro) e os charmosos pátios de Hackesche Höfe.</p>
+          <img src="mauerpark.jpg" alt="Mauerpark Flea Market" loading="lazy" onerror="this.style.display='none'">
+          <p><strong>🌭 Comida Rápida:</strong> Currywurst no Konnopke's Imbiss e o famoso Kebab turco no Mustafa's Gemüse Kebap.</p>
+          <div style="display: flex; gap: 8px; margin: 8px 0;">
+            <img src="currywurst.jpg" alt="Currywurst" loading="lazy" onerror="this.style.display='none'" style="flex: 1; height: 100px;">
+            <img src="doner-kebab.jpg" alt="Döner Kebab" loading="lazy" onerror="this.style.display='none'" style="flex: 1; height: 100px;">
           </div>
         </div>
-
-        <div class="card" onclick="openModal('d-voos-transit', 'Voos, Conexão e Companhias', '✈️')">
-          <div class="card-img">
-            <span class="fallback-emoji">✈️</span>
-            <img src="flights.jpg" alt="Voos e Aeroportos" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-teal">✈️</div>
-              <div class="card-title-box">
-                <div class="card-title">Voos &amp; Aeroportos</div>
-                <div class="card-sub">Air Canada, Montreal e voos internos</div>
-              </div>
-            </div>
-            <div class="card-body">Detalhes dos voos internacionais e da conexão em Montreal no retorno ao Brasil. Dicas de trânsito em aeroportos.</div>
-            <div class="card-tags">
-              <span class="tag tag-transport">air canada</span>
-              <span class="tag tag-transport">montreal transit</span>
-              <span class="tag tag-tip">tax free</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="openModal('d-trens-alemanha', 'Viajar de Trem na Alemanha (DB)', '🚆')">
-          <div class="card-img">
-            <span class="fallback-emoji">🚆</span>
-            <img src="db-train.jpg" alt="Trem DB Alemanha" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-amber">🚆</div>
-              <div class="card-title-box">
-                <div class="card-title">Trens de Alta Velocidade (ICE)</div>
-                <div class="card-sub">Navegando com a Deutsche Bahn (DB)</div>
-              </div>
-            </div>
-            <div class="card-body">Como viajar de Leipzig para Berlim, usar o aplicativo DB Navigator, reservar assentos e entender o metrô de Berlim (S-Bahn/U-Bahn).</div>
-            <div class="card-tags">
-              <span class="tag tag-transport">ice trem</span>
-              <span class="tag tag-transport">db navigator</span>
-              <span class="tag tag-tip">s-bahn &amp; u-bahn</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="openModal('d-financas-cambio', 'Moeda, Câmbio e Pagamentos', '💳')">
-          <div class="card-img">
-            <span class="fallback-emoji">💳</span>
-            <img src="money.jpg" alt="Dinheiro e Cartões" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-purple">💳</div>
-              <div class="card-title-box">
-                <div class="card-title">Dinheiro na Europa Central</div>
-                <div class="card-sub">Euro (€) vs. Leu Romeno (RON)</div>
-              </div>
-            </div>
-            <div class="card-body">Como configurar seus cartões Wise/Nomad, onde sacar dinheiro físico na Romênia (essencial para feiras) e aceitação de cartões na Alemanha.</div>
-            <div class="card-tags">
-              <span class="tag tag-tip">euro vs. leu (ron)</span>
-              <span class="tag tag-tip">cartões wise</span>
-              <span class="tag tag-local">saques locais</span>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
-    <!-- TIMISOARA (ROMÊNIA) -->
-    <div class="panel" id="timisoara">
-      <p class="section-label">A Joia Cultural da Romênia (FOSS4G)</p>
-      <div class="panel-grid">
-        
-        <div class="card" onclick="openModal('d-timisoara-foss4g', 'FOSS4G Europe 2026', '🌍')">
-          <div class="card-img">
-            <span class="fallback-emoji">🌍</span>
-            <img src="foss4g.jpg" alt="FOSS4G Europe 2026" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
+    <!-- ACCORDION TIMISOARA -->
+    <div class="dest-accordion" id="acc-timisoara">
+      <div class="accordion-header" onclick="toggleAccordion('acc-timisoara')">Timișoara 🇷🇴 (FOSS4G)</div>
+      <div class="accordion-content">
+        <div class="accordion-inner">
+          <img src="timisoara-squares.jpg" alt="Piața Unirii" loading="lazy" onerror="this.style.display='none'">
+          <p><strong>✈️ Aeroporto:</strong> Aeroporto Traian Vuia (TSR). Táxis autorizados até o centro custam aproximadamente 25 RON. Verifique o taxímetro.</p>
+          <p><strong>🌍 FOSS4G Europe 2026:</strong> Regional Business Centre CRAFT. O polo de discussão cartográfica e geotecnologia livre.
+            <br>📍 Bulevardul Eroilor de la Tisa 22, 300575 Timișoara <button class="copy-address-btn" style="min-height: 48px; min-width: 48px; padding: 2px 8px; font-family: inherit; font-size: 11px; font-weight: 700; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--cream); cursor: pointer;" onclick="copyText('Bulevardul Eroilor de la Tisa 22, 300575 Timișoara')">📋 Copiar</button>
+          </p>
+          <img src="foss4g.jpg" alt="FOSS4G Venue CRAFT" loading="lazy" onerror="this.style.display='none'">
+          <p><strong>🏛️ Turismo Histórico:</strong> Praça da União (Piața Unirii, de arquitetura barroca austríaca), Piața Victoriei e o agradável Parque das Rosas (Parcul Rozelor).</p>
+          <p><strong>⛴️ Passeio no Rio Bega:</strong> Timișoara tem barcos públicos confortáveis de passageiros navegando pelo rio por apenas 3 RON por bilhete!</p>
+          <img src="bega-river.jpg" alt="Navegação no Rio Bega" loading="lazy" onerror="this.style.display='none'">
+          <p><strong>🍽️ Gastronomia:</strong> Experimente Mici (rolinhos de carne moída grelhados com mostarda), Sarmale com polenta cremosa e a sobremesa tradicional romena Papanași (peça um para dividir!).</p>
+          <div style="display: flex; gap: 8px; margin: 8px 0; overflow-x: auto;">
+            <img src="mici.jpg" alt="Mici" loading="lazy" onerror="this.style.display='none'" style="width: 31%; height: 80px; flex-shrink: 0;">
+            <img src="sarmale.jpg" alt="Sarmale" loading="lazy" onerror="this.style.display='none'" style="width: 31%; height: 80px; flex-shrink: 0;">
+            <img src="papanasi.jpg" alt="Papanași" loading="lazy" onerror="this.style.display='none'" style="width: 31%; height: 80px; flex-shrink: 0;">
           </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-teal">🌍</div>
-              <div class="card-title-box">
-                <div class="card-title">FOSS4G Europe 2026</div>
-                <div class="card-sub">Conferência de Software Geoespacial Livre</div>
-              </div>
-            </div>
-            <div class="card-body">O evento principal da viagem à Romênia. Dicas de networking, locais da conferência e como desfrutar do ambiente acadêmico e técnico.</div>
-            <div class="card-tags">
-              <span class="tag tag-tech">geoespacial</span>
-              <span class="tag tag-tech">networking</span>
-              <span class="tag tag-local">palestras</span>
-            </div>
-          </div>
+          <p style="color: var(--terra); font-weight: 700;">💳 Dica de Dinheiro: Sacar Leu Romeno (RON) apenas em ATMs dentro de agências bancárias locais. Nunca utilize caixas eletrônicos Euronet devido às taxas abusivas.</p>
         </div>
-
-        <div class="card" onclick="openModal('d-timisoara-pracas', 'As Três Praças Históricas', '🏛️')">
-          <div class="card-img">
-            <span class="fallback-emoji">🏛️</span>
-            <img src="timisoara-squares.jpg" alt="Praças de Timisoara" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-purple">🏛️</div>
-              <div class="card-title-box">
-                <div class="card-title">Unirii, Victoriei &amp; Libertății</div>
-                <div class="card-sub">O magnífico centro arquitetônico barroco</div>
-              </div>
-            </div>
-            <div class="card-body">Explore a incrível arquitetura colorida de Piața Unirii, as catedrais imponentes e os cafés ao ar livre no charmoso centro pedestre.</div>
-            <div class="card-tags">
-              <span class="tag tag-local">arquitetura barroca</span>
-              <span class="tag tag-free">gratuito</span>
-              <span class="tag tag-tip">fotografia</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="openModal('d-timisoara-bega', 'Canais do Rio Bega e Parques', '🏞️')">
-          <div class="card-img">
-            <span class="fallback-emoji">🏞️</span>
-            <img src="bega-river.jpg" alt="Rio Bega Timisoara" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-blue">🏞️</div>
-              <div class="card-title-box">
-                <div class="card-title">Caminhada &amp; Barcos no Bega</div>
-                <div class="card-sub">Lazer natural e parques floridos</div>
-              </div>
-            </div>
-            <div class="card-body">Pegue o barco público super barato, caminhe pelo Parque das Rosas e curta o entardecer nas margens arborizadas.</div>
-            <div class="card-tags">
-              <span class="tag tag-free">parque das rosas</span>
-              <span class="tag tag-transport">barco público</span>
-              <span class="tag tag-local">lazer</span>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
-
-    <!-- BERLIM HISTÓRICA -->
-    <div class="panel" id="berlim-hist">
-      <p class="section-label">Linha do Tempo e Monumentos Fundamentais</p>
-      <div class="panel-grid">
-        
-        <div class="card" onclick="openModal('d-berlim-muro', 'Muro de Berlim & East Side Gallery', '🧱')">
-          <div class="card-img">
-            <span class="fallback-emoji">🧱</span>
-            <img src="berlin-wall.jpg" alt="Muro de Berlim" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-coral">🧱</div>
-              <div class="card-title-box">
-                <div class="card-title">East Side Gallery &amp; Checkpoint Charlie</div>
-                <div class="card-sub">O maior memorial e galeria de arte ao ar livre</div>
-              </div>
-            </div>
-            <div class="card-body">Caminhe ao longo de 1,3 km de restos do muro grafitados por artistas do mundo inteiro. Dicas de horários para evitar as multidões.</div>
-            <div class="card-tags">
-              <span class="tag tag-free">gratuito</span>
-              <span class="tag tag-local">arte de rua</span>
-              <span class="tag tag-tip">checkpoint charlie</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="openModal('d-berlim-brandemburgo', 'Portão de Brandemburgo & Reichstag', '🏛️')">
-          <div class="card-img">
-            <span class="fallback-emoji">🏛️</span>
-            <img src="brandenburg.jpg" alt="Portão de Brandemburgo" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-blue">🏛️</div>
-              <div class="card-title-box">
-                <div class="card-title">Brandemburgo &amp; Parlamento</div>
-                <div class="card-sub">O coração político da Alemanha reunificada</div>
-              </div>
-            </div>
-            <div class="card-body">O símbolo máximo da cidade e as dicas para agendar a incrível visita gratuita à cúpula de vidro do parlamento Reichstag.</div>
-            <div class="card-tags">
-              <span class="tag tag-free">parlamento grátis</span>
-              <span class="tag tag-tip">reserva antecipada</span>
-              <span class="tag tag-local">monumento</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="openModal('d-berlim-museus', 'Ilha dos Museus & Monumentos', '🏛️')">
-          <div class="card-img">
-            <span class="fallback-emoji">🏛️</span>
-            <img src="museum-island.jpg" alt="Ilha dos Museus Berlim" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-purple">🏛️</div>
-              <div class="card-title-box">
-                <div class="card-title">Ilha dos Museus &amp; Memorial</div>
-                <div class="card-sub">Patrimônio UNESCO e o Memorial do Holocausto</div>
-              </div>
-            </div>
-            <div class="card-body">Um complexo monumental único no mundo, reunindo o Pergamon e o Neues Museum, além de uma visita reflexiva ao Memorial do Holocausto.</div>
-            <div class="card-tags">
-              <span class="tag tag-local">museus unesco</span>
-              <span class="tag tag-free">memorial gratuito</span>
-              <span class="tag tag-tip">dica de ingresso</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- BERLIM ALTERNATIVA & SHOW -->
-    <div class="panel" id="berlim-alt">
-      <p class="section-label">Cultura Pop, Show ao Vivo e Lazer Urbano</p>
-      <div class="panel-grid">
-        
-        <div class="card" onclick="openModal('d-show-critical-role', 'Critical Role Live @ Uber Arena', '🎤')">
-          <div class="card-img">
-            <span class="fallback-emoji">🎤</span>
-            <img src="uber-arena.jpg" alt="Uber Arena Berlim" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-purple">🎤</div>
-              <div class="card-title-box">
-                <div class="card-title">Critical Role Live Show</div>
-                <div class="card-sub">Uber Arena — 07 de Julho de 2026</div>
-              </div>
-            </div>
-            <div class="card-body">O grande destaque do retorno a Berlim! Informações sobre a arena, como chegar, horários e dicas para aproveitar essa apresentação lendária.</div>
-            <div class="card-tags">
-              <span class="tag tag-show">show ao vivo</span>
-              <span class="tag tag-local">uber arena</span>
-              <span class="tag tag-tip">cr live show</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="openModal('d-berlim-mauerpark', 'Mauerpark no Domingo', '🎸')">
-          <div class="card-img">
-            <span class="fallback-emoji">🎸</span>
-            <img src="mauerpark.jpg" alt="Mauerpark Flea Market" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-green">🎸</div>
-              <div class="card-title-box">
-                <div class="card-title">Mercado de Pulgas &amp; Karaokê</div>
-                <div class="card-sub">O dia de lazer preferido dos berlinenses</div>
-              </div>
-            </div>
-            <div class="card-body">Comidas de rua do mundo todo, achados vintage, artistas de rua e o lendário anfiteatro de karaokê público do Mauerpark aos domingos.</div>
-            <div class="card-tags">
-              <span class="tag tag-free">karaokê público</span>
-              <span class="tag tag-local">feira de antiguidades</span>
-              <span class="tag tag-food">street food</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="openModal('d-berlim-bairros', 'Bairros Descolados & Pátios Ocultos', '🎨')">
-          <div class="card-img">
-            <span class="fallback-emoji">🎨</span>
-            <img src="kreuzberg.jpg" alt="Pátios de Berlim" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-teal">🎨</div>
-              <div class="card-title-box">
-                <div class="card-title">Kreuzberg &amp; Hackesche Höfe</div>
-                <div class="card-sub">Pátios escondidos e atitude urbana vibrante</div>
-              </div>
-            </div>
-            <div class="card-body">Explore a rede de pátios interligados charmosos de Mitte e caminhe pelas ruelas repletas de arte urbana de Kreuzberg e Friedrichshain.</div>
-            <div class="card-tags">
-              <span class="tag tag-local">kreuzberg</span>
-              <span class="tag tag-local">hackesche höfe</span>
-              <span class="tag tag-tip">cafés especiais</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- LEIPZIG (DBFZ) -->
-    <div class="panel" id="leipzig">
-      <p class="section-label">A Vanguarda Tecnológica &amp; Clássica</p>
-      <div class="panel-grid">
-        
-        <div class="card" onclick="openModal('d-leipzig-dbfz', 'Visita Técnica e Colaboração DBFZ', '🔬')">
-          <div class="card-img">
-            <span class="fallback-emoji">🔬</span>
-            <img src="dbfz-center.jpg" alt="Deutsches Biomasseforschungszentrum" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-blue">🔬</div>
-              <div class="card-title-box">
-                <div class="card-title">DBFZ Colaboração</div>
-                <div class="card-sub">Pesquisa Científica — 24 e 25 de Junho</div>
-              </div>
-            </div>
-            <div class="card-body">O foco profissional da viagem em Leipzig. Dicas de transporte até a instituição e protocolo de visita de pesquisa técnica.</div>
-            <div class="card-tags">
-              <span class="tag tag-tech">parceria científica</span>
-              <span class="tag tag-tech">leipzig dbfz</span>
-              <span class="tag tag-tip">transporte local</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="openModal('d-leipzig-bach', 'O Legado de Bach & Passagens', '🎼')">
-          <div class="card-img">
-            <span class="fallback-emoji">🎼</span>
-            <img src="bach-leipzig.jpg" alt="Bach Thomaskirche Leipzig" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-amber">🎼</div>
-              <div class="card-title-box">
-                <div class="card-title">Thomaskirche &amp; Auerbachs Keller</div>
-                <div class="card-sub">Onde Johann Sebastian Bach compôs a história</div>
-              </div>
-            </div>
-            <div class="card-body">Visite a igreja onde Bach foi mestre-de-capela e seu túmulo. Depois, conheça a famosa galeria Mädlerpassage e o restaurante clássico de Goethe.</div>
-            <div class="card-tags">
-              <span class="tag tag-local">túmulo de bach</span>
-              <span class="tag tag-local">mädlerpassage</span>
-              <span class="tag tag-tip">goethe fausto</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="openModal('d-leipzig-plagwitz', 'Canais de Plagwitz & Arte', '🛶')">
-          <div class="card-img">
-            <span class="fallback-emoji">🛶</span>
-            <img src="plagwitz.jpg" alt="Canais de Plagwitz Leipzig" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-teal">🛶</div>
-              <div class="card-title-box">
-                <div class="card-title">Canais &amp; Complexo de Arte Spinnerei</div>
-                <div class="card-sub">Cultura alternativa e caiaque na nova Berlim</div>
-              </div>
-            </div>
-            <div class="card-body">Passeie pelos antigos canais industriais de tijolos vermelhos hoje convertidos em estúdios de arte e cafés. Se quiser, alugue um barco ou caiaque!</div>
-            <div class="card-tags">
-              <span class="tag tag-free">spinnerei arte</span>
-              <span class="tag tag-local">canais plagwitz</span>
-              <span class="tag tag-tip">passeio de caiaque</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- GASTRONOMIA -->
-    <div class="panel" id="gastronomia">
-      <p class="section-label">Sabores Autênticos da Romênia &amp; Alemanha</p>
-      
-      <div class="warn-box" style="margin-bottom: 1rem;">
-        🍻 <strong>Cultura e Gorjetas na Europa:</strong> Na Romênia e Alemanha, a água em restaurantes <em>nunca</em> é gratuita (sempre peça água engarrafada com ou sem gás: <em>minerală</em> ou <em>still</em>). A gorjeta ("Trinkgeld" em alemão / "Bacșiș" em romeno) não vem obrigatoriamente inclusa; o ideal é arredondar a conta em 10% e avisar o garçom o valor total antes de pagar no cartão ou dinheiro físico.
-      </div>
-      
-      <div class="food-list">
-        
-        <div class="food-card" onclick="openModal('d-food-mici', 'Mititei / Mici', '🍢')">
-          <div class="food-card-img">
-            <span>🍢</span>
-            <img src="mici.jpg" alt="Mici Romeno" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="food-card-info">
-            <div class="food-card-head">
-              <span class="food-card-title">Mititei / Mici</span>
-              <span class="food-card-orig">Romênia 🇷🇴</span>
-            </div>
-            <div class="food-card-desc">Rolinhos de carne moída mista grelhados na brasa com especiarias e bicarbonato, o que dá uma textura elástica única. Come-se quente com mostarda e pão.</div>
-          </div>
-        </div>
-
-        <div class="food-card" onclick="openModal('d-food-sarmale', 'Sarmale com Mamaliga', '🥬')">
-          <div class="food-card-img">
-            <span>🥬</span>
-            <img src="sarmale.jpg" alt="Sarmale Romeno" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="food-card-info">
-            <div class="food-card-head">
-              <span class="food-card-title">Sarmale</span>
-              <span class="food-card-orig">Romênia 🇷🇴</span>
-            </div>
-            <div class="food-card-desc">Charutos de repolho fermentado azedo recheados com arroz e carne moída cozida lentamente. Acompanha sour cream e polenta tradicional.</div>
-          </div>
-        </div>
-
-        <div class="food-card" onclick="openModal('d-food-papanasi', 'Papanasi Romeno Clássico', '🍩')">
-          <div class="food-card-img">
-            <span>🍩</span>
-            <img src="papanasi.jpg" alt="Papanasi Romeno" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="food-card-info">
-            <div class="food-card-head">
-              <span class="food-card-title">Papanași</span>
-              <span class="food-card-orig">Romênia 🇷🇴</span>
-            </div>
-            <div class="food-card-desc">Uma rosquinha quente e frita feita de queijo cottage, servida com uma bola de massa por cima, creme azedo gelado e geleia ácida de mirtilo.</div>
-          </div>
-        </div>
-
-        <div class="food-card" onclick="openModal('d-food-currywurst', 'Currywurst de Berlim', '🌭')">
-          <div class="food-card-img">
-            <span>🌭</span>
-            <img src="currywurst.jpg" alt="Currywurst Berlim" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="food-card-info">
-            <div class="food-card-head">
-              <span class="food-card-title">Currywurst</span>
-              <span class="food-card-orig">Alemanha 🇩🇪</span>
-            </div>
-            <div class="food-card-desc">Salsicha de porco grelhada e frita, fatiada e coberta com molho quente de ketchup temperado com curry em pó. Clássico de rua acompanhado de fritas.</div>
-          </div>
-        </div>
-
-        <div class="food-card" onclick="openModal('d-food-kebab', 'Mustafas Gemüse Kebap', '🥙')">
-          <div class="food-card-img">
-            <span>🥙</span>
-            <img src="doner-kebab.jpg" alt="Doner Kebab Berlim" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="food-card-info">
-            <div class="food-card-head">
-              <span class="food-card-title">Döner Kebab Turco-Berlinense</span>
-              <span class="food-card-orig">Alemanha 🇩🇪</span>
-            </div>
-            <div class="food-card-desc">Carne assada fatiada em pão sírio crocante com molho de alho/ervas, repolho roxo, tomates, queijo feta e vegetais fritos incríveis.</div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- IDIOMAS -->
-    <div class="panel" id="idiomas">
-      <p class="section-label">Dicionário de Convivência Rápido</p>
-      <div class="panel-grid">
-        
-        <div class="card" onclick="openModal('d-lang-romeno', 'Guia Prático de Romeno', '🗣️')">
-          <div class="card-img">
-            <span class="fallback-emoji">🗣️</span>
-            <img src="romanian-language.jpg" alt="Idioma Romeno" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-blue">🗣️</div>
-              <div class="card-title-box">
-                <div class="card-title">Limba Română</div>
-                <div class="card-sub">Frases úteis com pronúncia figurada</div>
-              </div>
-            </div>
-            <div class="card-body">Aprenda a falar obrigado, por favor, pedir a conta em Timișoara e cumprimentar as pessoas em romeno de forma simpática.</div>
-            <div class="card-tags">
-              <span class="tag tag-local">romeno básico</span>
-              <span class="tag tag-tip">pronúncia prática</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="openModal('d-lang-alemao', 'Guia Prático de Alemão', '🗣️')">
-          <div class="card-img">
-            <span class="fallback-emoji">🗣️</span>
-            <img src="german-language.jpg" alt="Idioma Alemão" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-amber">🗣️</div>
-              <div class="card-title-box">
-                <div class="card-title">Deutsch</div>
-                <div class="card-sub">Sobrevivência em Berlim &amp; Leipzig</div>
-              </div>
-            </div>
-            <div class="card-body">Embora quase todos falem inglês muito bem na Alemanha, usar palavras básicas em alemão em cafés e trens abre portas e sorrisos.</div>
-            <div class="card-tags">
-              <span class="tag tag-local">alemão prático</span>
-              <span class="tag tag-tip">pronúncia prática</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- CHECKLIST & SCHENGEN -->
-    <div class="panel" id="checklist">
-      <p class="section-label">Mala de Verão &amp; Requisitos Oficiais</p>
-      <div class="panel-grid">
-        
-        <div class="card" onclick="openModal('d-checklist-schengen', 'Exigências Oficiais do Espaço Schengen', '🛡️')">
-          <div class="card-img">
-            <span class="fallback-emoji">🛡️</span>
-            <img src="schengen-insurance.jpg" alt="Seguro Viagem Schengen" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-coral">🛡️</div>
-              <div class="card-title-box">
-                <div class="card-title">Regras de Entrada na Europa</div>
-                <div class="card-sub">Seguro saúde, passaporte e exigências</div>
-              </div>
-            </div>
-            <div class="card-body">O que a imigração europeia exige de brasileiros: validade mínima do passaporte, seguro viagem de 30 mil euros de cobertura e comprovantes.</div>
-            <div class="card-tags">
-              <span class="tag tag-tip">seguro obrigatório</span>
-              <span class="tag tag-local">imigração</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card" onclick="openModal('d-checklist-mala', 'O Que Levar na Mala de Verão', '🧳')">
-          <div class="card-img">
-            <span class="fallback-emoji">🧳</span>
-            <img src="packing-summer.jpg" alt="Mala de Viagem" loading="lazy" onload="this.classList.add('loaded')" onerror="this.style.display='none'">
-          </div>
-          <div class="card-content">
-            <div class="card-head">
-              <div class="icon-box ib-green">🧳</div>
-              <div class="card-title-box">
-                <div class="card-title">Lista de Bagagem Carol &amp; Naka</div>
-                <div class="card-sub">Roupas leves e utilitários tecnológicos</div>
-              </div>
-            </div>
-            <div class="card-body">Como arrumar a mala ideal para caminhar bastante no calor de julho, incluindo sapatos confortáveis e adaptadores de tomada europeus.</div>
-            <div class="card-tags">
-              <span class="tag tag-tip">adaptador tipo c/f</span>
-              <span class="tag tag-local">roupas confortáveis</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
   </div>
 
-  <!-- BOTÃO FLUTUANTE DE NAVEGAÇÃO -->
-  <div class="floating-nav-container" id="floating-nav-container">
-    <button class="floating-nav-btn" onclick="openModal('d-explore-menu', 'Selecione uma Categoria', '🧭')">
-      <span>🧭</span>
-      <span>Explorar</span>
-    </button>
+  <!-- VIEW 4: ESSENCIAIS -->
+  <div class="view" id="view-essenciais">
+    <h2>🧳 Essenciais de Viagem</h2>
+    <div class="essenciais-tab-container">
+      <button class="essenciais-tab active" onclick="switchSubView('fx')">Câmbio</button>
+      <button class="essenciais-tab" onclick="switchSubView('bagagem')">Mala</button>
+      <button class="essenciais-tab" onclick="switchSubView('info')">Info Geral</button>
+    </div>
+
+    <!-- SUBVIEW: CÂMBIO -->
+    <div class="subview active" id="subview-fx">
+      <div class="card">
+        <div class="label">Conversor de Moeda</div>
+        <div class="fx-container">
+          <div class="fx-input-group">
+            <span class="fx-label">EUR €</span>
+            <input type="number" class="fx-input" id="input-eur" value="1" oninput="convertCurrency()">
+          </div>
+          <div class="fx-input-group">
+            <span class="fx-label">RON L</span>
+            <input type="text" class="fx-input" id="output-ron" readonly>
+          </div>
+          <div class="fx-input-group">
+            <span class="fx-label">BRL R$</span>
+            <input type="text" class="fx-input" id="output-brl" readonly>
+          </div>
+          <button class="fx-update-btn" onclick="fetchExchangeRates()">Atualizar Taxas Online</button>
+          <small id="fx-update-label" style="text-align: center; color: var(--text-secondary); margin-top: 4px; font-size: 11.5px;"></small>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBVIEW: MALA INTERATIVA -->
+    <div class="subview" id="subview-bagagem">
+      <div class="card" id="checklist-container">
+        <!-- Injetado dinamicamente via JS -->
+      </div>
+    </div>
+
+    <!-- SUBVIEW: INFO GERAL -->
+    <div class="subview" id="subview-info">
+      <div class="card">
+        <div class="label">Documentação Schengen &amp; eTA</div>
+        <p style="font-size: 13.5px; line-height: 1.5; margin-bottom: 8px;"><strong>🛡️ Seguro Saúde Viagem:</strong> O certificado de seguro viagem impresso em inglês/espanhol com cobertura médica mínima de <strong>€30.000</strong> é obrigatório e exigido na imigração europeia.</p>
+        <p style="font-size: 13.5px; line-height: 1.5;"><strong>🇨🇦 eTA Canadense:</strong> Como o retorno possui conexão em Montreal com a Air Canada, portadores de passaporte brasileiro que já tiveram visto canadense nos últimos 10 anos ou possuem visto de turismo dos EUA válido **devem emitir o eTA Canadense** antes do embarque!</p>
+      </div>
+
+      <div class="card">
+        <div class="label">Transportes e passes rápidos</div>
+        <p style="font-size: 13.5px; line-height: 1.5; margin-bottom: 6px;">• <strong>Alemanha (DB):</strong> Trens intercidades ICE e metrôs regionais. As plataformas alemãs possuem validadores e a validação prévia é obrigatória.</p>
+        <p style="font-size: 13.5px; line-height: 1.5;">• <strong>Romênia:</strong> Custo de táxis é baixo. Cartão Wise funciona na grande maioria dos pontos, mas mantenha dinheiro físico (RON) para feiras de artesanato.</p>
+      </div>
+    </div>
   </div>
 
-  <!-- MODAL BOTTOM-SHEET ÚNICO E DINÂMICO -->
+  <!-- VIEW 5: FRASES -->
+  <div class="view" id="view-frases">
+    <h2>🌐 Dicionário offline de sobrevivência</h2>
+    <div class="frases-header-btns">
+      <button class="frases-lang-btn active" id="btn-lang-de" onclick="switchLang('de')">🇩🇪 Alemão</button>
+      <button class="frases-lang-btn" id="btn-lang-ro" onclick="switchLang('ro')">🇷🇴 Romeno</button>
+    </div>
+
+    <div class="essenciais-tab-container" id="frase-cats">
+      <button class="essenciais-tab active" onclick="filterFrases('all', this)">Todas</button>
+      <button class="essenciais-tab" onclick="filterFrases('cump', this)">🗣️ Cumprimentos</button>
+      <button class="essenciais-tab" onclick="filterFrases('comp', this)">🛒 Compras</button>
+      <button class="essenciais-tab" onclick="filterFrases('trans', this)">🚇 Transporte</button>
+      <button class="essenciais-tab" onclick="filterFrases('rest', this)">🍽️ Restaurante</button>
+      <button class="essenciais-tab" onclick="filterFrases('emerg', this)">🆘 Emergência</button>
+      <button class="essenciais-tab" onclick="filterFrases('hotel', this)">🏨 Hotel</button>
+    </div>
+
+    <div id="frases-list">
+      <!-- Injeção de frases via JS -->
+    </div>
+  </div>
+
+  <!-- NOTIFICAÇÃO TOAST -->
+  <div class="toast-container" id="toast-container">
+    <span class="toast-emoji">✨</span>
+    <span class="toast-text" id="toast-text"></span>
+  </div>
+
+  <!-- MODAL GAVETA RESPONSIVA (BOTTOM SHEET) -->
   <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
     <div class="modal-box">
       <div class="modal-handle-area" onclick="closeModal()">
         <div class="modal-handle"></div>
       </div>
       <div class="modal-header">
-        <span class="modal-title-text" id="modal-title-text"></span>
+        <span class="modal-title-text" id="modal-title-text">🆘 Ajuda Rápida &amp; Emergências</span>
         <button class="modal-close" onclick="closeModal()">✕</button>
       </div>
-      <div class="modal-body" id="modal-body-content"></div>
-    </div>
-  </div>
-
-  <!-- CONTEÚDO EXPANDIDO DAS EXPERIÊNCIAS (OCULTO EM DISPLAY NONE) -->
-  <div style="display: none;">
-
-    <!-- explore menu bottom sheet options -->
-    <div id="d-explore-menu">
-      <div class="menu-list">
-        <div class="menu-item" onclick="selectCategoryFromMenu('logistica')">
-          <span class="menu-item-emoji">📅</span>
-          <div class="menu-item-info">
-            <span class="menu-item-title">Itinerário &amp; Logística</span>
-            <span class="menu-item-desc">Cronograma exato, voos e dicas de trem DB</span>
-          </div>
-        </div>
-        <div class="menu-item" onclick="selectCategoryFromMenu('timisoara')">
-          <span class="menu-item-emoji">🇷🇴</span>
-          <div class="menu-item-info">
-            <span class="menu-item-title">Timișoara (Romênia)</span>
-            <span class="menu-item-desc">FOSS4G 2026, praças barrocas e lazer no rio</span>
-          </div>
-        </div>
-        <div class="menu-item" onclick="selectCategoryFromMenu('berlim-hist')">
-          <span class="menu-item-emoji">🏛️</span>
-          <div class="menu-item-info">
-            <span class="menu-item-title">Berlim Histórica</span>
-            <span class="menu-item-desc">Muro, East Side Gallery, Brandemburgo e museus</span>
-          </div>
-        </div>
-        <div class="menu-item" onclick="selectCategoryFromMenu('berlim-alt')">
-          <span class="menu-item-emoji">🎨</span>
-          <div class="menu-item-info">
-            <span class="menu-item-title">Berlim Alt &amp; Show</span>
-            <span class="menu-item-desc">Critical Role na Uber Arena e Mauerpark</span>
-          </div>
-        </div>
-        <div class="menu-item" onclick="selectCategoryFromMenu('leipzig')">
-          <span class="menu-item-emoji">🎼</span>
-          <div class="menu-item-info">
-            <span class="menu-item-title">Leipzig (DBFZ)</span>
-            <span class="menu-item-desc">Parceria DBFZ, Thomaskirche de Bach e canais</span>
-          </div>
-        </div>
-        <div class="menu-item" onclick="selectCategoryFromMenu('gastronomia')">
-          <span class="menu-item-emoji">🥨</span>
-          <div class="menu-item-info">
-            <span class="menu-item-title">Gastronomia</span>
-            <span class="menu-item-desc">Pratos típicos da Romênia e da Alemanha</span>
-          </div>
-        </div>
-        <div class="menu-item" onclick="selectCategoryFromMenu('idiomas')">
-          <span class="menu-item-emoji">🗣️</span>
-          <div class="menu-item-info">
-            <span class="menu-item-title">Idiomas</span>
-            <span class="menu-item-desc">Conversação prática em romeno e alemão</span>
-          </div>
-        </div>
-        <div class="menu-item" onclick="selectCategoryFromMenu('checklist')">
-          <span class="menu-item-emoji">🧳</span>
-          <div class="menu-item-info">
-            <span class="menu-item-title">Checklist &amp; Schengen</span>
-            <span class="menu-item-desc">Exigências de imigração e mala de verão</span>
-          </div>
-        </div>
+      <div class="modal-body" id="modal-body-content">
+        <!-- Conteúdo injetado via JS -->
       </div>
     </div>
-
-    <!-- LOGISTICA DETAILS -->
-    <div id="d-itinerario-detalhado">
-      <p>Aqui está o planejamento dia a dia da viagem de verão de Carol e Naka, estruturado para otimizar os tempos de deslocamento e visitas técnicas:</p>
-      
-      <p><strong>📅 Junho de 2026: Parceria em Leipzig &amp; Chegada em Berlim</strong></p>
-      <ul>
-        <li><strong>23 de Junho:</strong> Chegada à Europa e acomodação em <strong>Leipzig</strong>. Descanso e primeiros passos para aclimatar ao fuso horário.</li>
-        <li><strong>24 de Junho:</strong> Dia 1 de reuniões de colaboração técnica com a equipe de pesquisa da <strong>DBFZ</strong> (German Biomass Research Centre).</li>
-        <li><strong>25 de Junho:</strong> Dia 2 de reuniões de colaboração científica técnica na <strong>DBFZ</strong>. Noite de comemoração e lazer no centro histórico de Leipzig.</li>
-        <li><strong>26 de Junho:</strong> Check-out em Leipzig e viagem curta de trem ICE de manhã em direção a <strong>Berlim</strong>. Tarde livre para explorar Mitte.</li>
-        <li><strong>27 de Junho:</strong> Sábado em Berlim. Dia dedicado às grandes caminhadas históricas (Muro, Brandemburgo e Ilha dos Museus).</li>
-        <li><strong>28 de Junho:</strong> Domingo em Berlim. Visita ao Mauerpark Flea Market de manhã e caminhada alternativa por Kreuzberg à tarde.</li>
-      </ul>
-
-      <p><strong>📅 Julho de 2026: FOSS4G na Romênia &amp; Critical Role em Berlim</strong></p>
-      <ul>
-        <li><strong>29 de Junho:</strong> Check-out cedo em Berlim, embarque no aeroporto rumo a <strong>Timișoara (Romênia)</strong>. Acomodação na cidade e credenciamento inicial.</li>
-        <li><strong>30 de Junho a 04 de Julho:</strong> Participação ativa no <strong>FOSS4G EUROPE 2026</strong>. Apresentações técnicas, painéis e networking de dia, e exploração gastronômica romena à noite.</li>
-        <li><strong>05 de Julho:</strong> Domingo de despedida da Romênia. Embarque no avião voltando de <strong>Timișoara -> Berlim</strong>. Acomodação em Berlim para a rota final.</li>
-        <li><strong>06 de Julho:</strong> Segunda-feira livre em Berlim para compras de lembranças, visitas a museus faltantes ou pátios de Hackesche Höfe.</li>
-        <li><strong>07 de Julho:</strong> Terça-feira especial em Berlim. Tarde livre e, à noite, o aguardado show do **Critical Role Live Show** na monumental <strong>Uber Arena</strong>!</li>
-        <li><strong>08 de Julho:</strong> Check-out do hotel e partida de Berlim no voo da <strong>Air Canada</strong> iniciando a rota de retorno ao Brasil.</li>
-        <li><strong>09 de Julho:</strong> Conexão longa e trânsito planejado em **Montreal (Canadá)**. Excelente oportunidade de esticar as pernas e comer um Poutine antes de embarcar rumo ao Brasil.</li>
-        <li><strong>10 de Julho:</strong> Chegada ao Brasil. Fim da fantástica jornada Carol &amp; Naka 2026!</li>
-      </ul>
-    </div>
-
-    <div id="d-voos-transit">
-      <p>Abaixo estão as informações e segredos reais para que Carol e Naka tenham voos sem estresse:</p>
-      
-      <p><strong>✈️ Conexão em Montreal com a Air Canada (Volta: 09 de Julho)</strong></p>
-      <ul>
-        <li><strong>Visto de Trânsito Canadense (eTA):</strong> Como brasileiros que possuem visto americano válido ou que tiveram visto canadense nos últimos 10 anos, vocês podem solicitar o **eTA** (Electronic Travel Authorization) online por apenas 7 dólares canadenses. É essencial fazer isso antes de embarcar! Sem o eTA, a Air Canada não deixará vocês embarcarem em Berlim.</li>
-        <li><strong>Conexão em Montreal (YUL):</strong> O aeroporto de Montreal é muito moderno e bem sinalizado. O trânsito de passageiros internacionais costuma ser rápido. Se o tempo de conexão permitir, vocês não precisam retirar as malas despachadas se o bilhete for conjugado direto para o Brasil — confirme isso no balcão de Berlim!</li>
-        <li><strong>O que comer no aeroporto:</strong> Não saia do Canadá sem provar o lendário <strong>Poutine</strong> (batatas fritas rústicas quentes cobertas com queijo coalho em grãos e molho gravy espesso de carne). O aeroporto tem ótimas opções rápidas de Poutine.</li>
-      </ul>
-
-      <p><strong>✈️ Voos Internacionais Europa (Berlim ⇆ Timișoara)</strong></p>
-      <ul>
-        <li>O voo de ida (29 de Junho) e volta (05 de Julho) é a única conexão direta por via aérea operada entre Berlim (BER) e Timișoara (TSR).</li>
-        <li><strong>Atenção com a Bagagem de Mão:</strong> Companhias aéreas europeias de voos regionais são extremamente rígidas com o tamanho e peso da bagagem de mão. Tenha certeza de que suas malas estão nas dimensões exatas e dentro do peso estipulado para evitar taxas pesadas no portão de embarque.</li>
-      </ul>
-    </div>
-
-    <div id="d-trens-alemanha">
-      <p>A rede ferroviária da Alemanha é operada principalmente pela **Deutsche Bahn (DB)** e viajar nela é uma delícia, desde que você saiba como contornar os pequenos imprevistos de atrasos locais:</p>
-      
-      <p><strong>🚆 O Trem de Alta Velocidade (ICE) Leipzig -> Berlim</strong></p>
-      <ul>
-        <li>A viagem entre a estação central de Leipzig (Leipzig Hbf) e a de Berlim (Berlin Hbf) leva cerca de **1h15** a **1h30** a bordo do ultrarrápido **ICE (Intercity Express)**.</li>
-        <li><strong>Instale o Aplicativo DB Navigator:</strong> Esse aplicativo é obrigatório! Ele exibe o seu bilhete em QR-Code, mostra se o seu trem está no horário e informa a plataforma de embarque exata (Gleis). Se houver atraso, o app avisa na hora e sugere rotas alternativas de forma automática.</li>
-        <li><strong>Reserva de Assento (Sitzplatzreservierung):</strong> Na Alemanha, a passagem dá direito a embarcar no trem, mas *não garante assento reservado*. Vale a pena pagar os €4 a €5 adicionais no aplicativo para garantir assentos juntos para você e para a Carol, principalmente carregando malas grandes. Os assentos reservados têm pequenas telas digitais acima mostrando o trecho reservado (ex: Leipzig -> Berlin).</li>
-      </ul>
-
-      <p><strong>🚇 Transporte Urbano em Berlim (S-Bahn &amp; U-Bahn)</strong></p>
-      <ul>
-        <li>**S-Bahn:** Trens urbanos de superfície (símbolo verde com S branco). Excelentes para trajetos mais longos e cruzamentos rápidos da cidade.</li>
-        <li>**U-Bahn:** O metrô subterrâneo clássico (símbolo azul com U branco). Cobre absolutamente todo o centro histórico e bairros descolados.</li>
-        <li><strong>Validação de Bilhetes:</strong> Após comprar o seu bilhete físico na máquina da estação, você **deve validá-lo** nas caixas amarelas ou vermelhas da plataforma antes de entrar no trem. Andar com bilhete sem carimbo de validação gera uma multa imediata de €60 cobrada por fiscais à paisana que abordam os passageiros dentro dos vagões.</li>
-      </ul>
-    </div>
-
-    <div id="d-financas-cambio">
-      <p>Entender a logística financeira é crucial para evitar pagar tarifas abusivas de câmbio tradicional:</p>
-      
-      <p><strong>💶 Alemanha: O Euro (€)</strong></p>
-      <ul>
-        <li>A Alemanha é tradicionalmente um país que adora dinheiro em espécie (*Bargeld*). Embora a pandemia tenha aumentado muito o uso de cartões de aproximação, pequenos cafés, quiosques de rua (*Spätis*) e bancas de feiras ainda podem exigir dinheiro físico.</li>
-        <li><strong>Wise / Nomad:</strong> Funcionam com perfeição em lojas de departamento, metrô e restaurantes de Berlim e Leipzig. Mantenha um saldo em Euros em sua carteira digital para transações diárias.</li>
-      </ul>
-
-      <p><strong>🇷🇴 Romênia: O Leu Romeno (RON)</strong></p>
-      <ul>
-        <li>A Romênia **não usa o Euro**! A moeda oficial é o Leu Romeno (plural: *Lei*). O símbolo local é o RON.</li>
-        <li><strong>Wise e Câmbio de RON:</strong> O cartão Wise funciona perfeitamente para pagamentos em mercados de Timișoara, hotéis e restaurantes, fazendo a conversão automática do saldo em Euros com taxas muito competitivas.</li>
-        <li><strong>Dinheiro Físico é Obrigatório nas Feiras:</strong> Para comprar artesanatos locais, lanches nas barraquinhas de rua ou pagar pequenas despesas, você precisará de dinheiro físico. **Dica real:** Não compre RON no Brasil (a taxa é péssima). Use seu cartão Wise para sacar Lei Romeno direto em caixas eletrônicos (ATMs) de bancos oficiais na chegada a Timișoara. Evite os caixas eletrônicos cinzas e amarelos da marca "Euronet", pois eles cobram tarifas abusivas e taxas extras de conversão oculta!</li>
-      </ul>
-    </div>
-
-    <!-- TIMISOARA DETAILS -->
-    <div id="d-timisoara-foss4g">
-      <p>O **FOSS4G EUROPE 2026** é o coração da jornada de vocês em Timișoara. Para desfrutar ao máximo dessa experiência técnica única:</p>
-      
-      <p><strong>🌍 O que esperar do FOSS4G em Timișoara:</strong></p>
-      <ul>
-        <li>A conferência reunirá os maiores desenvolvedores, pesquisadores e entusiastas de tecnologias geoespaciais livres da Europa. As palestras cobrirão QGIS, PostGIS, gdal, Python espacial e inovações em cartografia digital.</li>
-        <li><strong>Networking Estratégico:</strong> Aproveite os intervalos de café e os jantares sociais inclusos na conferência para interagir com palestrantes e pesquisadores de universidades europeias. Os romenos são extremamente receptivos, acolhedores e adoram conversar sobre projetos colaborativos e intercâmbio científico.</li>
-        <li><strong>Idioma da Conferência:</strong> Toda a programação acadêmica e técnica será conduzida em inglês internacional de forma muito clara.</li>
-      </ul>
-    </div>
-
-    <div id="d-timisoara-pracas">
-      <p>Timișoara é apelidada de "Pequena Viena" devido à sua arquitetura imperial austríaca barroca e à sua charmosa atmosfera de praças integradas:</p>
-      
-      <p><strong>🏛️ Piața Unirii (Praça da União):</strong></p>
-      <p>A praça pedestre mais bonita da cidade. Cercada por prédios históricos pintados em tons pastéis, abriga a Catedral Ortodoxa Sérvia e a Catedral Católica Romana Barroca. É o local perfeito para relaxar nos cafés.</p>
-      <p>📍 <strong>Piața Unirii, Timișoara:</strong> <button class="copy-address-btn" onclick="copyAddress('Piata Unirii, Timisoara', this)">📋 Copiar Endereço</button></p>
-      
-      <p style="margin-top: 10px;"><strong>🏛️ Piața Victoriei (Praça da Vitória):</strong></p>
-      <p>A praça que foi o epicentro da Revolução Romena de 1989. Abriga o magnífico Teatro de Ópera Nacional e a Catedral Metropolitana Ortodoxa com suas cúpulas coloridas.</p>
-      <p>📍 <strong>Piața Victoriei, Timișoara:</strong> <button class="copy-address-btn" onclick="copyAddress('Piata Victoriei, Timisoara', this)">📋 Copiar Endereço</button></p>
-    </div>
-
-    <div id="d-timisoara-bega">
-      <p>O Rio Bega cruza o centro de Timișoara e foi transformado em um belíssimo parque urbano contínuo:</p>
-      
-      <p><strong>🏞️ O Charme do Lazer no Rio Bega</strong></p>
-      <ul>
-        <li><strong>Parque das Rosas (Parcul Rozelor):</strong> Um dos parques públicos mais famosos do leste europeu, reunindo centenas de espécies de rosas de todas as cores do mundo. É sombreado, super agradável de caminhar em julho e ideal para fugir do sol forte do meio-dia.
-          <br>📍 <strong>Parcul Rozelor, Timișoara:</strong> <button class="copy-address-btn" onclick="copyAddress('Parcul Rozelor, Timisoara', this)">📋 Copiar Endereço</button>
-        </li>
-        <li style="margin-top: 8px;"><strong>Passeio de Barco Público:</strong> Timișoara tem um sistema de barquinhos públicos de passageiros bem modernos que navegam pelo rio Bega. A tarifa custa apenas cerca de 2 a 3 RON (menos de 3 reais!), sendo o passeio turístico fluvial mais barato da Europa!</li>
-      </ul>
-    </div>
-
-    <!-- BERLIM HIST DETAILS -->
-    <div id="d-berlim-muro">
-      <p>Berlim respira história do século XX e o muro é o monumento mais marcante da antiga divisão da Guerra Fria:</p>
-      
-      <p><strong>🧱 East Side Gallery</strong></p>
-      <p>Localizada nas margens do Rio Spree, em Friedrichshain, é a maior seção contínua do Muro de Berlim que ainda resiste (1,3 km de extensão). Logo após a queda do muro em 1989, artistas de 21 países vieram grafitar e expressar esperança. O grafite mais famoso é o "Beijo Fraternal".
-      <br>📍 <strong>East Side Gallery (Muro):</strong> <em>Mühlenstraße 3-100, 10243 Berlin</em> <button class="copy-address-btn" onclick="copyAddress('Mühlenstraße 3-100, 10243 Berlin', this)">📋 Copiar Endereço</button></p>
-      
-      <p style="margin-top: 12px;"><strong>🕵️ Checkpoint Charlie</strong></p>
-      <p>O posto de controle militar mais famoso entre o lado americano e soviético. Vale a pena a passagem rápida para fotografar e ler os painéis informativos ao ar livre.
-      <br>📍 <strong>Checkpoint Charlie:</strong> <em>Friedrichstraße 43-45, 10969 Berlin</em> <button class="copy-address-btn" onclick="copyAddress('Friedrichstraße 43-45, 10969 Berlin', this)">📋 Copiar Endereço</button></p>
-    </div>
-
-    <div id="d-berlim-brandemburgo">
-      <p>Monumentos que representam a superação da divisão da Alemanha e o centro institucional do país:</p>
-      
-      <p><strong>🏛️ Portão de Brandemburgo (Brandenburger Tor)</strong></p>
-      <p>O símbolo máximo da cidade e da unidade da Alemanha, localizado na histórica Pariser Platz.
-      <br>📍 <strong>Brandenburger Tor:</strong> <em>Pariser Platz, 10117 Berlin</em> <button class="copy-address-btn" onclick="copyAddress('Pariser Platz, 10117 Berlin', this)">📋 Copiar Endereço</button></p>
-      
-      <p style="margin-top: 12px;"><strong>🏛️ A Cúpula de Vidro do Reichstag (Parlamento)</strong></p>
-      <p>Uma obra-prima arquitetônica de Norman Foster com vista de 360° fantástica de Berlim.
-      <br><strong>⚠️ IMPORTANTÍSSIMO:</strong> A visita é totalmente gratuita, mas você **deve fazer a reserva online com semanas de antecedência**!
-      <br>📍 <strong>Reichstag (Bundestag):</strong> <em>Platz der Republik 1, 11011 Berlin</em> <button class="copy-address-btn" onclick="copyAddress('Platz der Republik 1, 11011 Berlin', this)">📋 Copiar Endereço</button></p>
-    </div>
-
-    <div id="d-berlim-museus">
-      <p>Um conjunto histórico monumental no coração de Berlim:</p>
-      
-      <p><strong>🏛️ Ilha dos Museus (Museumsinsel)</strong></p>
-      <p>Este complexo reúne 5 museus de prestígio internacional (incluindo o Pergamon e o Neues Museum) declarados Patrimônio UNESCO.
-      <br>📍 <strong>Ilha dos Museus:</strong> <em>Bodestraße, 10178 Berlin</em> <button class="copy-address-btn" onclick="copyAddress('Bodestraße, 10178 Berlin', this)">📋 Copiar Endereço</button></p>
-
-      <p style="margin-top: 12px;"><strong>🕯️ Memorial ao Holocausto</strong></p>
-      <p>Um imenso labirinto reflexivo feito de 2.711 blocos de concreto cinza de diferentes alturas.
-      <br>📍 <strong>Memorial do Holocausto:</strong> <em>Cora-Berliner-Straße 1, 10117 Berlin</em> <button class="copy-address-btn" onclick="copyAddress('Cora-Berliner-Straße 1, 10117 Berlin', this)">📋 Copiar Endereço</button></p>
-    </div>
-
-    <!-- BERLIM ALT DETAILS -->
-    <div id="d-show-critical-role">
-      <p>Preparem-se para a noite mais aguardada de entretenimento da viagem de volta a Berlim!</p>
-      
-      <p><strong>🎤 Critical Role Live Show na Uber Arena (07 de Julho de 2026)</strong></p>
-      <ul>
-        <li><strong>A Uber Arena:</strong> Localizada no moderno complexo de entretenimento *Uber Platz* (ao lado da East Side Gallery).
-          <br>📍 <strong>Uber Arena:</strong> <em>Uber-Platz 1, 10243 Berlin</em> <button class="copy-address-btn" onclick="copyAddress('Uber-Platz 1, 10243 Berlin', this)">📋 Copiar Endereço</button>
-        </li>
-        <li style="margin-top: 8px;"><strong>Como Chegar:</strong> Extremamente fácil de transporte público. Pegue o metrô/trem urbano e desça na estação **Warschauer Straße** (S-Bahn S3, S5, S7, S9 ou U-Bahn U1, U3) ou na estação **Ostbahnhof**.</li>
-        <li style="margin-top: 8px;"><strong>Dicas para o Show:</strong>
-          * **Cheguem Cedo:** Os portões da arena costumam abrir de 1h30 a 2h antes. Excelente oportunidade para comprar o merchandise oficial exclusivo do Critical Role nas lojas sem filas!
-          * **Segurança da Arena:** É permitida apenas a entrada de bolsas muito pequenas (tamanho folha A4 ou menor). Evitem levar mochilas para não perder tempo na fila de segurança!
-        </li>
-      </ul>
-    </div>
-
-    <div id="d-berlim-mauerpark">
-      <p>A maior manifestação da cultura de rua descontraída de Berlim acontece aos domingos:</p>
-      
-      <p><strong>🎸 O Domingo Perfeito no Mauerpark Flea Market</strong></p>
-      <ul>
-        <li>Mauerpark abriga uma feira gigantesca de artigos vintage, roupas de estilistas locais, discos e comida de rua do mundo todo aos domingos.
-          <br>📍 <strong>Mauerpark:</strong> <em>Gleimstraße 55, 10437 Berlin</em> <button class="copy-address-btn" onclick="copyAddress('Gleimstraße 55, 10437 Berlin', this)">📋 Copiar Endereço</button>
-        </li>
-        <li style="margin-top: 8px;"><strong>O Lendário Karaokê do Anfiteatro:</strong> A partir das 15h, milhares de pessoas se reúnem nas arquibancadas de pedra para assistir ao karaokê público comandado por Joe Hatchiban. O clima é de pura união e alegria.</li>
-      </ul>
-    </div>
-
-    <div id="d-berlim-bairros">
-      <p>Onde o estilo de vida berlinense realmente se manifesta longe dos pontos históricos padrão:</p>
-      
-      <p><strong>🎨 Hackesche Höfe (Mitte)</strong></p>
-      <p>Um complexo residencial e comercial histórico de **8 pátios internos interligados** em estilo Art Nouveau. Abriga pequenas boutiques, galerias e o charmoso café *Father Carpenter* no pátio interno.
-      <br>📍 <strong>Hackesche Höfe:</strong> <em>Rosenthaler Str. 40-41, 10178 Berlin</em> <button class="copy-address-btn" onclick="copyAddress('Rosenthaler Str. 40-41, 10178 Berlin', this)">📋 Copiar Endereço</button></p>
-      
-      <p style="margin-top: 12px;"><strong>🎨 A Vibes de Kreuzberg &amp; Friedrichshain</strong></p>
-      <p>Kreuzberg é o reduto punk, alternativo e multicultural de Berlim. As ruas são grafitadas e repletas de jovens sentados à beira do canal (*Landwehrkanal*) curtindo a tarde de verão.</p>
-    </div>
-
-    <!-- LEIPZIG DETAILS -->
-    <div id="d-leipzig-dbfz">
-      <p>A parte profissional e científica da viagem de vocês em Leipzig:</p>
-      
-      <p><strong>🔬 Colaboração Técnica no DBFZ (Deutsches Biomasseforschungszentrum)</strong></p>
-      <ul>
-        <li>O DBFZ é o principal centro de pesquisas governamental da Alemanha dedicado ao uso de biomassa e bioenergia de vanguarda.
-          <br>📍 <strong>Campus da DBFZ:</strong> <em>Torgauer Straße 116, 04347 Leipzig</em> <button class="copy-address-btn" onclick="copyAddress('Torgauer Str. 116, 04347 Leipzig', this)">📋 Copiar Endereço</button>
-        </li>
-        <li style="margin-top: 8px;"><strong>Como Chegar:</strong> Pegue o bonde (**Tram Linha 3**) na estação central (Leipzig Hbf) e desça na estação **DBFZ / Heiterblick**, que deixa vocês exatamente na porta da instituição.</li>
-        <li style="margin-top: 8px;"><strong>Dica de Visita:</strong> As reuniões nos dias 24 e 25 de Junho envolverão discussões acadêmicas avançadas. O código de vestimenta nas instituições alemãs é o *Smart Casual*. A pontualidade alemã é rigorosa: cheguem com 5 a 10 minutos de antecedência.</li>
-      </ul>
-    </div>
-
-    <div id="d-leipzig-bach">
-      <p>Leipzig é uma das cidades de maior prestígio na história da música clássica mundial:</p>
-      
-      <p><strong>🎼 A Igreja de St. Thomas (Thomaskirche) &amp; Bach</strong></p>
-      <p>A imensa igreja gótica onde **Johann Sebastian Bach** trabalhou como diretor musical de 1723 até a sua morte em 1750. O túmulo de bronze de Bach está localizado exatamente no coro da igreja.
-      <br>📍 <strong>Thomaskirche (Igreja):</strong> <em>Thomaskirchhof 18, 04109 Leipzig</em> <button class="copy-address-btn" onclick="copyAddress('Thomaskirchhof 18, 04109 Leipzig', this)">📋 Copiar Endereço</button></p>
-      
-      <p style="margin-top: 12px;"><strong>🍷 Mädlerpassage &amp; Auerbachs Keller</strong></p>
-      <p>O **Auerbachs Keller** é o segundo restaurante mais antigo de Leipzig, localizado no subsolo da galeria coberta **Mädlerpassage**. Foi aqui que Goethe situou uma das cenas principais de **Fausto**!
-      <br>📍 <strong>Auerbachs Keller:</strong> <em>Grimmaische Straße 2-4, 04109 Leipzig</em> <button class="copy-address-btn" onclick="copyAddress('Grimmaische Str. 2-4, 04109 Leipzig', this)">📋 Copiar Endereço</button></p>
-    </div>
-
-    <div id="d-leipzig-plagwitz">
-      <p>A face moderna, jovem e refrescante de Leipzig:</p>
-      
-      <p><strong>🛶 Canais de Plagwitz &amp; complexo Spinnerei</strong></p>
-      <ul>
-        <li>**Os Canais:** Leipzig possui antigos canais industriais às margens de fábricas revitalizadas de tijolos vermelhos. No verão de junho, é incrível alugar um caiaque ou canoa para passear sob a copa das árvores.</li>
-        <li>**Baumwollspinnerei:** Uma imensa antiga fábrica têxtil convertida no maior polo de arte contemporânea da Alemanha Central, com estúdios, livrarias e cafés industriais descolados.
-          <br>📍 <strong>Spinnerei Leipzig:</strong> <em>Spinnereistraße 7, 04179 Leipzig</em> <button class="copy-address-btn" onclick="copyAddress('Spinnereistraße 7, 04179 Leipzig', this)">📋 Copiar Endereço</button>
-        </li>
-      </ul>
-    </div>
-
-    <!-- GASTRONOMIA DETAILS -->
-    <div id="d-food-mici">
-      <p>O prato mais democrático e amado dos mercados de rua romenos:</p>
-      <p>Os <strong>Mititei</strong> (ou <strong>Mici</strong>) são pequenos rolinhos de carne moída mista grelhados com especiarias e alho na brasa. O bicarbonato dá uma textura elástica e incrivelmente suculenta ao morder. Come-se com mostarda amarela levemente picante, pão rústico e com as mãos!</p>
-    </div>
-
-    <div id="d-food-sarmale">
-      <p>Considerado por unanimidade o prato nacional oficial da Romênia:</p>
-      <p>Os <strong>Sarmale</strong> são charutos de repolho recheados de carne moída mista cozidos lentamente. O diferencial é o repolho em conserva azeda fermentada, cozidos com pedaços de bacon defumado e servidos com polenta quente (*Mămăligă*) e *Smântână* (creme azedo).</p>
-    </div>
-
-    <div id="d-food-papanasi">
-      <p>A sobremesa mais monumental e calórica do leste europeu:</p>
-      <p>O <strong>Papanași</strong> é feito de massa frita de queijo cottage quente, servido com creme azedo gelado e muita geleia artesanal de mirtilo ácido. O contraste térmico e de sabores é fantástico! Peçam **um para dividir entre você e a Carol** devido ao tamanho imenso.</p>
-    </div>
-
-    <div id="d-food-currywurst">
-      <p>A comida rápida de rua por excelência de Berlim:</p>
-      <p>O <strong>Currywurst</strong> consiste em salsicha de porco cozida e depois frita, fatiada e coberta com um molho quente espesso à base de ketchup e curry em pó. Come-se tradicionalmente acompanhado de batatas fritas crocantes com maionese (*Pommes Schranke*).
-      <br>📍 <strong>Konnopke's Imbiss (Clássico de Berlim):</strong> <em>Schönhauser Allee 44B, 10435 Berlin</em> <button class="copy-address-btn" onclick="copyAddress('Schönhauser Allee 44B, 10435 Berlin', this)">📋 Copiar Endereço</button></p>
-    </div>
-
-    <div id="d-food-kebab">
-      <p>O fenômeno gastronômico número um de Berlim:</p>
-      <p>O **Döner Kebab** de Berlim consiste em fatias finas e crocantes de carne giratória em pão sírio tostado recheado com molho de alho/ervas, salada, limão e queijo feta.
-      <br>📍 <strong>Mustafa's Gemüse Kebap:</strong> <em>Mehringdamm 32, 10961 Berlin</em> <button class="copy-address-btn" onclick="copyAddress('Mehringdamm 32, 10961 Berlin', this)">📋 Copiar Endereço</button></p>
-    </div>
-
-    <!-- IDIOMAS DETAILS -->
-    <div id="d-lang-romeno">
-      <p>O Romeno é uma **língua latina**, assim como o Português! Vocês notarão várias semelhanças:</p>
-      
-      <p><strong>🗣️ Frases de Sobrevivência Rápida:</strong></p>
-      <ul>
-        <li><strong>Bună ziua</strong> (Bom dia / Olá) — Pronúncia: <em>Bunâ zíua</em></li>
-        <li><strong>Mulțumesc</strong> (Obrigado) — Pronúncia: <em>Multsumésc</em></li>
-        <li><strong>Vă rog</strong> (Por favor) — Pronúncia: <em>Vâ róg</em></li>
-        <li><strong>Da / Nu</strong> (Sim / Não) — Pronúncia: <em>Da / Nu</em></li>
-        <li><strong>Cât costă?</strong> (Quanto custa?) — Pronúncia: <em>Cât cóstâ?</em></li>
-        <li><strong>Nota, vă rog</strong> (A conta, por favor) — Pronúncia: <em>Nóta, vâ róg</em></li>
-        <li><strong>La revedere</strong> (Tchau / Até logo) — Pronúncia: <em>La revédere</em></li>
-      </ul>
-    </div>
-
-    <div id="d-lang-alemao">
-      <p>Embora quase todos falem inglês na Alemanha, usar pequenas palavras em alemão é muito simpático:</p>
-      
-      <p><strong>🗣️ Frases de Sobrevivência Rápida:</strong></p>
-      <ul>
-        <li><strong>Guten Tag</strong> (Bom dia / Olá) — Pronúncia: <em>Gúten Tág</em></li>
-        <li><strong>Bitte</strong> (Por favor / De nada) — Pronúncia: <em>Bíte</em></li>
-        <li><strong>Danke</strong> (Obrigado) — Pronúncia: <em>Dánke</em></li>
-        <li><strong>Ja / Nein</strong> (Sim / Não) — Pronúncia: <em>Iá / Náin</em></li>
-        <li><strong>Sprechen Sie Englisch?</strong> (Você fala inglês?) — Pronúncia: <em>Chpréchen zí énglich?</em></li>
-        <li><strong>Die Rechnung, bitte</strong> (A conta, por favor) — Pronúncia: <em>Dí réch-nung, bíte</em></li>
-        <li><strong>Tschüss</strong> (Tchau / Tchau-tchau) — Pronúncia: <em>Tchýss</em></li>
-      </ul>
-    </div>
-
-    <!-- CHECKLIST DETAILS -->
-    <div id="d-checklist-schengen">
-      <p>Como a Romênia e a Alemanha fazem parte do **Espaço Schengen**, tenham em mãos os seguintes documentos físicos organizados:</p>
-      
-      <p><strong>🛡️ Documentação Exigida Oficialmente:</strong></p>
-      <ul>
-        <li><strong>Passaporte Válido:</strong> Deve ter validade de no mínimo **3 meses após a data programada de saída** da Europa.</li>
-        <li><strong>Seguro Saúde Obrigatório (Tratado de Schengen):</strong> É obrigatório ter um seguro de viagem com cobertura de despesas médicas de no mínimo **€30.000 (trinta mil euros)**. Emitam o certificado impresso em inglês ou espanhol. Se comprarem as passagens com cartões de crédito premium, vocês têm direito à emissão gratuita desse seguro diretamente no site da operadora do cartão!</li>
-        <li><strong>Hospedagens e Comprovantes:</strong> PDFs de reservas de hotéis no celular offline.</li>
-      </ul>
-    </div>
-
-    <div id="d-checklist-mala">
-      <p>Junho e Julho são meses de pleno verão na Europa Central e Leste. O clima costuma ser quente e agradável:</p>
-      
-      <p><strong>🧳 O que Levar na Mala de Verão Carol &amp; Naka:</strong></p>
-      <ul>
-        <li><strong>Calçados Confortáveis:</strong> Vocês caminharão muito em Leipzig e Berlim (15 a 20 km por dia). Levem tênis confortáveis e já amaciados!</li>
-        <li><strong>Vestuário Leve &amp; Agasalho Leve:</strong> Roupas leves de verão, óculos de sol, boné e protetor solar, além de um moletom ou jaqueta leve para as noites frescas às margens dos rios e canais (caindo para 15–18°C).</li>
-        <li><strong>Utilidades Tecnológicas Importantes:</strong>
-          * **Adaptador de Tomada Europeu (Tipo C/F):** Tomadas de dois pinos redondos paralelos. Levem pelo menos dois adaptadores.
-          * **Powerbank de Carga Rápida:** Essencial para carregar o celular durante as caminhadas de turismo registrando tudo!
-        </li>
-      </ul>
-    </div>
-
   </div>
 
-  <!-- JAVASCRIPT PERFORMÁTICO -->
+  <!-- BARRA DE NAVEGAÇÃO FIXA INFERIOR -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" onclick="switchView('inicio', this)">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Início</span>
+    </button>
+    <button class="nav-btn" onclick="switchView('agenda', this)">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+      <span>Agenda</span>
+    </button>
+    <button class="nav-btn" onclick="switchView('destinos', this)">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      <span>Destinos</span>
+    </button>
+    <button class="nav-btn" onclick="switchView('essenciais', this)">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zM9 4h6v2H9V4zm11 15H4v-4h16v4zm0-6H4V8h16v5z"/></svg>
+      <span>Essenciais</span>
+    </button>
+    <button class="nav-btn" onclick="switchView('frases', this)">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95a15.65 15.65 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.92 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.33-.14 2s.06 1.34.14 2H4.26zm.82 2h2.95c.18 1.3.65 2.51 1.38 3.56A8.03 8.03 0 0 1 5.08 16zm2.95-8H5.08a8.03 8.03 0 0 1 4.39-3.56A15.65 15.65 0 0 0 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.33-.16-2s.07-1.34.16-2h4.68c.09.66.16 1.33.16 2s-.07 1.34-.16 2zm.25 5.56c.73-1.05 1.2-2.26 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56zM16.36 14c.08-.66.14-1.33.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg>
+      <span>Frases</span>
+    </button>
+  </nav>
+
+  <!-- JAVASCRIPT GERAL DO COMPANION V2 -->
   <script>
-    // Função de Controle de Abas Principal
-    function selectCategory(panelId, tileButton) {
-      // Ocultar todos os paineis de conteúdo
-      const panels = document.querySelectorAll('.panel');
-      panels.forEach(panel => panel.classList.remove('active'));
+    // CHAVES DO LOCALSTORAGE
+    const STORAGE_KEYS = {
+      agenda: 'guia_agenda_status',
+      checklist: 'guia_checklist',
+      lastCity: 'guia_last_city',
+      fx: 'guia_fx',
+      lastView: 'guia_last_view'
+    };
+
+    // DADOS DAS FRASES
+    const DICTIONARY = {
+      de: [
+        { pt: "Bom dia / Olá", text: "Guten Tag", pron: "Gúten Tág", cat: "cump" },
+        { pt: "Muito obrigado", text: "Vielen Dank", pron: "Fílen Dánk", cat: "cump" },
+        { pt: "Por favor", text: "Bitte", pron: "Bíte", cat: "cump" },
+        { pt: "Tchau", text: "Tschüss", pron: "Tchýss", cat: "cump" },
+        { pt: "Quanto custa?", text: "Was kostet das?", pron: "Vas cós-tet das?", cat: "comp" },
+        { pt: "Você aceita cartão?", text: "Akzeptieren Sie Kartenzahlung?", pron: "Ak-tsép-tíren zí Kár-ten-tsá-lung?", cat: "comp" },
+        { pt: "Onde fica o metrô?", text: "Wo ist die U-Bahn?", pron: "Vo ist dí Ú-bán?", cat: "trans" },
+        { pt: "Este trem vai para...", text: "Fährt dieser Zug nach...", pron: "Fért dízer tsúg nah...", cat: "trans" },
+        { pt: "A conta, por favor", text: "Die Rechnung, bitte.", pron: "Dí réch-nung, bíte.", cat: "rest" },
+        { pt: "Uma água sem gás, por favor", text: "Ein stilles Wasser, bitte.", pron: "Ain chtíles váser, bíte.", cat: "rest" },
+        { pt: "Ajuda! É uma emergência!", text: "Hilfe! Es ist ein Notfall!", pron: "Hílfe! Es ist ain Nót-fal!", cat: "emerg" },
+        { pt: "Onde fica a farmácia 24h?", text: "Wo ist die Notapotheke?", pron: "Wo ist dí Nót-apo-té-ke?", cat: "emerg" },
+        { pt: "Tenho uma reserva em nome de...", text: "Ich habe eine Reservierung auf den Namen...", pron: "Ish hábe áine Re-zerví-rung auf den Námen...", cat: "hotel" }
+      ],
+      ro: [
+        { pt: "Bom dia / Olá", text: "Bună ziua", pron: "Bunâ zíua", cat: "cump" },
+        { pt: "Muito obrigado", text: "Mulțumesc mult", pron: "Multsumésc mult", cat: "cump" },
+        { pt: "Por favor", text: "Vă rog", pron: "Vâ róg", cat: "cump" },
+        { pt: "Tchau", text: "La revedere", pron: "La revédere", cat: "cump" },
+        { pt: "Quanto custa?", text: "Cât costă?", pron: "Cât cóstâ?", cat: "comp" },
+        { pt: "Você aceita cartão?", text: "Acceptați cardul?", pron: "Atchéptats kárdul?", cat: "comp" },
+        { pt: "Onde fica a estação de ônibus/barco?", text: "Unde este stația?", pron: "Únde iéste státsia?", cat: "trans" },
+        { pt: "Este ônibus vai para o centro?", text: "Acest autobuz merge în centru?", pron: "Atchést au-tóbuz mérge în txéntru?", cat: "trans" },
+        { pt: "A conta, por favor", text: "Nota, vă rog.", pron: "Nóta, vâ róg.", cat: "rest" },
+        { pt: "Uma água mineral, por favor", text: "O apă minerală, vă rog.", pron: "O ápâ mi-ne-rálâ, vâ róg.", cat: "rest" },
+        { pt: "Ajuda! Chame a polícia/médico!", text: "Ajutor! Sunați la poliție/medic!", pron: "Aiutór! Sunáts la polítsie/médik?", cat: "emerg" },
+        { pt: "Onde fica a farmácia?", text: "Unde este farmacia?", pron: "Únde iéste far-ma-tchía?", cat: "emerg" },
+        { pt: "Tenho uma reserva", text: "Am o rezervare.", pron: "Am o re-zervá-re.", cat: "hotel" }
+      ]
+    };
+
+    // DADOS DO CRONOGRAMA DA AGENDA
+    const TIMELINE_DATA = [
+      { id: "22jun", dateStr: "22 Jun (Seg)", city: "Campinas 🛫", tasks: [
+        { time: "Manhã", text: "🚗 Deslocamento de Campinas para Aeroporto de Viracopos (VCP)" },
+        { time: "Tarde", text: "🛫 Voo VCP → Montreal (Trânsito e eTA Canadense)" },
+        { time: "Noite", text: "✈️ Voo Montreal → Leipzig / Descanso a bordo" }
+      ]},
+      { id: "23jun", dateStr: "23 Jun (Ter)", city: "Leipzig 🎼", tasks: [
+        { time: "Manhã", text: "🛬 Chegada ao Aeroporto de Leipzig (LEJ)" },
+        { time: "Tarde", text: "🏨 Check-in no Radisson Blu Hotel Leipzig", address: "Augustusplatz 5-6, 04109 Leipzig" },
+        { time: "Noite", text: "🌆 Caminhada calma pelo centro histórico e jantar" }
+      ]},
+      { id: "24jun", dateStr: "24 Jun (Qua)", city: "Leipzig 🔬", tasks: [
+        { time: "Manhã", text: "🔬 Reunião de pesquisa técnica na DBFZ", address: "Torgauer Straße 116, 04347 Leipzig" },
+        { time: "Tarde", text: "🔬 Apresentações científicas e visita aos labs (Smart Casual)" },
+        { time: "Noite", text: "🍻 Jantar informal no centro com pesquisadores locais" }
+      ]},
+      { id: "25jun", dateStr: "25 Jun (Qui)", city: "Leipzig 🍷", tasks: [
+        { time: "Manhã", text: "🔬DBFZ discussões científicas e encerramento técnico" },
+        { time: "Tarde", text: "🏞️ Visita aos canais de Plagwitz e complexo Spinnerei" },
+        { time: "Noite", text: "🍷 Jantar clássico no histórico Auerbachs Keller", address: "Grimmaische Straße 2-4, 04109 Leipzig" }
+      ]},
+      { id: "26jun", dateStr: "26 Jun (Sex)", city: "Berlim 🚇", tasks: [
+        { time: "Manhã", text: "🚆 Trem rápido ICE de Leipzig Hbf para Berlin Hbf" },
+        { time: "Tarde", text: "🏨 Check-in no Motel One Berlin-Alexanderplatz", address: "Dircksenstraße 36, 10179 Berlin" },
+        { time: "Noite", text: "🌃 Alexanderplatz de noite e quiosques locais (Spätis)" }
+      ]},
+      { id: "27jun", dateStr: "27 Jun (Sáb)", city: "Berlim 🏛️", tasks: [
+        { time: "Manhã", text: "🏛️ Portão de Brandemburgo e Memorial do Holocausto", address: "Pariser Platz, 10117 Berlin" },
+        { time: "Tarde", text: "🧱 Caminhada pela East Side Gallery (Muro) e Checkpoint Charlie", address: "Mühlenstraße 3-100, 10243 Berlin" },
+        { time: "Noite", text: "🍕 Jantar descontraído e bares no bairro alternativo de Kreuzberg" }
+      ]},
+      { id: "28jun", dateStr: "28 Jun (Dom)", city: "Berlim 🎸", tasks: [
+        { time: "Manhã", text: "🎸 Visita ao Mauerpark Flea Market e lanche no Mustafa's", address: "Gleimstraße 55, 10437 Berlin" },
+        { time: "Tarde", text: "🎤 Karaokê público ao ar livre no anfiteatro do Mauerpark" },
+        { time: "Noite", text: "🎨 Hackesche Höfe e jantar tranquilo no centro de Mitte", address: "Rosenthaler Str. 40-41, 10178 Berlin" }
+      ]},
+      { id: "29jun", dateStr: "29 Jun (Seg)", city: "Timișoara 🇷🇴", tasks: [
+        { time: "Manhã", text: "🛄 Check-out e trânsito para o Aeroporto de Berlim (BER)" },
+        { time: "Tarde", text: "🛫 Voo direto Berlim → Timișoara (TSR) e táxi para o centro" },
+        { time: "Noite", text: "🏨 Check-in no Hotel Timișoara e credenciamento FOSS4G", address: "Strada Mărășești 1-3, 300086 Timișoara" }
+      ]},
+      { id: "30jun", dateStr: "30 Jun (Ter)", city: "Timișoara 🌍", tasks: [
+        { time: "Manhã", text: "🌍 Palestras e workshops de abertura do FOSS4G Europe", address: "Bulevardul Eroilor de la Tisa 22, 300575 Timișoara" },
+        { time: "Tarde", text: "🌍 Acompanhamento de discussões técnicas de SIG" },
+        { time: "Noite", text: "🍽️ Jantar típico de Mici/Mititei com mostarda e cerveja" }
+      ]},
+      { id: "01jul", dateStr: "01 Jul (Qua)", city: "Timișoara 🌍", tasks: [
+        { time: "Manhã", text: "🌍 Apresentações de geo-desenvolvimento FOSS4G" },
+        { time: "Tarde", text: "🌍 Workshops de Python e base spaciais livres" },
+        { time: "Noite", text: "🌅 Caminhada para curtir o entardecer nas margens do Rio Bega" }
+      ]},
+      { id: "02jul", dateStr: "02 Jul (Qui)", city: "Timișoara 🌍", tasks: [
+        { time: "Manhã", text: "🌍 Sessões científicas de dados abertos FOSS4G" },
+        { time: "Tarde", text: "🌍 Encerramento e plenárias principais do evento" },
+        { time: "Noite", text: "🥂 Jantar social oficial de encerramento do FOSS4G Europe 2026" }
+      ]},
+      { id: "03jul", dateStr: "03 Jul (Sex)", city: "Timișoara 🏞️", tasks: [
+        { time: "Manhã", text: "🏞️ Visita fotográfica ao Parque das Rosas (Parcul Rozelor)", address: "Parcul Rozelor, Timisoara" },
+        { time: "Tarde", text: "⛴️ Passeio de barco público pelo Rio Bega por 3 RON" },
+        { time: "Noite", text: "🍩 Jantar típico com sobremesa clássica de Papanași" }
+      ]},
+      { id: "04jul", dateStr: "04 Jul (Sáb)", city: "Timișoara 🏛️", tasks: [
+        { time: "Manhã", text: "🏛️ Exploração pedestre na barroca Piața Unirii", address: "Piata Unirii, Timisoara" },
+        { time: "Tarde", text: "🏛️ Visita à Piața Victoriei e Catedral Metropolitana" },
+        { time: "Noite", text: "🍷 Jantar romântico com vinho romeno no centro" }
+      ]},
+      { id: "05jul", dateStr: "05 Jul (Dom)", city: "Berlim ✈️", tasks: [
+        { time: "Manhã", text: "🛄 Check-out no hotel e táxi para Aeroporto de Timișoara (TSR)" },
+        { time: "Tarde", text: "🛫 Voo de retorno Timișoara → Berlim (BER)" },
+        { time: "Noite", text: "🏨 Check-in no Motel One Berlin-Alexanderplatz", address: "Dircksenstraße 36, 10179 Berlin" }
+      ]},
+      { id: "06jul", dateStr: "06 Jul (Seg)", city: "Berlim 🛍️", tasks: [
+        { time: "Manhã", text: "🛍️ Compras de recordações e marcas locais em Mitte" },
+        { time: "Tarde", text: "🏛️ Visita cultural na incrível Ilha dos Museus", address: "Bodestraße, 10178 Berlin" },
+        { time: "Noite", text: "🌭 Currywurst no Konnopke's Imbiss sob os trilhos de metrô", address: "Schönhauser Allee 44B, 10435 Berlin" }
+      ]},
+      { id: "07jul", dateStr: "07 Jul (Ter)", city: "Berlim ⚔️", tasks: [
+        { time: "Manhã", text: "🌲 Caminhada matinal e descanso no imenso parque Tiergarten" },
+        { time: "Tarde", text: "🚇 Deslocamento cedo rumo a Warschauer Straße" },
+        { time: "Noite", text: "⚔️ **Critical Role Live Show** na Uber Arena (Portões 18h)", address: "Uber-Platz 1, 10243 Berlin" }
+      ]},
+      { id: "08jul", dateStr: "08 Jul (Qua)", city: "Montreal 🇨🇦", tasks: [
+        { time: "Manhã", text: "🛄 Check-out no hotel e trânsito para o Aeroporto BER" },
+        { time: "Tarde", text: "🛫 Voo da Air Canada Berlim → Montreal (Trânsito)" },
+        { time: "Noite", text: "🇨🇦 Comer Poutine tradicional no aeroporto de Montreal (YUL)" }
+      ]},
+      { id: "09jul", dateStr: "09 Jul (Qui)", city: "São Paulo 🛬", tasks: [
+        { time: "Manhã", text: "✈️ Voo Montreal → São Paulo (GRU) / Repouso a bordo" },
+        { time: "Tarde", text: "🛬 Chegada ao Brasil (GRU) prevista para a manhã do dia 10" },
+        { time: "Noite", text: "🏠 Chegada em casa e descanso pós-Eurotrip" }
+      ]}
+    ];
+
+    // DADOS DA MALA DE CHECKLIST
+    const CHECKLIST_DATA = {
+      documentos: [
+        "Passaporte físico original (validade > 3 meses)",
+        "Apólice de Seguro Viagem Schengen impressa (cobertura > €30.000)",
+        "eTA Canadense eletrônico impresso/PDF (conexão em Montreal)",
+        "Passagens e reservas salvas offline no celular",
+        "Cartões de crédito e cartão físico Wise"
+      ],
+      roupas: [
+        "Tênis amaciado e extremamente confortável (2 pares)",
+        "Jaqueta leve / agasalho para as noites frias às margens dos rios",
+        "Camisetas leves de algodão",
+        "Bermudas e shorts confortáveis",
+        "Capa de chuva ou guarda-chuva compacto"
+      ],
+      eletronicos: [
+        "Carregador portátil (Powerbank) de carga rápida",
+        "Adaptador universal de tomadas (Tipo C/F) (2 unidades)",
+        "Carregador do celular e cabos USB extras",
+        "Fones de ouvido com isolamento acústico para os voos"
+      ],
+      higiene: [
+        "Protetor solar corporal e facial",
+        "Repelente contra insetos potente (DEET)",
+        "Escova e pasta de dente",
+        "Nécessaire compacta com frascos dentro do limite de voo (100ml)"
+      ],
+      saude: [
+        "Remédios de uso contínuo (com receita médica)",
+        "Analgésicos, anti-inflamatórios e antialérgicos",
+        "Curativos adesivos (Band-aids espessos para bolhas nos pés)",
+        "Remédio para enjoo de voo ou dor de cabeça"
+      ]
+    };
+
+    // CONTROLE DE NAVEGAÇÃO DE VIEWS
+    function switchView(viewId, btnEl) {
+      // Ocultar todas as views
+      const views = document.querySelectorAll('.view');
+      views.forEach(v => v.classList.remove('active'));
       
-      // Desativar todas as tiles do dashboard
-      const tiles = document.querySelectorAll('.category-tile');
-      tiles.forEach(tile => tile.classList.remove('active'));
-      
-      // Mostrar o painel correspondente
-      const targetPanel = document.getElementById(panelId);
-      if (targetPanel) {
-        targetPanel.classList.add('active');
+      // Mostrar a view desejada
+      const target = document.getElementById(`view-${viewId}`);
+      if (target) {
+        target.classList.add('active');
       }
       
-      // Ativar o botão / tile clicado
-      if (tileButton) {
-        tileButton.classList.add('active');
+      // Atualizar estado ativo nos botões de navegação
+      const buttons = document.querySelectorAll('.nav-btn');
+      buttons.forEach(b => b.classList.remove('active'));
+      
+      if (btnEl) {
+        btnEl.classList.add('active');
       } else {
-        // Caso a seleção tenha vindo do menu flutuante, encontra e ativa o card do topo
-        const matchingTile = document.querySelector(`.category-tile[data-id="${panelId}"]`);
-        if (matchingTile) {
-          matchingTile.classList.add('active');
-        }
+        const matchingBtn = document.querySelector(`.nav-btn[onclick*="switchView('${viewId}'"]`);
+        if (matchingBtn) matchingBtn.classList.add('active');
       }
       
-      // Rolagem suave para o painel selecionado (com leve respiro no topo)
-      if (targetPanel) {
-        const yOffset = -25;
-        const y = targetPanel.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: 'smooth' });
+      // Hooks específicos de views
+      if (viewId === 'agenda') {
+        highlightTodayInTimeline();
+      }
+      
+      // Não rolar ao topo se for a agenda para manter a posição de rolagem do dia corrente
+      if (viewId !== 'agenda') {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+      
+      localStorage.setItem(STORAGE_KEYS.lastView, viewId);
+    }
+
+    // CONTROLE DE SUBVIEWS (ESSENCIAIS)
+    function switchSubView(subviewId) {
+      const subviews = document.querySelectorAll('.subview');
+      subviews.forEach(sv => sv.classList.remove('active'));
+      
+      const target = document.getElementById(`subview-${subviewId}`);
+      if (target) {
+        target.classList.add('active');
+      }
+      
+      const tabs = document.querySelectorAll('.essenciais-tab');
+      tabs.forEach(t => t.classList.remove('active'));
+      
+      const activeTab = document.querySelector(`.essenciais-tab[onclick*="switchSubView('${subviewId}')"]`);
+      if (activeTab) {
+        activeTab.classList.add('active');
       }
     }
 
-    // Seleção de Categoria a partir do Menu Bottom-sheet
-    function selectCategoryFromMenu(panelId) {
-      closeModal(); // Fecha o menu flutuante deslizante
-      // Executa a seleção e rola para a categoria selecionada
-      setTimeout(() => {
-        selectCategory(panelId);
-      }, 100);
+    // ACCORDION (DESTINOS)
+    function toggleAccordion(accId) {
+      const accordion = document.getElementById(accId);
+      if (accordion) {
+        accordion.classList.toggle('active');
+      }
     }
 
-    // Controle de Abertura do Modal Bottom-Sheet Dinâmico
-    function openModal(detailsId, title, emoji) {
-      const detailsElement = document.getElementById(detailsId);
-      if (!detailsElement) return;
+    // DIALETO E TRADUÇÃO (FRASES)
+    let currentLang = 'de';
+    let currentCatFilter = 'all';
 
-      const contentHtml = detailsElement.innerHTML;
-      document.getElementById('modal-title-text').innerHTML = emoji + ' &nbsp;' + title;
-      document.getElementById('modal-body-content').innerHTML = contentHtml;
+    function switchLang(langCode) {
+      currentLang = langCode;
       
-      // Ativar imagens internas do modal para carregamento correto se houver
-      const modalImages = document.getElementById('modal-body-content').querySelectorAll('img');
-      modalImages.forEach(img => {
-        img.onload = function() { this.classList.add('loaded'); };
-        // se já carregou antes
-        if (img.complete) {
-          img.classList.add('loaded');
-        }
+      // Atualiza botões ativos
+      document.getElementById('btn-lang-de').classList.remove('active');
+      document.getElementById('btn-lang-ro').classList.remove('active');
+      
+      document.getElementById(`btn-lang-${langCode}`).classList.add('active');
+      
+      renderFrases();
+    }
+
+    function filterFrases(catName, tabEl) {
+      currentCatFilter = catName;
+      
+      // Atualiza aba ativa de categorias
+      const tabs = document.querySelectorAll('#frase-cats .essenciais-tab');
+      tabs.forEach(t => t.classList.remove('active'));
+      if (tabEl) tabEl.classList.add('active');
+      
+      renderFrases();
+    }
+
+    function renderFrases() {
+      const container = document.getElementById('frases-list');
+      container.innerHTML = '';
+      
+      const dataset = DICTIONARY[currentLang];
+      const filtered = currentCatFilter === 'all' 
+        ? dataset 
+        : dataset.filter(item => item.cat === currentCatFilter);
+        
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary); padding: 20px;">Nenhuma frase nesta categoria.</p>';
+        return;
+      }
+      
+      filtered.forEach((item, index) => {
+        const key = `${currentLang}_frase_${index}`;
+        const card = document.createElement('div');
+        card.className = 'frase-card';
+        card.innerHTML = `
+          <div class="frase-info">
+            <div class="frase-pt">${item.pt}</div>
+            <div class="frase-translated">${item.text}</div>
+            <div class="frase-pronunciation">${item.pron}</div>
+          </div>
+          <div class="frase-actions">
+            <button class="copy-btn" title="Copiar Frase" onclick="copyText('${item.text.replace(/'/g, "\\'")}')">📋</button>
+            <button class="copy-btn" title="Ouvir" onclick="speakPhrase('${item.text.replace(/'/g, "\\'")}', '${currentLang === 'de' ? 'de-DE' : 'ro-RO'}')">🔊</button>
+          </div>
+        `;
+        container.appendChild(card);
       });
+    }
 
+    // WEB SPEECH SYNTHESIS API (OFFLINE PROUNCIATION)
+    function speakPhrase(text, lang) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // Parar áudios anteriores
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        
+        // Configurações de velocidade mais confortáveis
+        utterance.rate = 0.85; 
+        
+        // Busca vozes locais adequadas se disponíveis
+        const voices = window.speechSynthesis.getVoices();
+        const voice = voices.find(v => v.lang.startsWith(lang));
+        if (voice) {
+          utterance.voice = voice;
+        }
+        
+        window.speechSynthesis.speak(utterance);
+      } else {
+        showToast("Áudio indisponível neste dispositivo.");
+      }
+    }
+
+    // CONVERSOR DE MOEDAS (EUR -> RON / BRL)
+    function renderFXRates(rates) {
+      window.fxRates = rates;
+      const dateLabel = document.getElementById('fx-update-label');
+      dateLabel.textContent = `Atualizado em: ${rates.updated}`;
+      convertCurrency();
+    }
+
+    function convertCurrency() {
+      const inputEur = document.getElementById('input-eur');
+      const outputRon = document.getElementById('output-ron');
+      const outputBrl = document.getElementById('output-brl');
+      
+      const eurVal = parseFloat(inputEur.value);
+      if (isNaN(eurVal) || eurVal < 0) {
+        outputRon.value = "L 0.00";
+        outputBrl.value = "R$ 0.00";
+        return;
+      }
+
+      const rates = window.fxRates || { eur_ron: 4.97, eur_brl: 6.20 };
+      
+      const ronVal = (eurVal * rates.eur_ron).toFixed(2);
+      const brlVal = (eurVal * rates.eur_brl).toFixed(2);
+      
+      outputRon.value = `RON ${ronVal}`;
+      outputBrl.value = `BRL ${brlVal}`;
+    }
+
+    function fetchExchangeRates() {
+      const label = document.getElementById('fx-update-label');
+      label.textContent = "Atualizando taxas...";
+      
+      fetch('https://api.frankfurter.app/latest?from=EUR&to=RON,BRL')
+        .then(res => res.json())
+        .then(data => {
+          if (data && data.rates) {
+            const rates = {
+              eur_ron: data.rates.RON,
+              eur_brl: data.rates.BRL,
+              updated: data.date
+            };
+            localStorage.setItem(STORAGE_KEYS.fx, JSON.stringify(rates));
+            renderFXRates(rates);
+            showToast("Câmbio atualizado com sucesso! 💵");
+          }
+        })
+        .catch(err => {
+          console.warn("Falha de rede ao puxar taxas de câmbio:", err);
+          const cached = localStorage.getItem(STORAGE_KEYS.fx);
+          if (cached) {
+            const rates = JSON.parse(cached);
+            renderFXRates(rates);
+            label.textContent = `Offline (Cache: ${rates.updated})`;
+            showToast("Rede indisponível. Usando taxas salvas.");
+          } else {
+            const defaultRates = { eur_ron: 4.97, eur_brl: 6.20, updated: "Offline (Padrão)" };
+            renderFXRates(defaultRates);
+            showToast("Offline. Usando taxas estimadas.");
+          }
+        });
+    }
+
+    // CHECKLIST DE MALA (LOCALSTORAGE)
+    function renderChecklist() {
+      const container = document.getElementById('checklist-container');
+      container.innerHTML = '<h2>🧳 Checklist de Mala Interativo</h2>';
+      
+      const savedStates = JSON.parse(localStorage.getItem(STORAGE_KEYS.checklist)) || {};
+      
+      Object.keys(CHECKLIST_DATA).forEach(category => {
+        const catBox = document.createElement('div');
+        catBox.className = 'checklist-category';
+        
+        let titleText = category.charAt(0).toUpperCase() + category.slice(1);
+        catBox.innerHTML = `<div class="checklist-title">${titleText}</div>`;
+        
+        CHECKLIST_DATA[category].forEach((item, index) => {
+          const itemKey = `${category}_${index}`;
+          const isChecked = !!savedStates[itemKey];
+          
+          const row = document.createElement('div');
+          row.className = `checklist-item ${isChecked ? 'checked' : ''}`;
+          row.id = `chk-${itemKey}`;
+          row.onclick = () => toggleChecklistItem(itemKey);
+          
+          row.innerHTML = `
+            <input type="checkbox" id="input-${itemKey}" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); toggleChecklistItem('${itemKey}');">
+            <span>${item}</span>
+          `;
+          catBox.appendChild(row);
+        });
+        
+        container.appendChild(catBox);
+      });
+    }
+
+    function toggleChecklistItem(itemKey) {
+      const savedStates = JSON.parse(localStorage.getItem(STORAGE_KEYS.checklist)) || {};
+      const row = document.getElementById(`chk-${itemKey}`);
+      const chk = document.getElementById(`input-${itemKey}`);
+      
+      const nextVal = !savedStates[itemKey];
+      savedStates[itemKey] = nextVal;
+      
+      localStorage.setItem(STORAGE_KEYS.checklist, JSON.stringify(savedStates));
+      
+      chk.checked = nextVal;
+      if (nextVal) {
+        row.classList.add('checked');
+      } else {
+        row.classList.remove('checked');
+      }
+    }
+
+    // AGENDA E TIMELINE COMPONENT
+    function renderAgenda() {
+      const container = document.getElementById('timeline-container');
+      container.innerHTML = '';
+      
+      const savedStatuses = JSON.parse(localStorage.getItem(STORAGE_KEYS.agenda)) || {};
+      
+      TIMELINE_DATA.forEach((day) => {
+        const dayCard = document.createElement('div');
+        dayCard.className = 'timeline-day-card';
+        dayCard.id = `day-${day.id}`;
+        
+        dayCard.innerHTML = `
+          <div class="day-header">
+            <span class="day-title">${day.dateStr}</span>
+            <span class="day-city">${day.city}</span>
+          </div>
+        `;
+        
+        day.tasks.forEach((task, index) => {
+          const taskKey = `${day.id}_task_${index}`;
+          const status = savedStatuses[taskKey] || 'pending';
+          
+          const slot = document.createElement('div');
+          slot.className = `agenda-slot ${status !== 'pending' ? status : ''}`;
+          slot.id = `slot-${taskKey}`;
+          
+          let copyBtnHtml = '';
+          if (task.address) {
+            copyBtnHtml = `
+              <button class="copy-btn" title="Copiar Endereço" onclick="copyText('${task.address.replace(/'/g, "\\'")}')">
+                📋
+              </button>
+            `;
+          }
+          
+          let statusText = "Pendente";
+          if (status === 'done') statusText = "✓ Feito";
+          if (status === 'skipped') statusText = "⏭ Pular";
+          
+          slot.innerHTML = `
+            <span class="agenda-time">${task.time}</span>
+            <div class="agenda-content">
+              <p class="agenda-title">${task.text}</p>
+              ${task.address ? `<small class="agenda-desc">📍 ${task.address}</small>` : ''}
+            </div>
+            ${copyBtnHtml}
+            <button class="agenda-status-btn status-${status}" onclick="cycleAgendaStatus('${taskKey}')">
+              ${statusText}
+            </button>
+          `;
+          
+          dayCard.appendChild(slot);
+        });
+        
+        container.appendChild(dayCard);
+      });
+    }
+
+    function cycleAgendaStatus(taskKey) {
+      const savedStatuses = JSON.parse(localStorage.getItem(STORAGE_KEYS.agenda)) || {};
+      const current = savedStatuses[taskKey] || 'pending';
+      
+      let next = 'pending';
+      if (current === 'pending') next = 'done';
+      else if (current === 'done') next = 'skipped';
+      else if (current === 'skipped') next = 'pending';
+      
+      savedStatuses[taskKey] = next;
+      localStorage.setItem(STORAGE_KEYS.agenda, JSON.stringify(savedStatuses));
+      
+      // Atualizar classe do contêiner do slot
+      const slot = document.getElementById(`slot-${taskKey}`);
+      slot.classList.remove('done', 'skipped');
+      if (next !== 'pending') {
+        slot.classList.add(next);
+      }
+      
+      // Atualizar botão
+      const btn = slot.querySelector('.agenda-status-btn');
+      btn.className = `agenda-status-btn status-${next}`;
+      
+      let statusText = "Pendente";
+      if (next === 'done') statusText = "✓ Feito";
+      if (next === 'skipped') statusText = "⏭ Pular";
+      btn.textContent = statusText;
+      
+      // Se concluiu ou pulou, dispara um toast rápido de confirmação
+      if (next === 'done') showToast("Atividade concluída! ✓");
+    }
+
+    // HIGHLIGHT DO DIA DE HOJE NA AGENDA
+    function highlightTodayInTimeline() {
+      // Limpa destaques anteriores
+      const allDayCards = document.querySelectorAll('.timeline-day-card');
+      allDayCards.forEach(c => c.classList.remove('today'));
+      
+      const now = new Date();
+      // O ano e mês devem bater com a viagem (Junho/Julho de 2026)
+      const year = now.getFullYear();
+      const month = now.getMonth(); // 5 = Junho, 6 = Julho
+      const date = now.getDate();
+      
+      if (year === 2026) {
+        let todayId = "";
+        if (month === 5) { // Junho
+          todayId = `day-${date}jun`;
+        } else if (month === 6) { // Julho
+          todayId = `day-${date.toString().padStart(2, '0')}jul`;
+        }
+        
+        if (todayId) {
+          const todayCard = document.getElementById(todayId);
+          if (todayCard) {
+            todayCard.classList.add('today');
+            // Scroll suave até o dia corrente
+            setTimeout(() => {
+              todayCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+          }
+        }
+      }
+    }
+
+    // DINÂMICA DO DESTINO ATUAL (HOME VIEW DATA DETECTION)
+    function updateCurrentDestination() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const date = now.getDate();
+      
+      let currentCity = "Pré-Viagem ✈️";
+      let hotelName = "Motel One Berlin-Alexanderplatz";
+      let hotelAddress = "Dircksenstraße 36, 10179 Berlin";
+      let mapsUrl = "https://www.google.com/maps/search/?api=1&query=Motel+One+Berlin-Alexanderplatz+Dircksenstrasse";
+      let weather = "☀️ 23°C";
+      let tips = "Prepare a documentação física original, seguro saúde Schengen e eTA canadense para Montreal!";
+      let notice = "💡 Lembrete: Verifique se suas malas estão nas dimensões exigidas pelas regras aéreas europeias.";
+      
+      let nextEventText = "🛫 Partida do Brasil";
+      let nextEventTime = "22 Junho de 2026 — Aeroporto de Viracopos (VCP)";
+
+      if (year === 2026) {
+        if (month === 5) { // Junho
+          if (date < 23) {
+            // Pré-Viagem
+            currentCity = "Pré-Viagem ✈️";
+            weather = "☀️ --°C";
+            tips = "A viagem está chegando! Arrume as malas e tenha seus passaportes em mãos.";
+            nextEventText = "🛫 Voo Campinas → Montreal → Leipzig";
+            nextEventTime = "22 de Junho — Saída VCP";
+          } else if (date >= 23 && date < 26) {
+            // Leipzig
+            currentCity = "Leipzig, Alemanha 🎼";
+            hotelName = "Radisson Blu Hotel Leipzig";
+            hotelAddress = "Augustusplatz 5-6, 04109 Leipzig";
+            mapsUrl = "https://www.google.com/maps/search/?api=1&query=Radisson+Blu+Hotel+Leipzig+Augustusplatz";
+            weather = "⛅ 24°C";
+            tips = "Hoje vocês estão em Leipzig. Reuniões de cooperação técnica científica na DBFZ!";
+            notice = "⚠️ Lembrete: Valide o ticket de transporte antes de embarcar no Tram 3 na plataforma!";
+            nextEventText = "🔬 Visita Técnica DBFZ (Leipzig)";
+            nextEventTime = "24 e 25 de Junho — DBFZ Campus";
+          } else if (date >= 26 && date < 29) {
+            // Berlim 1
+            currentCity = "Berlim, Alemanha 🏛️";
+            hotelName = "Motel One Berlin-Alexanderplatz";
+            hotelAddress = "Dircksenstraße 36, 10179 Berlin";
+            mapsUrl = "https://www.google.com/maps/search/?api=1&query=Motel+One+Berlin+Alexanderplatz";
+            weather = "☀️ 25°C";
+            tips = "Explorando Berlim Histórica. Portão de Brandemburgo e Muro de Berlim.";
+            notice = "⚠️ Lembrete: A multa para bilhete de metrô sem validação física na plataforma é de €60!";
+            nextEventText = "🛫 Voo Berlim → Timișoara (Romênia)";
+            nextEventTime = "29 de Junho — Aeroporto BER";
+          } else { // 29, 30 Jun
+            // Romênia
+            currentCity = "Timișoara, Romênia 🇷🇴";
+            hotelName = "Hotel Timișoara";
+            hotelAddress = "Strada Mărășești 1-3, 300086 Timișoara";
+            mapsUrl = "https://www.google.com/maps/search/?api=1&query=Hotel+Timisoara+Strada+Marasesti";
+            weather = "☀️ 31°C";
+            tips = "Aproveitando Timișoara e participando da conferência FOSS4G Europe 2026.";
+            notice = "💳 Lembrete: Evite ATMs Euronet nas feiras. Saque RON em dinheiro em bancos locais.";
+            nextEventText = "🌍 FOSS4G Europe 2026 (CRAFT)";
+            nextEventTime = "30 de Junho a 04 de Julho — Timișoara";
+          }
+        } else if (month === 6) { // Julho
+          if (date <= 5) {
+            // Romênia (Continuação)
+            currentCity = "Timișoara, Romênia 🇷🇴";
+            hotelName = "Hotel Timișoara";
+            hotelAddress = "Strada Mărășești 1-3, 300086 Timișoara";
+            mapsUrl = "https://www.google.com/maps/search/?api=1&query=Hotel+Timisoara+Strada+Marasesti";
+            weather = "☀️ 31°C";
+            tips = "Não perca o passeio refrescante de barco público pelo Rio Bega por apenas 3 RON!";
+            notice = "🍩 Dica: Dividam um doce tradicional Papanași no jantar, ele é monumental!";
+            nextEventText = "🛫 Retorno Romênia → Berlim";
+            nextEventTime = "05 de Julho — Voo de Volta";
+          } else if (date > 5 && date <= 8) {
+            // Berlim 2 (Show)
+            currentCity = "Berlim, Alemanha 🏛️";
+            hotelName = "Motel One Berlin-Alexanderplatz";
+            hotelAddress = "Dircksenstraße 36, 10179 Berlin";
+            mapsUrl = "https://www.google.com/maps/search/?api=1&query=Motel+One+Berlin+Alexanderplatz";
+            weather = "☀️ 26°C";
+            tips = "Dia do show do Critical Role! Uber Arena portões abrem às 18h.";
+            notice = "🎒 Atenção: Mochilas grandes são proibidas na Uber Arena! Use bags compactas.";
+            nextEventText = "⚔️ Critical Role Live (Uber Arena)";
+            nextEventTime = "07 de Julho às 20:00 — Warschauer Str.";
+          } else {
+            // Retorno
+            currentCity = "Brasil / Retorno 🏠";
+            weather = "☀️ 22°C";
+            tips = "Fim da Eurotrip Carol & Naka 2026. Bem-vindos de volta!";
+            notice = "🛫 Desembarque final e trânsito concluídos.";
+            nextEventText = "🏠 Eurotrip 2026 Concluída";
+            nextEventTime = "10 de Julho — Chegada no Brasil";
+          }
+        }
+      } else if (year > 2026 || (year === 2026 && month > 6)) {
+        currentCity = "Eurotrip Concluída 🌍";
+        tips = "A viagem ocorreu em Junho/Julho de 2026. Esperamos que tenha sido sensacional!";
+        notice = "Tudo salvo com sucesso.";
+        nextEventText = "Pós-Viagem";
+        nextEventTime = "Até a próxima!";
+      }
+
+      document.getElementById('dest-name').textContent = currentCity;
+      document.getElementById('dest-weather').textContent = weather;
+      document.getElementById('dest-tips').textContent = tips;
+      document.getElementById('current-notice').textContent = notice;
+      document.getElementById('next-event-text').textContent = nextEventText;
+      document.getElementById('next-event-time').textContent = nextEventTime;
+
+      // Atribuição de variáveis globais de endereço
+      window.hotelAddress = hotelAddress;
+      window.hotelName = hotelName;
+      window.hotelMapsUrl = mapsUrl;
+    }
+
+    // COPIAR ENDEREÇO DO HOTEL & ABRIR GOOGLE MAPS
+    function copyHotelAddress() {
+      const address = window.hotelAddress || "Dircksenstraße 36, 10179 Berlin";
+      const name = window.hotelName || "Motel One Berlin-Alexanderplatz";
+      
+      navigator.clipboard.writeText(address).then(() => {
+        showToast("Endereço do hotel copiado! 📍");
+        
+        // Abre o Google Maps para facilitar rotas reais após 1 segundo
+        setTimeout(() => {
+          const mapUrl = window.hotelMapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name + ' ' + address)}`;
+          window.open(mapUrl, '_blank');
+        }, 1000);
+      }).catch(err => {
+        console.error("Falha ao copiar endereço:", err);
+      });
+    }
+
+    // MODAL DE AJUDA RÁPIDA (EMERGÊNCIA)
+    function openHelpModal() {
+      const modalBody = document.getElementById('modal-body-content');
+      const title = document.getElementById('modal-title-text');
+      
+      title.innerHTML = "🆘 Ajuda Rápida &amp; Emergências";
+      
+      const currentHotel = window.hotelName || "Motel One Berlin-Alexanderplatz";
+      const currentAddr = window.hotelAddress || "Dircksenstraße 36, 10179 Berlin";
+      
+      modalBody.innerHTML = `
+        <div style="margin-bottom: 16px;">
+          <p><strong>🚨 NÚMEROS DE EMERGÊNCIA LOCAIS:</strong></p>
+          <ul style="list-style: none; margin-left: 0; padding-left: 0;">
+            <li style="margin-bottom: 8px;">
+              🇩🇪 <strong>Alemanha (Berlim &amp; Leipzig):</strong> 
+              <br><a href="tel:110" style="color: var(--terra); font-weight: 700; text-decoration: none; font-size: 16px;">📞 Polícia: 110</a>
+              <br><a href="tel:112" style="color: var(--terra); font-weight: 700; text-decoration: none; font-size: 16px;">📞 Ambulância / Bombeiros: 112</a>
+            </li>
+            <li>
+              🇷🇴 <strong>Romênia (Timișoara):</strong> 
+              <br><a href="tel:112" style="color: var(--terra); font-weight: 700; text-decoration: none; font-size: 16px;">📞 Geral (Polícia, Médicos, Bombeiros): 112</a>
+            </li>
+          </ul>
+        </div>
+        
+        <div style="border-top: 1px solid var(--border); padding-top: 12px; margin-bottom: 16px;">
+          <p><strong>🏨 ENDEREÇO DO HOTEL ATUAL:</strong></p>
+          <p style="font-weight: 600; color: var(--text-primary); margin-bottom: 4px;">${currentHotel}</p>
+          <p style="font-size: 13px; color: var(--text-secondary);">${currentAddr}
+            <button class="copy-address-btn" style="min-height: 48px; min-width: 48px; padding: 2px 8px; font-family: inherit; font-size: 11px; font-weight: 700; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--cream); cursor: pointer; margin-left: 6px;" onclick="copyText('${currentAddr.replace(/'/g, "\\'")}')">📋 Copiar</button>
+          </p>
+        </div>
+        
+        <div style="border-top: 1px solid var(--border); padding-top: 12px;">
+          <p><strong>🇧🇷 CONTATOS DE EMERGÊNCIA DO BRASIL:</strong></p>
+          <ul style="list-style: none; margin-left: 0; padding-left: 0;">
+            <li style="margin-bottom: 6px;">
+              • <strong>Consulado Geral em Frankfurt:</strong>
+              <br><a href="tel:+4915221034715" style="color: var(--navy); text-decoration: none; font-weight: 600;">📞 Plantão Consular: +49 152 2103 4715</a>
+            </li>
+            <li>
+              • <strong>Embaixada em Bucareste (Romênia):</strong>
+              <br><a href="tel:+40730049845" style="color: var(--navy); text-decoration: none; font-weight: 600;">📞 Plantão Consular: +40 730 049 845</a>
+            </li>
+          </ul>
+        </div>
+      `;
+      
       const overlay = document.getElementById('modal-overlay');
       overlay.classList.add('open');
-      document.body.style.overflow = 'hidden'; // Impede rolagem do fundo
+      document.body.style.overflow = 'hidden';
     }
 
-    // Fechamento do Modal
+    // FECHAMENTO DO MODAL
     function closeModal() {
       const overlay = document.getElementById('modal-overlay');
       overlay.classList.remove('open');
-      document.body.style.overflow = ''; // Restaura rolagem do fundo
+      document.body.style.overflow = '';
     }
 
-    // Fechar ao clicar fora do Modal Box (Overlay)
     function handleOverlayClick(event) {
       if (event.target.id === 'modal-overlay') {
         closeModal();
       }
     }
 
-    // Fechar com a tecla Esc
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'Escape') {
-        closeModal();
-      }
-    });
-
-    // Lógica para adicionar classe loaded em imagens normais após carregamento completo
-    document.addEventListener('DOMContentLoaded', function() {
-      const imgs = document.querySelectorAll('.card-img img, .food-card-img img');
-      imgs.forEach(img => {
-        img.addEventListener('load', function() {
-          this.classList.add('loaded');
-        });
-        // Caso a imagem já tenha carregado do cache do navegador
-        if (img.complete) {
-          img.classList.add('loaded');
-        }
-      });
-    });
-
-    // Mostrar ou ocultar o botão flutuante 'Explorar' de acordo com a rolagem
-    window.addEventListener('scroll', function() {
-      const floatingBtn = document.getElementById('floating-nav-container');
-      if (window.scrollY > 220) {
-        floatingBtn.classList.add('visible');
-      } else {
-        floatingBtn.classList.remove('visible');
-      }
-    });
-
-    // Função para Copiar Endereço para a Área de Transferência com Toast
-    function copyAddress(addressText, buttonElement) {
-      if (!navigator.clipboard) {
-        // Fallback para navegadores sem suporte
-        const textArea = document.createElement("textarea");
-        textArea.value = addressText;
-        textArea.style.position = "fixed";
-        document.body.appendChild(textArea);
-        textArea.focus();
-        textArea.select();
-        try {
-          document.execCommand('copy');
-          showToast("Endereço copiado para área de transferência!");
-        } catch (err) {
-          console.error("Falha ao copiar endereço", err);
-        }
-        document.body.removeChild(textArea);
-        return;
-      }
-      
-      navigator.clipboard.writeText(addressText).then(() => {
-        showToast("Endereço copiado com sucesso! 📍");
+    // COPIAR TEXTO GERAL (TOAST INTEGRADO)
+    function copyText(str) {
+      navigator.clipboard.writeText(str).then(() => {
+        showToast("Endereço copiado para a área de transferência! 📍");
       }).catch(err => {
-        console.error("Falha ao copiar endereço", err);
+        console.error("Falha ao copiar endereço:", err);
       });
     }
 
-    // Exibir notificação Toast
+    // EXIBIR NOTIFICAÇÃO TOAST
     function showToast(message) {
-      // Remove qualquer toast existente para evitar duplicados
-      const existingToast = document.querySelector('.toast-container');
-      if (existingToast) {
-        existingToast.remove();
-      }
-
-      // Cria o elemento toast
-      const toast = document.createElement('div');
-      toast.className = 'toast-container';
-      toast.innerHTML = `<span class="toast-emoji">✨</span><span class="toast-text">${message}</span>`;
-      document.body.appendChild(toast);
-
-      // Trigger de animação
-      setTimeout(() => {
-        toast.classList.add('show');
-      }, 50);
-
-      // Remove após 3 segundos
+      const toast = document.getElementById('toast-container');
+      const toastText = document.getElementById('toast-text');
+      
+      toastText.textContent = message;
+      toast.classList.add('show');
+      
+      // Ocultar automaticamente após 2.5 segundos
       setTimeout(() => {
         toast.classList.remove('show');
-        setTimeout(() => {
-          toast.remove();
-        }, 350);
       }, 2500);
     }
+
+    // REGISTRO DE SERVICE WORKER PARA PWA OFFLINE
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker PWA Registrado com Sucesso!', reg.scope))
+          .catch(err => console.error('Erro de registro de Service Worker:', err));
+      });
+    }
+
+    // DOM CONTENT LOADED - INICIALIZAÇÕES
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Atualizar Destino Atual e Compromissos
+      updateCurrentDestination();
+      
+      // 2. Renderizar a Timeline Diária da Agenda
+      renderAgenda();
+      
+      // 3. Renderizar o Checklist Interativo de Malas
+      renderChecklist();
+      
+      // 4. Buscar e Inicializar as Taxas de Câmbio (EUR -> RON/BRL)
+      fetchExchangeRates();
+      
+      // 5. Inicializar o Dicionário Offline (Frases)
+      switchLang('de');
+
+      // 6. Restaurar Última View Salva (Ou padrão Inicio)
+      const lastView = localStorage.getItem(STORAGE_KEYS.lastView) || 'inicio';
+      switchView(lastView);
+    });
   </script>
 </body>
 </html>
