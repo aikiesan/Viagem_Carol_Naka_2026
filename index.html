@@ -1451,7 +1451,7 @@
         return;
       }
 
-      const rates = window.fxRates || { eur_ron: 4.97, eur_brl: 6.20 };
+      const rates = window.fxRates || { eur_ron: 5.25, eur_brl: 5.88 };
       
       const ronVal = (eurVal * rates.eur_ron).toFixed(2);
       const brlVal = (eurVal * rates.eur_brl).toFixed(2);
@@ -1487,7 +1487,7 @@
             label.textContent = `Offline (Cache: ${rates.updated})`;
             showToast("Rede indisponível. Usando taxas salvas.");
           } else {
-            const defaultRates = { eur_ron: 4.97, eur_brl: 6.20, updated: "Offline (Padrão)" };
+            const defaultRates = { eur_ron: 5.25, eur_brl: 5.88, updated: "Offline (Padrão)" };
             renderFXRates(defaultRates);
             showToast("Offline. Usando taxas estimadas.");
           }
