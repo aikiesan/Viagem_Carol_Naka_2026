@@ -1,0 +1,24 @@
+{
+  "name": "Guia Europa 2026 — Carol & Naka",
+  "short_name": "Europa 2026",
+  "description": "Companion de bolso offline para a viagem de Carol e Naka à Alemanha e Romênia em 2026.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDFDFB",
+  "theme_color": "#0F2C59",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
