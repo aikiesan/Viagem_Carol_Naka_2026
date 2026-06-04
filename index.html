@@ -1005,6 +1005,159 @@
       color: var(--text-primary);
       resize: vertical;
     }
+
+    /* ===================================================================
+       UI/UX V3 — PROFUNDIDADE, COR POR CIDADE, NAVEGAÇÃO E PROGRESSO
+       =================================================================== */
+
+    /* Tokens de elevação (sombras) */
+    :root {
+      --shadow-sm: 0 1px 3px rgba(15,44,89,.06), 0 1px 2px rgba(15,44,89,.05);
+      --shadow-md: 0 8px 24px rgba(15,44,89,.12);
+      --accent: var(--terra);
+      --accent-soft: rgba(211,117,86,.12);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --shadow-sm: 0 1px 3px rgba(0,0,0,.45);
+        --shadow-md: 0 10px 30px rgba(0,0,0,.55);
+      }
+    }
+
+    /* Cor de acento dinâmica por cidade (tema "bolder & colorful") */
+    body[data-city="leipzig"]   { --accent:#1B9C6B; --accent-soft:rgba(27,156,107,.14); }
+    body[data-city="berlim"]    { --accent:#6C5CE7; --accent-soft:rgba(108,92,231,.14); }
+    body[data-city="timisoara"] { --accent:#E0457B; --accent-soft:rgba(224,69,123,.14); }
+
+    /* Profundidade nos componentes existentes */
+    .card, .timeline-day-card, .dest-accordion, .frase-card { box-shadow: var(--shadow-sm); }
+    .big-btn, .fx-update-btn, .expense-add-btn, .install-btn { box-shadow: var(--shadow-sm); }
+    .big-btn:active, .fx-update-btn:active, .expense-add-btn:active { box-shadow: none; }
+    .fx-update-btn, .expense-add-btn { transition: transform .1s, opacity .2s; }
+    .fx-update-btn:active, .expense-add-btn:active { transform: scale(.98); opacity:.92; }
+
+    /* Transição de views mais suave */
+    .view.active { animation: viewIn .28s cubic-bezier(.16,1,.3,1); }
+    @keyframes viewIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+
+    /* ---------- HERO DA HOME (GRADIENTE POR CIDADE) ---------- */
+    .hero {
+      position: relative;
+      border-radius: var(--radius);
+      padding: 18px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--accent) 130%);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      margin-bottom: 12px;
+      transition: background .4s ease;
+    }
+    .hero::after {
+      content:""; position:absolute; right:-40px; top:-40px;
+      width:160px; height:160px; border-radius:50%;
+      background: rgba(255,255,255,.08);
+    }
+    .hero-top { display:flex; justify-content:space-between; align-items:center; position:relative; z-index:1; }
+    .hero-label { font-size:12px; text-transform:uppercase; letter-spacing:.06em; font-weight:600; opacity:.85; }
+    .hero-city { font-size:26px; font-weight:700; margin:6px 0 8px; position:relative; z-index:1; line-height:1.15; }
+    .hero-tips { font-size:13.5px; line-height:1.5; opacity:.92; position:relative; z-index:1; }
+    .hero-weather {
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.28);
+      color:#fff; backdrop-filter: blur(4px);
+    }
+    .trip-progress { margin-top:16px; position:relative; z-index:1; }
+    .trip-progress-head { display:flex; justify-content:space-between; font-size:12px; font-weight:700; margin-bottom:6px; }
+
+    /* ---------- BARRAS DE PROGRESSO GENÉRICAS ---------- */
+    .progress-track { height:8px; border-radius:20px; background:var(--border); overflow:hidden; }
+    .progress-fill { height:100%; border-radius:20px; background:var(--accent); width:0; transition: width .5s cubic-bezier(.16,1,.3,1); }
+    .hero .progress-track { background: rgba(255,255,255,.25); }
+    .hero .progress-fill { background:#fff; }
+
+    .section-progress {
+      display:flex; align-items:center; gap:10px;
+      margin-bottom:14px;
+    }
+    .section-progress .progress-track { flex:1; }
+    .section-progress .count {
+      font-size:12.5px; font-weight:700; color:var(--accent); white-space:nowrap;
+    }
+
+    /* Contador por dia na agenda */
+    .day-meta { display:flex; align-items:center; gap:8px; }
+    .day-count {
+      font-size:11px; font-weight:700; color:var(--accent);
+      background: var(--accent-soft); padding:2px 8px; border-radius:20px; white-space:nowrap;
+    }
+    .day-count.complete { background:#E6F4EA; color:var(--success); }
+    .timeline-day-card.today { border:2px solid var(--accent); box-shadow: var(--shadow-md); }
+    .timeline-day-card.today::before { background-color: var(--accent); }
+    .day-header { align-items:center; }
+    .day-title { color: var(--accent); }
+
+    /* Contagem por categoria no checklist */
+    .checklist-title { display:flex; justify-content:space-between; align-items:center; }
+    .checklist-count { font-size:12px; font-weight:700; color:var(--accent); }
+    .checklist-category.complete .checklist-count { color:var(--success); }
+
+    /* ---------- DESTINOS: COR POR CIDADE ---------- */
+    #acc-leipzig   { --accent:#1B9C6B; }
+    #acc-berlim    { --accent:#6C5CE7; }
+    #acc-timisoara { --accent:#E0457B; }
+    .accordion-header { color: var(--accent); border-left:4px solid var(--accent); }
+    .dest-accordion { scroll-margin-top: 72px; }
+    .dest-accordion.active { box-shadow: var(--shadow-md); }
+    .dest-accordion.active .accordion-content { border-top-color: var(--accent-soft); }
+
+    /* ---------- BARRA DE NAVEGAÇÃO: INDICADOR ATIVO ---------- */
+    .nav-btn { position: relative; transition: color .15s ease-out; }
+    .nav-btn::before {
+      content:""; position:absolute; top:0; left:50%; transform: translateX(-50%) scaleX(0);
+      width:26px; height:3px; border-radius:0 0 4px 4px;
+      background: var(--accent); transition: transform .22s cubic-bezier(.16,1,.3,1);
+    }
+    .nav-btn.active { color: var(--accent); }
+    .nav-btn.active::before { transform: translateX(-50%) scaleX(1); }
+    .nav-btn.active .nav-icon { transform: translateY(-1px) scale(1.12); }
+    .nav-icon { transition: transform .2s cubic-bezier(.16,1,.3,1); }
+
+    /* ---------- BOTÃO FLUTUANTE: VOLTAR AO TOPO ---------- */
+    .fab-top {
+      position: fixed; right:16px; bottom: calc(80px + env(safe-area-inset-bottom));
+      width:46px; height:46px; border-radius:50%;
+      background: var(--accent); color:#fff; border:none; cursor:pointer;
+      box-shadow: var(--shadow-md);
+      display:flex; align-items:center; justify-content:center; font-size:22px; line-height:1;
+      opacity:0; visibility:hidden; transform: translateY(10px) scale(.9);
+      transition: opacity .22s, transform .22s, visibility .22s; z-index:1400;
+    }
+    .fab-top.show { opacity:1; visibility:visible; transform: translateY(0) scale(1); }
+    .fab-top:active { transform: scale(.92); }
+
+    /* ---------- TOAST: VARIANTES COLORIDAS ---------- */
+    .toast-container { border-left: 4px solid var(--accent); }
+    .toast-container.toast-success { border-left-color: var(--success); }
+    .toast-container.toast-warn    { border-left-color: var(--terra); }
+    .toast-container.toast-info    { border-left-color: #4D8FE0; }
+
+    /* ---------- SKELETON LOADERS (SHIMMER) ---------- */
+    .skeleton {
+      position: relative; overflow: hidden;
+      background: var(--border); border-radius:6px; color: transparent !important;
+      min-width: 56px; min-height: 1em;
+    }
+    .skeleton::after {
+      content:""; position:absolute; inset:0; transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+      animation: shimmer 1.2s infinite;
+    }
+    @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+    /* Acessibilidade: respeita "reduzir movimento" */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
+    }
   </style>
 </head>
 <body>
@@ -1022,13 +1175,20 @@
     <button class="install-btn" id="install-btn" onclick="installApp()">
       ⬇️ Instalar o guia na tela inicial
     </button>
-    <div class="card">
-      <div class="label">Destino Atual</div>
-      <div class="dest-row">
-        <span class="dest-badge" id="dest-name">Carregando...</span>
-        <span class="weather-badge" id="dest-weather">--°C</span>
+    <div class="hero" id="home-hero">
+      <div class="hero-top">
+        <span class="hero-label">Destino Atual</span>
+        <span class="weather-badge hero-weather skeleton" id="dest-weather">--°C</span>
       </div>
-      <p id="dest-tips" style="font-size: 13.5px; line-height: 1.5;"></p>
+      <div class="hero-city" id="dest-name">Carregando...</div>
+      <p class="hero-tips" id="dest-tips"></p>
+      <div class="trip-progress">
+        <div class="trip-progress-head">
+          <span id="trip-day-label">—</span>
+          <span id="trip-pct-label"></span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="trip-progress-fill"></div></div>
+      </div>
     </div>
 
     <div class="card">
@@ -1056,6 +1216,10 @@
   <!-- VIEW 2: AGENDA (TIMELINE VIEW) -->
   <div class="view" id="view-agenda">
     <h2>📅 Linha do Tempo Diária</h2>
+    <div class="section-progress">
+      <div class="progress-track"><div class="progress-fill" id="agenda-progress-fill"></div></div>
+      <span class="count" id="agenda-progress-count">0%</span>
+    </div>
     <div class="timeline-container" id="timeline-container">
       <!-- Injeção dos dias via JS -->
     </div>
@@ -1241,6 +1405,9 @@
       <!-- Injeção de frases via JS -->
     </div>
   </div>
+
+  <!-- BOTÃO FLUTUANTE: VOLTAR AO TOPO -->
+  <button class="fab-top" id="fab-top" onclick="scrollToTop()" title="Voltar ao topo" aria-label="Voltar ao topo">↑</button>
 
   <!-- NOTIFICAÇÃO TOAST -->
   <div class="toast-container" id="toast-container">
@@ -1500,6 +1667,7 @@
       }
       
       localStorage.setItem(STORAGE_KEYS.lastView, viewId);
+      setTimeout(updateFabVisibility, 50);
     }
 
     // CONTROLE DE SUBVIEWS (ESSENCIAIS)
@@ -1521,13 +1689,32 @@
       }
     }
 
-    // ACCORDION (DESTINOS)
+    // ACCORDION (DESTINOS) — abre um por vez e rola até ele
     function toggleAccordion(accId) {
       const accordion = document.getElementById(accId);
-      if (accordion) {
-        accordion.classList.toggle('active');
+      if (!accordion) return;
+
+      const willOpen = !accordion.classList.contains('active');
+      document.querySelectorAll('.dest-accordion.active').forEach(a => {
+        if (a !== accordion) a.classList.remove('active');
+      });
+      accordion.classList.toggle('active', willOpen);
+
+      if (willOpen) {
+        setTimeout(() => accordion.scrollIntoView({ behavior: 'smooth', block: 'start' }), 130);
       }
     }
+
+    // BOTÃO FLUTUANTE: VOLTAR AO TOPO
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function updateFabVisibility() {
+      const fab = document.getElementById('fab-top');
+      if (!fab) return;
+      fab.classList.toggle('show', window.scrollY > 320);
+    }
+    window.addEventListener('scroll', updateFabVisibility, { passive: true });
 
     // DIALETO E TRADUÇÃO (FRASES)
     let currentLang = 'de';
@@ -1672,7 +1859,7 @@
             };
             localStorage.setItem(STORAGE_KEYS.fx, JSON.stringify(rates));
             renderFXRates(rates);
-            showToast("Câmbio atualizado com sucesso! 💵");
+            showToast("Câmbio atualizado!", 'success');
           }
         })
         .catch(err => {
@@ -1682,11 +1869,11 @@
             const rates = JSON.parse(cached);
             renderFXRates(rates);
             label.textContent = `Offline (Cache: ${rates.updated})`;
-            showToast("Rede indisponível. Usando taxas salvas.");
+            showToast("Sem rede. Usando taxas salvas.", 'warn');
           } else {
             const defaultRates = { eur_ron: 5.25, eur_brl: 5.88, updated: "Offline (Padrão)" };
             renderFXRates(defaultRates);
-            showToast("Offline. Usando taxas estimadas.");
+            showToast("Offline. Usando taxas estimadas.", 'warn');
           }
         });
     }
@@ -1694,17 +1881,24 @@
     // CHECKLIST DE MALA (LOCALSTORAGE)
     function renderChecklist() {
       const container = document.getElementById('checklist-container');
-      container.innerHTML = '<h2>🧳 Checklist de Mala Interativo</h2>';
-      
+      container.innerHTML = `
+        <h2>🧳 Checklist de Mala Interativo</h2>
+        <div class="section-progress">
+          <div class="progress-track"><div class="progress-fill" id="checklist-progress-fill"></div></div>
+          <span class="count" id="checklist-progress-count">0/0</span>
+        </div>
+      `;
+
       const savedStates = JSON.parse(localStorage.getItem(STORAGE_KEYS.checklist)) || {};
-      
+
       Object.keys(CHECKLIST_DATA).forEach(category => {
         const catBox = document.createElement('div');
         catBox.className = 'checklist-category';
-        
+        catBox.id = `chkcat-${category}`;
+
         let titleText = category.charAt(0).toUpperCase() + category.slice(1);
-        catBox.innerHTML = `<div class="checklist-title">${titleText}</div>`;
-        
+        catBox.innerHTML = `<div class="checklist-title"><span>${titleText}</span><span class="checklist-count" id="chkcount-${category}"></span></div>`;
+
         CHECKLIST_DATA[category].forEach((item, index) => {
           const itemKey = `${category}_${index}`;
           const isChecked = !!savedStates[itemKey];
@@ -1723,6 +1917,29 @@
         
         container.appendChild(catBox);
       });
+
+      updateChecklistProgress();
+    }
+
+    function updateChecklistProgress() {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.checklist)) || {};
+      let total = 0, checked = 0;
+      Object.keys(CHECKLIST_DATA).forEach(cat => {
+        let cChecked = 0;
+        CHECKLIST_DATA[cat].forEach((item, i) => {
+          total++;
+          if (saved[`${cat}_${i}`]) { checked++; cChecked++; }
+        });
+        const badge = document.getElementById(`chkcount-${cat}`);
+        if (badge) badge.textContent = `${cChecked}/${CHECKLIST_DATA[cat].length}`;
+        const box = document.getElementById(`chkcat-${cat}`);
+        if (box) box.classList.toggle('complete', cChecked === CHECKLIST_DATA[cat].length);
+      });
+      const pct = total ? Math.round((checked / total) * 100) : 0;
+      const fill = document.getElementById('checklist-progress-fill');
+      const count = document.getElementById('checklist-progress-count');
+      if (fill) fill.style.width = `${pct}%`;
+      if (count) count.textContent = `${checked}/${total}`;
     }
 
     function toggleChecklistItem(itemKey) {
@@ -1741,6 +1958,8 @@
       } else {
         row.classList.remove('checked');
       }
+
+      updateChecklistProgress();
     }
 
     // RASTREADOR DE GASTOS (LOCALSTORAGE)
@@ -1778,7 +1997,7 @@
       noteEl.value = '';
       amountEl.value = '';
       renderExpenses();
-      showToast('Gasto registrado! 🧾');
+      showToast('Gasto registrado!', 'success');
     }
 
     function deleteExpense(id) {
@@ -1868,7 +2087,10 @@
         dayCard.innerHTML = `
           <div class="day-header">
             <span class="day-title">${day.dateStr}</span>
-            <span class="day-city">${day.city}</span>
+            <span class="day-meta">
+              <span class="day-city">${day.city}</span>
+              <span class="day-count" id="daycount-${day.id}"></span>
+            </span>
           </div>
         `;
         
@@ -1924,6 +2146,30 @@
 
         container.appendChild(dayCard);
       });
+
+      updateAgendaProgress();
+    }
+
+    function updateAgendaProgress() {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.agenda)) || {};
+      let totalTasks = 0, doneTasks = 0;
+      TIMELINE_DATA.forEach(day => {
+        let dDone = 0;
+        day.tasks.forEach((t, i) => {
+          totalTasks++;
+          if (saved[`${day.id}_task_${i}`] === 'done') { doneTasks++; dDone++; }
+        });
+        const badge = document.getElementById(`daycount-${day.id}`);
+        if (badge) {
+          badge.textContent = `${dDone}/${day.tasks.length}`;
+          badge.classList.toggle('complete', dDone === day.tasks.length);
+        }
+      });
+      const pct = totalTasks ? Math.round((doneTasks / totalTasks) * 100) : 0;
+      const fill = document.getElementById('agenda-progress-fill');
+      const count = document.getElementById('agenda-progress-count');
+      if (fill) fill.style.width = `${pct}%`;
+      if (count) count.textContent = `${pct}%`;
     }
 
     function cycleAgendaStatus(taskKey) {
@@ -1955,7 +2201,8 @@
       btn.textContent = statusText;
       
       // Se concluiu ou pulou, dispara um toast rápido de confirmação
-      if (next === 'done') showToast("Atividade concluída! ✓");
+      if (next === 'done') { showToast("Atividade concluída!", 'success'); }
+      updateAgendaProgress();
     }
 
     // HIGHLIGHT DO DIA DE HOJE NA AGENDA
@@ -2105,8 +2352,56 @@
       window.hotelName = hotelName;
       window.hotelMapsUrl = mapsUrl;
 
+      // Aplica a cor de acento da cidade atual (tema dinâmico por destino)
+      applyCityTheme(currentCity);
+
+      // Atualiza o contador de progresso da viagem no hero
+      updateTripProgress(now);
+
       // Tenta atualizar o clima com dados reais ao vivo
       fetchLiveWeather(currentCity);
+    }
+
+    // TEMA DINÂMICO POR CIDADE (cor de acento)
+    function applyCityTheme(cityName) {
+      let key = '';
+      if (cityName.includes('Leipzig')) key = 'leipzig';
+      else if (cityName.includes('Berlim')) key = 'berlim';
+      else if (cityName.includes('Timișoara')) key = 'timisoara';
+
+      if (key) document.body.dataset.city = key;
+      else delete document.body.dataset.city;
+    }
+
+    // CONTADOR DE PROGRESSO DA VIAGEM (HERO)
+    const TRIP_START = new Date(2026, 5, 22); // 22 Jun 2026
+    const TRIP_END = new Date(2026, 6, 10);   // 10 Jul 2026
+    function updateTripProgress(now) {
+      const dayLabel = document.getElementById('trip-day-label');
+      const pctLabel = document.getElementById('trip-pct-label');
+      const fill = document.getElementById('trip-progress-fill');
+      if (!dayLabel || !fill) return;
+
+      const MS_DAY = 86400000;
+      const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const totalDays = Math.round((TRIP_END - TRIP_START) / MS_DAY) + 1; // 19 dias
+
+      if (todayMid < TRIP_START) {
+        const diff = Math.ceil((TRIP_START - todayMid) / MS_DAY);
+        dayLabel.textContent = `✈️ Faltam ${diff} ${diff === 1 ? 'dia' : 'dias'}`;
+        pctLabel.textContent = 'Pré-viagem';
+        fill.style.width = '0%';
+      } else if (todayMid > TRIP_END) {
+        dayLabel.textContent = '🎉 Viagem concluída';
+        pctLabel.textContent = '100%';
+        fill.style.width = '100%';
+      } else {
+        const dayIndex = Math.round((todayMid - TRIP_START) / MS_DAY) + 1;
+        const pct = Math.round((dayIndex / totalDays) * 100);
+        dayLabel.textContent = `📍 Dia ${dayIndex} de ${totalDays}`;
+        pctLabel.textContent = `${pct}%`;
+        fill.style.width = `${pct}%`;
+      }
     }
 
     // CLIMA AO VIVO (OPEN-METEO, SEM CHAVE DE API)
@@ -2129,15 +2424,19 @@
     }
 
     function fetchLiveWeather(cityName) {
-      const coords = CITY_COORDS.find(c => cityName && cityName.includes(c.match));
       const el = document.getElementById('dest-weather');
-      if (!coords || !el) return;
+      if (!el) return;
+      const stopSkeleton = () => el.classList.remove('skeleton');
+
+      const coords = CITY_COORDS.find(c => cityName && cityName.includes(c.match));
+      if (!coords) { stopSkeleton(); return; } // sem dados ao vivo: mostra o valor estimado
 
       const cacheKey = coords.match;
       // Mostra o valor salvo imediatamente (offline-friendly)
       const cached = JSON.parse(localStorage.getItem(STORAGE_KEYS.weather) || '{}');
       if (cached[cacheKey]) {
         el.textContent = `${weatherEmoji(cached[cacheKey].code)} ${cached[cacheKey].temp}°C`;
+        stopSkeleton();
       }
 
       fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,weather_code`)
@@ -2150,7 +2449,8 @@
           cached[cacheKey] = { temp, code };
           localStorage.setItem(STORAGE_KEYS.weather, JSON.stringify(cached));
         })
-        .catch(() => {/* Offline: mantém o valor em cache ou estimado */});
+        .catch(() => {/* Offline: mantém o valor em cache ou estimado */})
+        .finally(stopSkeleton);
     }
 
     // COPIAR ENDEREÇO DO HOTEL & ABRIR GOOGLE MAPS
@@ -2247,16 +2547,30 @@
       });
     }
 
-    // EXIBIR NOTIFICAÇÃO TOAST
-    function showToast(message) {
+    // EXIBIR NOTIFICAÇÃO TOAST (com variantes: success / warn / info / default)
+    let toastTimer = null;
+    function showToast(message, type) {
       const toast = document.getElementById('toast-container');
       const toastText = document.getElementById('toast-text');
-      
+      const toastEmoji = toast.querySelector('.toast-emoji');
+
+      const variants = {
+        success: { cls: 'toast-success', emoji: '✅' },
+        warn:    { cls: 'toast-warn',    emoji: '⚠️' },
+        info:    { cls: 'toast-info',    emoji: 'ℹ️' },
+        default: { cls: '',              emoji: '✨' }
+      };
+      const v = variants[type] || variants.default;
+
+      toast.classList.remove('toast-success', 'toast-warn', 'toast-info');
+      if (v.cls) toast.classList.add(v.cls);
+      if (toastEmoji) toastEmoji.textContent = v.emoji;
+
       toastText.textContent = message;
       toast.classList.add('show');
-      
-      // Ocultar automaticamente após 2.5 segundos
-      setTimeout(() => {
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
         toast.classList.remove('show');
       }, 2500);
     }
@@ -2283,8 +2597,8 @@
         text.textContent = 'Offline';
       }
     }
-    window.addEventListener('online', () => { updateConnStatus(); showToast('Conexão restabelecida 🌐'); });
-    window.addEventListener('offline', () => { updateConnStatus(); showToast('Você está offline — o guia continua funcionando 📴'); });
+    window.addEventListener('online', () => { updateConnStatus(); showToast('Conexão restabelecida', 'info'); });
+    window.addEventListener('offline', () => { updateConnStatus(); showToast('Offline — o guia continua funcionando', 'warn'); });
 
     // PROMPT DE INSTALAÇÃO DO APP (ADD TO HOME SCREEN)
     let deferredInstallPrompt = null;
@@ -2298,7 +2612,7 @@
       const btn = document.getElementById('install-btn');
       if (btn) btn.classList.remove('show');
       deferredInstallPrompt = null;
-      showToast('Guia instalado! 🎉');
+      showToast('Guia instalado!', 'success');
     });
     function installApp() {
       if (!deferredInstallPrompt) {
