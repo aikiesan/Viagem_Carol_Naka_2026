@@ -18,5 +18,28 @@ Este repositório contém o guia de viagem interativo e personalizado para a jor
 * **📝 Diário de viagem:** anotações por dia direto na Agenda, guardadas no aparelho.
 * **🌦️ Clima ao vivo:** temperatura real por cidade via `open-meteo.com` (network-first, com cache offline).
 
+## Testes & Verificações
+O app continua **100% estático (sem build)** — os scripts abaixo servem apenas para garantir qualidade e que a produção (GitHub Pages) não quebre.
+
+```bash
+npm install        # instala as dependências de teste (uma vez)
+npm test           # verificações estáticas + testes de comportamento (jsdom) — não precisa de navegador
+npm run test:e2e   # testes E2E em navegador real (Playwright) — baixa o Chromium
+npm run serve      # pré-visualização local em http://127.0.0.1:4173 (imita o GitHub Pages)
+```
+
+O que é coberto:
+* **Segurança de produção (GitHub Pages):** nenhum caminho absoluto que quebre em subpath, registro do SW relativo, manifest válido com `start_url`/`scope` relativos.
+* **Integridade offline:** todas as imagens/ícones do repositório estão no pré-cache do `sw.js`, e todo asset referenciado existe no disco.
+* **Comportamento do app (jsdom):** navegação, agenda (18 dias), checklist (progresso), conversor bidirecional, rastreador de gastos, anotações por dia, contador da viagem, tema por cidade, frases e persistência no `localStorage`.
+* **E2E em navegador (Playwright):** carregamento do shell, registro do service worker, deep-links de atalho, e **funcionamento offline** (recarregar sem rede e ainda abrir o app + imagens pré-cacheadas).
+
+Tudo roda automaticamente no **GitHub Actions** (`.github/workflows/ci.yml`) a cada push e pull request.
+
+## Deploy (GitHub Pages)
+O deploy é automático via GitHub Actions (`.github/workflows/deploy.yml`): a cada push na `main`, os testes rodam como *gate* e, passando, o site estático é publicado.
+
+**Ativação (uma única vez):** em **Settings → Pages → Build and deployment → Source**, selecione **GitHub Actions**.
+
 ## Tecnologias
 Construído com HTML5 estático, CSS3 premium (responsivo e mobile-first) e JavaScript leve e performático para injeção dinâmica de conteúdo e modais bottom-sheet. PWA com Service Worker (cache-first para o app, network-first para câmbio e clima) e persistência via LocalStorage.
