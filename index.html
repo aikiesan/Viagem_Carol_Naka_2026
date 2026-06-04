@@ -861,6 +861,303 @@
     .modal-body li {
       margin-bottom: 6px;
     }
+
+    /* INDICADOR DE CONEXÃO (ONLINE/OFFLINE) */
+    .header-bar { position: sticky; }
+    .conn-badge {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--cream);
+      color: var(--text-secondary);
+    }
+    .conn-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+    .conn-badge.offline .dot { background: var(--terra); }
+    .conn-badge.offline { color: var(--terra); }
+
+    /* BOTÃO DE INSTALAÇÃO DO APP */
+    .install-btn {
+      display: none;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 14px;
+      font-family: inherit;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+    .install-btn.show { display: flex; }
+
+    /* RASTREADOR DE GASTOS */
+    .expense-form {
+      display: grid;
+      grid-template-columns: 1fr 88px;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .expense-form input, .expense-form select {
+      width: 100%;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 15px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--cream);
+      color: var(--text-primary);
+    }
+    .expense-form .full { grid-column: 1 / -1; }
+    .expense-add-btn {
+      grid-column: 1 / -1;
+      background: var(--terra);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 13px;
+      font-family: inherit;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .expense-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 12px 0;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+    .expense-total .big { font-size: 22px; font-weight: 700; color: var(--navy); }
+    .expense-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .expense-row .meta { flex: 1; min-width: 0; }
+    .expense-row .meta .note { font-size: 14px; font-weight: 600; }
+    .expense-row .meta .sub { font-size: 11.5px; color: var(--text-secondary); }
+    .expense-row .amt { font-weight: 700; white-space: nowrap; }
+    .expense-del {
+      min-height: 36px; min-width: 36px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--cream);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .expense-empty { text-align: center; color: var(--text-secondary); padding: 18px 0; font-size: 13.5px; }
+
+    /* ANOTAÇÕES POR DIA (DIÁRIO) */
+    .day-note-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin: 10px 0 0;
+      padding: 7px 10px;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--navy);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .day-note-toggle.has-note { border-color: var(--terra); color: var(--terra); }
+    .day-note-area {
+      display: none;
+      margin-top: 8px;
+    }
+    .day-note-area.open { display: block; }
+    .day-note-area textarea {
+      width: 100%;
+      min-height: 72px;
+      padding: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.45;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--cream);
+      color: var(--text-primary);
+      resize: vertical;
+    }
+
+    /* ===================================================================
+       UI/UX V3 — PROFUNDIDADE, COR POR CIDADE, NAVEGAÇÃO E PROGRESSO
+       =================================================================== */
+
+    /* Tokens de elevação (sombras) */
+    :root {
+      --shadow-sm: 0 1px 3px rgba(15,44,89,.06), 0 1px 2px rgba(15,44,89,.05);
+      --shadow-md: 0 8px 24px rgba(15,44,89,.12);
+      --accent: var(--terra);
+      --accent-soft: rgba(211,117,86,.12);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --shadow-sm: 0 1px 3px rgba(0,0,0,.45);
+        --shadow-md: 0 10px 30px rgba(0,0,0,.55);
+      }
+    }
+
+    /* Cor de acento dinâmica por cidade (tema "bolder & colorful") */
+    body[data-city="leipzig"]   { --accent:#1B9C6B; --accent-soft:rgba(27,156,107,.14); }
+    body[data-city="berlim"]    { --accent:#6C5CE7; --accent-soft:rgba(108,92,231,.14); }
+    body[data-city="timisoara"] { --accent:#E0457B; --accent-soft:rgba(224,69,123,.14); }
+
+    /* Profundidade nos componentes existentes */
+    .card, .timeline-day-card, .dest-accordion, .frase-card { box-shadow: var(--shadow-sm); }
+    .big-btn, .fx-update-btn, .expense-add-btn, .install-btn { box-shadow: var(--shadow-sm); }
+    .big-btn:active, .fx-update-btn:active, .expense-add-btn:active { box-shadow: none; }
+    .fx-update-btn, .expense-add-btn { transition: transform .1s, opacity .2s; }
+    .fx-update-btn:active, .expense-add-btn:active { transform: scale(.98); opacity:.92; }
+
+    /* Transição de views mais suave */
+    .view.active { animation: viewIn .28s cubic-bezier(.16,1,.3,1); }
+    @keyframes viewIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+
+    /* ---------- HERO DA HOME (GRADIENTE POR CIDADE) ---------- */
+    .hero {
+      position: relative;
+      border-radius: var(--radius);
+      padding: 18px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--accent) 130%);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      margin-bottom: 12px;
+      transition: background .4s ease;
+    }
+    .hero::after {
+      content:""; position:absolute; right:-40px; top:-40px;
+      width:160px; height:160px; border-radius:50%;
+      background: rgba(255,255,255,.08);
+    }
+    .hero-top { display:flex; justify-content:space-between; align-items:center; position:relative; z-index:1; }
+    .hero-label { font-size:12px; text-transform:uppercase; letter-spacing:.06em; font-weight:600; opacity:.85; }
+    .hero-city { font-size:26px; font-weight:700; margin:6px 0 8px; position:relative; z-index:1; line-height:1.15; }
+    .hero-tips { font-size:13.5px; line-height:1.5; opacity:.92; position:relative; z-index:1; }
+    .hero-weather {
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.28);
+      color:#fff; backdrop-filter: blur(4px);
+    }
+    .trip-progress { margin-top:16px; position:relative; z-index:1; }
+    .trip-progress-head { display:flex; justify-content:space-between; font-size:12px; font-weight:700; margin-bottom:6px; }
+
+    /* ---------- BARRAS DE PROGRESSO GENÉRICAS ---------- */
+    .progress-track { height:8px; border-radius:20px; background:var(--border); overflow:hidden; }
+    .progress-fill { height:100%; border-radius:20px; background:var(--accent); width:0; transition: width .5s cubic-bezier(.16,1,.3,1); }
+    .hero .progress-track { background: rgba(255,255,255,.25); }
+    .hero .progress-fill { background:#fff; }
+
+    .section-progress {
+      display:flex; align-items:center; gap:10px;
+      margin-bottom:14px;
+    }
+    .section-progress .progress-track { flex:1; }
+    .section-progress .count {
+      font-size:12.5px; font-weight:700; color:var(--accent); white-space:nowrap;
+    }
+
+    /* Contador por dia na agenda */
+    .day-meta { display:flex; align-items:center; gap:8px; }
+    .day-count {
+      font-size:11px; font-weight:700; color:var(--accent);
+      background: var(--accent-soft); padding:2px 8px; border-radius:20px; white-space:nowrap;
+    }
+    .day-count.complete { background:#E6F4EA; color:var(--success); }
+    .timeline-day-card.today { border:2px solid var(--accent); box-shadow: var(--shadow-md); }
+    .timeline-day-card.today::before { background-color: var(--accent); }
+    .day-header { align-items:center; }
+    .day-title { color: var(--accent); }
+
+    /* Contagem por categoria no checklist */
+    .checklist-title { display:flex; justify-content:space-between; align-items:center; }
+    .checklist-count { font-size:12px; font-weight:700; color:var(--accent); }
+    .checklist-category.complete .checklist-count { color:var(--success); }
+
+    /* ---------- DESTINOS: COR POR CIDADE ---------- */
+    #acc-leipzig   { --accent:#1B9C6B; }
+    #acc-berlim    { --accent:#6C5CE7; }
+    #acc-timisoara { --accent:#E0457B; }
+    .accordion-header { color: var(--accent); border-left:4px solid var(--accent); }
+    .dest-accordion { scroll-margin-top: 72px; }
+    .dest-accordion.active { box-shadow: var(--shadow-md); }
+    .dest-accordion.active .accordion-content { border-top-color: var(--accent-soft); }
+
+    /* ---------- BARRA DE NAVEGAÇÃO: INDICADOR ATIVO ---------- */
+    .nav-btn { position: relative; transition: color .15s ease-out; }
+    .nav-btn::before {
+      content:""; position:absolute; top:0; left:50%; transform: translateX(-50%) scaleX(0);
+      width:26px; height:3px; border-radius:0 0 4px 4px;
+      background: var(--accent); transition: transform .22s cubic-bezier(.16,1,.3,1);
+    }
+    .nav-btn.active { color: var(--accent); }
+    .nav-btn.active::before { transform: translateX(-50%) scaleX(1); }
+    .nav-btn.active .nav-icon { transform: translateY(-1px) scale(1.12); }
+    .nav-icon { transition: transform .2s cubic-bezier(.16,1,.3,1); }
+
+    /* ---------- BOTÃO FLUTUANTE: VOLTAR AO TOPO ---------- */
+    .fab-top {
+      position: fixed; right:16px; bottom: calc(80px + env(safe-area-inset-bottom));
+      width:46px; height:46px; border-radius:50%;
+      background: var(--accent); color:#fff; border:none; cursor:pointer;
+      box-shadow: var(--shadow-md);
+      display:flex; align-items:center; justify-content:center; font-size:22px; line-height:1;
+      opacity:0; visibility:hidden; transform: translateY(10px) scale(.9);
+      transition: opacity .22s, transform .22s, visibility .22s; z-index:1400;
+    }
+    .fab-top.show { opacity:1; visibility:visible; transform: translateY(0) scale(1); }
+    .fab-top:active { transform: scale(.92); }
+
+    /* ---------- TOAST: VARIANTES COLORIDAS ---------- */
+    .toast-container { border-left: 4px solid var(--accent); }
+    .toast-container.toast-success { border-left-color: var(--success); }
+    .toast-container.toast-warn    { border-left-color: var(--terra); }
+    .toast-container.toast-info    { border-left-color: #4D8FE0; }
+
+    /* ---------- SKELETON LOADERS (SHIMMER) ---------- */
+    .skeleton {
+      position: relative; overflow: hidden;
+      background: var(--border); border-radius:6px; color: transparent !important;
+      min-width: 56px; min-height: 1em;
+    }
+    .skeleton::after {
+      content:""; position:absolute; inset:0; transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+      animation: shimmer 1.2s infinite;
+    }
+    @keyframes shimmer { 100% { transform: translateX(100%); } }
+
+    /* Acessibilidade: respeita "reduzir movimento" */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
+    }
   </style>
 </head>
 <body>
@@ -868,17 +1165,30 @@
   <!-- CABEÇALHO FIXO -->
   <div class="header-bar">
     <h1>🇪🇺 Carol &amp; Naka 2026</h1>
+    <span class="conn-badge" id="conn-badge" title="Status da conexão">
+      <span class="dot"></span><span id="conn-text">Online</span>
+    </span>
   </div>
 
   <!-- VIEW 1: INÍCIO (HOME VIEW) -->
   <div class="view active" id="view-inicio">
-    <div class="card">
-      <div class="label">Destino Atual</div>
-      <div class="dest-row">
-        <span class="dest-badge" id="dest-name">Carregando...</span>
-        <span class="weather-badge" id="dest-weather">--°C</span>
+    <button class="install-btn" id="install-btn" onclick="installApp()">
+      ⬇️ Instalar o guia na tela inicial
+    </button>
+    <div class="hero" id="home-hero">
+      <div class="hero-top">
+        <span class="hero-label">Destino Atual</span>
+        <span class="weather-badge hero-weather skeleton" id="dest-weather">--°C</span>
       </div>
-      <p id="dest-tips" style="font-size: 13.5px; line-height: 1.5;"></p>
+      <div class="hero-city" id="dest-name">Carregando...</div>
+      <p class="hero-tips" id="dest-tips"></p>
+      <div class="trip-progress">
+        <div class="trip-progress-head">
+          <span id="trip-day-label">—</span>
+          <span id="trip-pct-label"></span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="trip-progress-fill"></div></div>
+      </div>
     </div>
 
     <div class="card">
@@ -906,6 +1216,10 @@
   <!-- VIEW 2: AGENDA (TIMELINE VIEW) -->
   <div class="view" id="view-agenda">
     <h2>📅 Linha do Tempo Diária</h2>
+    <div class="section-progress">
+      <div class="progress-track"><div class="progress-fill" id="agenda-progress-fill"></div></div>
+      <span class="count" id="agenda-progress-count">0%</span>
+    </div>
     <div class="timeline-container" id="timeline-container">
       <!-- Injeção dos dias via JS -->
     </div>
@@ -991,6 +1305,7 @@
     <h2>🧳 Essenciais de Viagem</h2>
     <div class="essenciais-tab-container">
       <button class="essenciais-tab active" onclick="switchSubView('fx')">Câmbio</button>
+      <button class="essenciais-tab" onclick="switchSubView('gastos')">Gastos</button>
       <button class="essenciais-tab" onclick="switchSubView('bagagem')">Mala</button>
       <button class="essenciais-tab" onclick="switchSubView('info')">Info Geral</button>
     </div>
@@ -1002,19 +1317,46 @@
         <div class="fx-container">
           <div class="fx-input-group">
             <span class="fx-label">EUR €</span>
-            <input type="number" class="fx-input" id="input-eur" value="1" oninput="convertCurrency()">
+            <input type="number" inputmode="decimal" class="fx-input" id="input-eur" value="1" oninput="convertFrom('eur')">
           </div>
           <div class="fx-input-group">
             <span class="fx-label">RON L</span>
-            <input type="text" class="fx-input" id="output-ron" readonly>
+            <input type="number" inputmode="decimal" class="fx-input" id="input-ron" oninput="convertFrom('ron')">
           </div>
           <div class="fx-input-group">
             <span class="fx-label">BRL R$</span>
-            <input type="text" class="fx-input" id="output-brl" readonly>
+            <input type="number" inputmode="decimal" class="fx-input" id="input-brl" oninput="convertFrom('brl')">
           </div>
+          <small style="text-align:center; color: var(--text-secondary); font-size: 11.5px;">💡 Digite em qualquer campo para converter nos dois sentidos.</small>
           <button class="fx-update-btn" onclick="fetchExchangeRates()">Atualizar Taxas Online</button>
           <small id="fx-update-label" style="text-align: center; color: var(--text-secondary); margin-top: 4px; font-size: 11.5px;"></small>
         </div>
+      </div>
+    </div>
+
+    <!-- SUBVIEW: RASTREADOR DE GASTOS -->
+    <div class="subview" id="subview-gastos">
+      <div class="card">
+        <div class="label">Registrar Gasto</div>
+        <div class="expense-form">
+          <input type="text" id="exp-note" class="full" placeholder="Descrição (ex: Jantar, Táxi, Souvenir)">
+          <input type="number" inputmode="decimal" id="exp-amount" placeholder="Valor">
+          <select id="exp-currency">
+            <option value="EUR">EUR €</option>
+            <option value="RON">RON L</option>
+            <option value="BRL">BRL R$</option>
+          </select>
+          <button class="expense-add-btn" onclick="addExpense()">+ Adicionar gasto</button>
+        </div>
+        <div class="expense-total">
+          <span class="label" style="margin:0;">Total da viagem (aprox.)</span>
+          <span class="big" id="exp-total-brl">R$ 0,00</span>
+        </div>
+        <small style="color: var(--text-secondary); font-size: 11.5px;">Convertido com as últimas taxas salvas. Tudo fica guardado offline no seu aparelho.</small>
+      </div>
+      <div class="card">
+        <div class="label">Histórico</div>
+        <div id="expense-list"></div>
       </div>
     </div>
 
@@ -1063,6 +1405,9 @@
       <!-- Injeção de frases via JS -->
     </div>
   </div>
+
+  <!-- BOTÃO FLUTUANTE: VOLTAR AO TOPO -->
+  <button class="fab-top" id="fab-top" onclick="scrollToTop()" title="Voltar ao topo" aria-label="Voltar ao topo">↑</button>
 
   <!-- NOTIFICAÇÃO TOAST -->
   <div class="toast-container" id="toast-container">
@@ -1118,7 +1463,10 @@
       checklist: 'guia_checklist',
       lastCity: 'guia_last_city',
       fx: 'guia_fx',
-      lastView: 'guia_last_view'
+      lastView: 'guia_last_view',
+      expenses: 'guia_expenses',
+      notes: 'guia_notes',
+      weather: 'guia_weather'
     };
 
     // DADOS DAS FRASES
@@ -1319,6 +1667,7 @@
       }
       
       localStorage.setItem(STORAGE_KEYS.lastView, viewId);
+      setTimeout(updateFabVisibility, 50);
     }
 
     // CONTROLE DE SUBVIEWS (ESSENCIAIS)
@@ -1340,13 +1689,32 @@
       }
     }
 
-    // ACCORDION (DESTINOS)
+    // ACCORDION (DESTINOS) — abre um por vez e rola até ele
     function toggleAccordion(accId) {
       const accordion = document.getElementById(accId);
-      if (accordion) {
-        accordion.classList.toggle('active');
+      if (!accordion) return;
+
+      const willOpen = !accordion.classList.contains('active');
+      document.querySelectorAll('.dest-accordion.active').forEach(a => {
+        if (a !== accordion) a.classList.remove('active');
+      });
+      accordion.classList.toggle('active', willOpen);
+
+      if (willOpen) {
+        setTimeout(() => accordion.scrollIntoView({ behavior: 'smooth', block: 'start' }), 130);
       }
     }
+
+    // BOTÃO FLUTUANTE: VOLTAR AO TOPO
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function updateFabVisibility() {
+      const fab = document.getElementById('fab-top');
+      if (!fab) return;
+      fab.classList.toggle('show', window.scrollY > 320);
+    }
+    window.addEventListener('scroll', updateFabVisibility, { passive: true });
 
     // DIALETO E TRADUÇÃO (FRASES)
     let currentLang = 'de';
@@ -1431,33 +1799,49 @@
       }
     }
 
-    // CONVERSOR DE MOEDAS (EUR -> RON / BRL)
+    // CONVERSOR DE MOEDAS BIDIRECIONAL (EUR <-> RON <-> BRL)
     function renderFXRates(rates) {
       window.fxRates = rates;
       const dateLabel = document.getElementById('fx-update-label');
-      dateLabel.textContent = `Atualizado em: ${rates.updated}`;
-      convertCurrency();
+      if (dateLabel) dateLabel.textContent = `Atualizado em: ${rates.updated}`;
+      convertFrom('eur');
+      renderExpenses(); // recalcula o total dos gastos com a taxa mais recente
     }
 
-    function convertCurrency() {
-      const inputEur = document.getElementById('input-eur');
-      const outputRon = document.getElementById('output-ron');
-      const outputBrl = document.getElementById('output-brl');
-      
-      const eurVal = parseFloat(inputEur.value);
-      if (isNaN(eurVal) || eurVal < 0) {
-        outputRon.value = "L 0.00";
-        outputBrl.value = "R$ 0.00";
+    // Converte um valor em qualquer moeda para EUR (moeda base das taxas)
+    function toEur(value, currency, rates) {
+      if (currency === 'EUR') return value;
+      if (currency === 'RON') return value / rates.eur_ron;
+      if (currency === 'BRL') return value / rates.eur_brl;
+      return value;
+    }
+
+    function convertFrom(source) {
+      const rates = window.fxRates || { eur_ron: 5.25, eur_brl: 5.88 };
+      const eurEl = document.getElementById('input-eur');
+      const ronEl = document.getElementById('input-ron');
+      const brlEl = document.getElementById('input-brl');
+
+      const map = { eur: eurEl, ron: ronEl, brl: brlEl };
+      const srcEl = map[source];
+      const raw = parseFloat(srcEl.value);
+
+      if (isNaN(raw) || raw < 0) {
+        if (source !== 'eur') eurEl.value = '';
+        if (source !== 'ron') ronEl.value = '';
+        if (source !== 'brl') brlEl.value = '';
         return;
       }
 
-      const rates = window.fxRates || { eur_ron: 5.25, eur_brl: 5.88 };
-      
-      const ronVal = (eurVal * rates.eur_ron).toFixed(2);
-      const brlVal = (eurVal * rates.eur_brl).toFixed(2);
-      
-      outputRon.value = `RON ${ronVal}`;
-      outputBrl.value = `BRL ${brlVal}`;
+      // Normaliza para EUR e distribui para as demais moedas
+      let eur;
+      if (source === 'eur') eur = raw;
+      else if (source === 'ron') eur = raw / rates.eur_ron;
+      else eur = raw / rates.eur_brl;
+
+      if (source !== 'eur') eurEl.value = eur.toFixed(2);
+      if (source !== 'ron') ronEl.value = (eur * rates.eur_ron).toFixed(2);
+      if (source !== 'brl') brlEl.value = (eur * rates.eur_brl).toFixed(2);
     }
 
     function fetchExchangeRates() {
@@ -1475,7 +1859,7 @@
             };
             localStorage.setItem(STORAGE_KEYS.fx, JSON.stringify(rates));
             renderFXRates(rates);
-            showToast("Câmbio atualizado com sucesso! 💵");
+            showToast("Câmbio atualizado!", 'success');
           }
         })
         .catch(err => {
@@ -1485,11 +1869,11 @@
             const rates = JSON.parse(cached);
             renderFXRates(rates);
             label.textContent = `Offline (Cache: ${rates.updated})`;
-            showToast("Rede indisponível. Usando taxas salvas.");
+            showToast("Sem rede. Usando taxas salvas.", 'warn');
           } else {
             const defaultRates = { eur_ron: 5.25, eur_brl: 5.88, updated: "Offline (Padrão)" };
             renderFXRates(defaultRates);
-            showToast("Offline. Usando taxas estimadas.");
+            showToast("Offline. Usando taxas estimadas.", 'warn');
           }
         });
     }
@@ -1497,17 +1881,24 @@
     // CHECKLIST DE MALA (LOCALSTORAGE)
     function renderChecklist() {
       const container = document.getElementById('checklist-container');
-      container.innerHTML = '<h2>🧳 Checklist de Mala Interativo</h2>';
-      
+      container.innerHTML = `
+        <h2>🧳 Checklist de Mala Interativo</h2>
+        <div class="section-progress">
+          <div class="progress-track"><div class="progress-fill" id="checklist-progress-fill"></div></div>
+          <span class="count" id="checklist-progress-count">0/0</span>
+        </div>
+      `;
+
       const savedStates = JSON.parse(localStorage.getItem(STORAGE_KEYS.checklist)) || {};
-      
+
       Object.keys(CHECKLIST_DATA).forEach(category => {
         const catBox = document.createElement('div');
         catBox.className = 'checklist-category';
-        
+        catBox.id = `chkcat-${category}`;
+
         let titleText = category.charAt(0).toUpperCase() + category.slice(1);
-        catBox.innerHTML = `<div class="checklist-title">${titleText}</div>`;
-        
+        catBox.innerHTML = `<div class="checklist-title"><span>${titleText}</span><span class="checklist-count" id="chkcount-${category}"></span></div>`;
+
         CHECKLIST_DATA[category].forEach((item, index) => {
           const itemKey = `${category}_${index}`;
           const isChecked = !!savedStates[itemKey];
@@ -1526,6 +1917,29 @@
         
         container.appendChild(catBox);
       });
+
+      updateChecklistProgress();
+    }
+
+    function updateChecklistProgress() {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.checklist)) || {};
+      let total = 0, checked = 0;
+      Object.keys(CHECKLIST_DATA).forEach(cat => {
+        let cChecked = 0;
+        CHECKLIST_DATA[cat].forEach((item, i) => {
+          total++;
+          if (saved[`${cat}_${i}`]) { checked++; cChecked++; }
+        });
+        const badge = document.getElementById(`chkcount-${cat}`);
+        if (badge) badge.textContent = `${cChecked}/${CHECKLIST_DATA[cat].length}`;
+        const box = document.getElementById(`chkcat-${cat}`);
+        if (box) box.classList.toggle('complete', cChecked === CHECKLIST_DATA[cat].length);
+      });
+      const pct = total ? Math.round((checked / total) * 100) : 0;
+      const fill = document.getElementById('checklist-progress-fill');
+      const count = document.getElementById('checklist-progress-count');
+      if (fill) fill.style.width = `${pct}%`;
+      if (count) count.textContent = `${checked}/${total}`;
     }
 
     function toggleChecklistItem(itemKey) {
@@ -1544,6 +1958,118 @@
       } else {
         row.classList.remove('checked');
       }
+
+      updateChecklistProgress();
+    }
+
+    // RASTREADOR DE GASTOS (LOCALSTORAGE)
+    const CURRENCY_SYMBOL = { EUR: '€', RON: 'L', BRL: 'R$' };
+
+    function getExpenses() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.expenses)) || [];
+    }
+
+    function formatBRL(value) {
+      return 'R$ ' + value.toFixed(2).replace('.', ',');
+    }
+
+    function addExpense() {
+      const noteEl = document.getElementById('exp-note');
+      const amountEl = document.getElementById('exp-amount');
+      const currencyEl = document.getElementById('exp-currency');
+
+      const amount = parseFloat(amountEl.value);
+      if (isNaN(amount) || amount <= 0) {
+        showToast('Informe um valor válido. 💸');
+        return;
+      }
+
+      const expenses = getExpenses();
+      expenses.unshift({
+        id: Date.now(),
+        note: (noteEl.value || 'Gasto').trim(),
+        amount: amount,
+        currency: currencyEl.value,
+        date: new Date().toISOString().slice(0, 10)
+      });
+      localStorage.setItem(STORAGE_KEYS.expenses, JSON.stringify(expenses));
+
+      noteEl.value = '';
+      amountEl.value = '';
+      renderExpenses();
+      showToast('Gasto registrado!', 'success');
+    }
+
+    function deleteExpense(id) {
+      const expenses = getExpenses().filter(e => e.id !== id);
+      localStorage.setItem(STORAGE_KEYS.expenses, JSON.stringify(expenses));
+      renderExpenses();
+    }
+
+    function renderExpenses() {
+      const list = document.getElementById('expense-list');
+      const totalEl = document.getElementById('exp-total-brl');
+      if (!list || !totalEl) return;
+
+      const rates = window.fxRates || { eur_ron: 5.25, eur_brl: 5.88 };
+      const expenses = getExpenses();
+
+      let totalBrl = 0;
+      list.innerHTML = '';
+
+      if (expenses.length === 0) {
+        list.innerHTML = '<div class="expense-empty">Nenhum gasto registrado ainda.</div>';
+        totalEl.textContent = formatBRL(0);
+        return;
+      }
+
+      expenses.forEach(e => {
+        const brl = toEur(e.amount, e.currency, rates) * rates.eur_brl;
+        totalBrl += brl;
+
+        const row = document.createElement('div');
+        row.className = 'expense-row';
+        row.innerHTML = `
+          <div class="meta">
+            <div class="note">${escapeHtml(e.note)}</div>
+            <div class="sub">${e.date} · ≈ ${formatBRL(brl)}</div>
+          </div>
+          <span class="amt">${CURRENCY_SYMBOL[e.currency]} ${e.amount.toFixed(2)}</span>
+          <button class="expense-del" title="Remover" onclick="deleteExpense(${e.id})">🗑</button>
+        `;
+        list.appendChild(row);
+      });
+
+      totalEl.textContent = formatBRL(totalBrl);
+    }
+
+    // Escapa HTML para conteúdo inserido pelo usuário (gastos e notas)
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ANOTAÇÕES POR DIA (DIÁRIO DE VIAGEM)
+    function getNotes() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.notes)) || {};
+    }
+
+    function toggleDayNote(dayId) {
+      const area = document.getElementById(`note-area-${dayId}`);
+      if (area) area.classList.toggle('open');
+    }
+
+    function saveDayNote(dayId) {
+      const area = document.getElementById(`note-input-${dayId}`);
+      if (!area) return;
+      const notes = getNotes();
+      const val = area.value.trim();
+      if (val) notes[dayId] = val; else delete notes[dayId];
+      localStorage.setItem(STORAGE_KEYS.notes, JSON.stringify(notes));
+
+      const toggle = document.getElementById(`note-toggle-${dayId}`);
+      if (toggle) toggle.classList.toggle('has-note', !!val);
     }
 
     // AGENDA E TIMELINE COMPONENT
@@ -1561,7 +2087,10 @@
         dayCard.innerHTML = `
           <div class="day-header">
             <span class="day-title">${day.dateStr}</span>
-            <span class="day-city">${day.city}</span>
+            <span class="day-meta">
+              <span class="day-city">${day.city}</span>
+              <span class="day-count" id="daycount-${day.id}"></span>
+            </span>
           </div>
         `;
         
@@ -1600,9 +2129,47 @@
           
           dayCard.appendChild(slot);
         });
-        
+
+        // Bloco de anotações do dia (diário de viagem)
+        const notes = getNotes();
+        const savedNote = notes[day.id] || '';
+        const noteBlock = document.createElement('div');
+        noteBlock.innerHTML = `
+          <button class="day-note-toggle ${savedNote ? 'has-note' : ''}" id="note-toggle-${day.id}" onclick="toggleDayNote('${day.id}')">
+            📝 Anotações do dia
+          </button>
+          <div class="day-note-area ${savedNote ? 'open' : ''}" id="note-area-${day.id}">
+            <textarea id="note-input-${day.id}" placeholder="O que rolou hoje? Lugares, sabores, lembranças..." oninput="saveDayNote('${day.id}')">${escapeHtml(savedNote)}</textarea>
+          </div>
+        `;
+        dayCard.appendChild(noteBlock);
+
         container.appendChild(dayCard);
       });
+
+      updateAgendaProgress();
+    }
+
+    function updateAgendaProgress() {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.agenda)) || {};
+      let totalTasks = 0, doneTasks = 0;
+      TIMELINE_DATA.forEach(day => {
+        let dDone = 0;
+        day.tasks.forEach((t, i) => {
+          totalTasks++;
+          if (saved[`${day.id}_task_${i}`] === 'done') { doneTasks++; dDone++; }
+        });
+        const badge = document.getElementById(`daycount-${day.id}`);
+        if (badge) {
+          badge.textContent = `${dDone}/${day.tasks.length}`;
+          badge.classList.toggle('complete', dDone === day.tasks.length);
+        }
+      });
+      const pct = totalTasks ? Math.round((doneTasks / totalTasks) * 100) : 0;
+      const fill = document.getElementById('agenda-progress-fill');
+      const count = document.getElementById('agenda-progress-count');
+      if (fill) fill.style.width = `${pct}%`;
+      if (count) count.textContent = `${pct}%`;
     }
 
     function cycleAgendaStatus(taskKey) {
@@ -1634,7 +2201,8 @@
       btn.textContent = statusText;
       
       // Se concluiu ou pulou, dispara um toast rápido de confirmação
-      if (next === 'done') showToast("Atividade concluída! ✓");
+      if (next === 'done') { showToast("Atividade concluída!", 'success'); }
+      updateAgendaProgress();
     }
 
     // HIGHLIGHT DO DIA DE HOJE NA AGENDA
@@ -1783,6 +2351,106 @@
       window.hotelAddress = hotelAddress;
       window.hotelName = hotelName;
       window.hotelMapsUrl = mapsUrl;
+
+      // Aplica a cor de acento da cidade atual (tema dinâmico por destino)
+      applyCityTheme(currentCity);
+
+      // Atualiza o contador de progresso da viagem no hero
+      updateTripProgress(now);
+
+      // Tenta atualizar o clima com dados reais ao vivo
+      fetchLiveWeather(currentCity);
+    }
+
+    // TEMA DINÂMICO POR CIDADE (cor de acento)
+    function applyCityTheme(cityName) {
+      let key = '';
+      if (cityName.includes('Leipzig')) key = 'leipzig';
+      else if (cityName.includes('Berlim')) key = 'berlim';
+      else if (cityName.includes('Timișoara')) key = 'timisoara';
+
+      if (key) document.body.dataset.city = key;
+      else delete document.body.dataset.city;
+    }
+
+    // CONTADOR DE PROGRESSO DA VIAGEM (HERO)
+    const TRIP_START = new Date(2026, 5, 22); // 22 Jun 2026
+    const TRIP_END = new Date(2026, 6, 10);   // 10 Jul 2026
+    function updateTripProgress(now) {
+      const dayLabel = document.getElementById('trip-day-label');
+      const pctLabel = document.getElementById('trip-pct-label');
+      const fill = document.getElementById('trip-progress-fill');
+      if (!dayLabel || !fill) return;
+
+      const MS_DAY = 86400000;
+      const todayMid = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      const totalDays = Math.round((TRIP_END - TRIP_START) / MS_DAY) + 1; // 19 dias
+
+      if (todayMid < TRIP_START) {
+        const diff = Math.ceil((TRIP_START - todayMid) / MS_DAY);
+        dayLabel.textContent = `✈️ Faltam ${diff} ${diff === 1 ? 'dia' : 'dias'}`;
+        pctLabel.textContent = 'Pré-viagem';
+        fill.style.width = '0%';
+      } else if (todayMid > TRIP_END) {
+        dayLabel.textContent = '🎉 Viagem concluída';
+        pctLabel.textContent = '100%';
+        fill.style.width = '100%';
+      } else {
+        const dayIndex = Math.round((todayMid - TRIP_START) / MS_DAY) + 1;
+        const pct = Math.round((dayIndex / totalDays) * 100);
+        dayLabel.textContent = `📍 Dia ${dayIndex} de ${totalDays}`;
+        pctLabel.textContent = `${pct}%`;
+        fill.style.width = `${pct}%`;
+      }
+    }
+
+    // CLIMA AO VIVO (OPEN-METEO, SEM CHAVE DE API)
+    const CITY_COORDS = [
+      { match: 'Leipzig',    lat: 51.3397, lon: 12.3731 },
+      { match: 'Berlim',     lat: 52.5200, lon: 13.4050 },
+      { match: 'Timișoara',  lat: 45.7489, lon: 21.2087 }
+    ];
+
+    function weatherEmoji(code) {
+      if (code === 0) return '☀️';
+      if (code <= 2) return '🌤️';
+      if (code === 3) return '☁️';
+      if (code <= 48) return '🌫️';
+      if (code <= 67) return '🌧️';
+      if (code <= 77) return '❄️';
+      if (code <= 82) return '🌦️';
+      if (code <= 86) return '🌨️';
+      return '⛈️';
+    }
+
+    function fetchLiveWeather(cityName) {
+      const el = document.getElementById('dest-weather');
+      if (!el) return;
+      const stopSkeleton = () => el.classList.remove('skeleton');
+
+      const coords = CITY_COORDS.find(c => cityName && cityName.includes(c.match));
+      if (!coords) { stopSkeleton(); return; } // sem dados ao vivo: mostra o valor estimado
+
+      const cacheKey = coords.match;
+      // Mostra o valor salvo imediatamente (offline-friendly)
+      const cached = JSON.parse(localStorage.getItem(STORAGE_KEYS.weather) || '{}');
+      if (cached[cacheKey]) {
+        el.textContent = `${weatherEmoji(cached[cacheKey].code)} ${cached[cacheKey].temp}°C`;
+        stopSkeleton();
+      }
+
+      fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,weather_code`)
+        .then(res => res.json())
+        .then(data => {
+          if (!data || !data.current) return;
+          const temp = Math.round(data.current.temperature_2m);
+          const code = data.current.weather_code;
+          el.textContent = `${weatherEmoji(code)} ${temp}°C`;
+          cached[cacheKey] = { temp, code };
+          localStorage.setItem(STORAGE_KEYS.weather, JSON.stringify(cached));
+        })
+        .catch(() => {/* Offline: mantém o valor em cache ou estimado */})
+        .finally(stopSkeleton);
     }
 
     // COPIAR ENDEREÇO DO HOTEL & ABRIR GOOGLE MAPS
@@ -1879,16 +2547,30 @@
       });
     }
 
-    // EXIBIR NOTIFICAÇÃO TOAST
-    function showToast(message) {
+    // EXIBIR NOTIFICAÇÃO TOAST (com variantes: success / warn / info / default)
+    let toastTimer = null;
+    function showToast(message, type) {
       const toast = document.getElementById('toast-container');
       const toastText = document.getElementById('toast-text');
-      
+      const toastEmoji = toast.querySelector('.toast-emoji');
+
+      const variants = {
+        success: { cls: 'toast-success', emoji: '✅' },
+        warn:    { cls: 'toast-warn',    emoji: '⚠️' },
+        info:    { cls: 'toast-info',    emoji: 'ℹ️' },
+        default: { cls: '',              emoji: '✨' }
+      };
+      const v = variants[type] || variants.default;
+
+      toast.classList.remove('toast-success', 'toast-warn', 'toast-info');
+      if (v.cls) toast.classList.add(v.cls);
+      if (toastEmoji) toastEmoji.textContent = v.emoji;
+
       toastText.textContent = message;
       toast.classList.add('show');
-      
-      // Ocultar automaticamente após 2.5 segundos
-      setTimeout(() => {
+
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
         toast.classList.remove('show');
       }, 2500);
     }
@@ -1902,26 +2584,90 @@
       });
     }
 
+    // INDICADOR DE CONEXÃO (ONLINE / OFFLINE)
+    function updateConnStatus() {
+      const badge = document.getElementById('conn-badge');
+      const text = document.getElementById('conn-text');
+      if (!badge || !text) return;
+      if (navigator.onLine) {
+        badge.classList.remove('offline');
+        text.textContent = 'Online';
+      } else {
+        badge.classList.add('offline');
+        text.textContent = 'Offline';
+      }
+    }
+    window.addEventListener('online', () => { updateConnStatus(); showToast('Conexão restabelecida', 'info'); });
+    window.addEventListener('offline', () => { updateConnStatus(); showToast('Offline — o guia continua funcionando', 'warn'); });
+
+    // PROMPT DE INSTALAÇÃO DO APP (ADD TO HOME SCREEN)
+    let deferredInstallPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      const btn = document.getElementById('install-btn');
+      if (btn) btn.classList.add('show');
+    });
+    window.addEventListener('appinstalled', () => {
+      const btn = document.getElementById('install-btn');
+      if (btn) btn.classList.remove('show');
+      deferredInstallPrompt = null;
+      showToast('Guia instalado!', 'success');
+    });
+    function installApp() {
+      if (!deferredInstallPrompt) {
+        showToast('Use o menu do navegador → "Adicionar à tela inicial".');
+        return;
+      }
+      deferredInstallPrompt.prompt();
+      deferredInstallPrompt.userChoice.finally(() => {
+        deferredInstallPrompt = null;
+        const btn = document.getElementById('install-btn');
+        if (btn) btn.classList.remove('show');
+      });
+    }
+
+    // ATALHOS DO PWA / DEEP-LINKS (?view=, ?sub=, ?action=)
+    function handleLaunchParams() {
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      const sub = params.get('sub');
+      const action = params.get('action');
+
+      if (view) switchView(view);
+      if (view === 'essenciais' && sub) switchSubView(sub);
+      if (action === 'help') openHelpModal();
+    }
+
     // DOM CONTENT LOADED - INICIALIZAÇÕES
     document.addEventListener('DOMContentLoaded', () => {
       // 1. Atualizar Destino Atual e Compromissos
       updateCurrentDestination();
-      
+
       // 2. Renderizar a Timeline Diária da Agenda
       renderAgenda();
-      
+
       // 3. Renderizar o Checklist Interativo de Malas
       renderChecklist();
-      
-      // 4. Buscar e Inicializar as Taxas de Câmbio (EUR -> RON/BRL)
+
+      // 4. Renderizar o Rastreador de Gastos
+      renderExpenses();
+
+      // 5. Buscar e Inicializar as Taxas de Câmbio (EUR <-> RON <-> BRL)
       fetchExchangeRates();
-      
-      // 5. Inicializar o Dicionário Offline (Frases)
+
+      // 6. Inicializar o Dicionário Offline (Frases)
       switchLang('de');
 
-      // 6. Restaurar Última View Salva (Ou padrão Inicio)
+      // 7. Status de conexão
+      updateConnStatus();
+
+      // 8. Restaurar Última View Salva (Ou padrão Inicio)
       const lastView = localStorage.getItem(STORAGE_KEYS.lastView) || 'inicio';
       switchView(lastView);
+
+      // 9. Atalhos do PWA têm prioridade sobre a última view
+      handleLaunchParams();
     });
   </script>
 </body>

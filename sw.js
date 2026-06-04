@@ -1,8 +1,25 @@
-const CACHE_NAME = 'europa2026-v2';
+const CACHE_NAME = 'europa2026-v4';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  './manifest.json'
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  // Imagens dos destinos pré-cacheadas para funcionarem 100% offline no exterior
+  './plagwitz.jpg',
+  './dbfz-center.jpg',
+  './bach-leipzig.jpg',
+  './uber-arena.jpg',
+  './brandenburg.jpg',
+  './mauerpark.jpg',
+  './currywurst.jpg',
+  './doner-kebab.jpg',
+  './timisoara-squares.jpg',
+  './foss4g.jpg',
+  './bega-river.jpg',
+  './mici.jpg',
+  './sarmale.jpg',
+  './papanasi.jpg'
 ];
 
 // Instalação do Service Worker e Caching dos Arquivos do Shell do App
@@ -35,8 +52,13 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Tratar taxas de câmbio (frankfurter.app) com estratégia Network-First
-  if (url.hostname === 'frankfurter.app' || url.pathname.includes('/latest')) {
+  // Tratar dados ao vivo (câmbio frankfurter.app + clima open-meteo) com Network-First
+  if (
+    url.hostname === 'frankfurter.app' ||
+    url.hostname.endsWith('frankfurter.app') ||
+    url.hostname.endsWith('open-meteo.com') ||
+    url.pathname.includes('/latest')
+  ) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
