@@ -1,0 +1,16 @@
+{
+  "name": "guia-europa-2026",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Guia de viagem PWA (Carol & Naka 2026) — scripts de verificação e testes. O app em si continua 100% estático (sem build).",
+  "scripts": {
+    "test": "node --test tests/unit/*.test.mjs",
+    "test:e2e": "playwright test",
+    "serve": "node tools/serve.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "jsdom": "^25.0.1"
+  }
+}
