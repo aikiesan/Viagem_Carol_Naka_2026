@@ -861,6 +861,150 @@
     .modal-body li {
       margin-bottom: 6px;
     }
+
+    /* INDICADOR DE CONEXÃO (ONLINE/OFFLINE) */
+    .header-bar { position: sticky; }
+    .conn-badge {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--cream);
+      color: var(--text-secondary);
+    }
+    .conn-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+    }
+    .conn-badge.offline .dot { background: var(--terra); }
+    .conn-badge.offline { color: var(--terra); }
+
+    /* BOTÃO DE INSTALAÇÃO DO APP */
+    .install-btn {
+      display: none;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 14px;
+      font-family: inherit;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+    .install-btn.show { display: flex; }
+
+    /* RASTREADOR DE GASTOS */
+    .expense-form {
+      display: grid;
+      grid-template-columns: 1fr 88px;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .expense-form input, .expense-form select {
+      width: 100%;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 15px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--cream);
+      color: var(--text-primary);
+    }
+    .expense-form .full { grid-column: 1 / -1; }
+    .expense-add-btn {
+      grid-column: 1 / -1;
+      background: var(--terra);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 13px;
+      font-family: inherit;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .expense-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 12px 0;
+      border-top: 1px solid var(--border);
+      margin-top: 4px;
+    }
+    .expense-total .big { font-size: 22px; font-weight: 700; color: var(--navy); }
+    .expense-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .expense-row .meta { flex: 1; min-width: 0; }
+    .expense-row .meta .note { font-size: 14px; font-weight: 600; }
+    .expense-row .meta .sub { font-size: 11.5px; color: var(--text-secondary); }
+    .expense-row .amt { font-weight: 700; white-space: nowrap; }
+    .expense-del {
+      min-height: 36px; min-width: 36px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--cream);
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .expense-empty { text-align: center; color: var(--text-secondary); padding: 18px 0; font-size: 13.5px; }
+
+    /* ANOTAÇÕES POR DIA (DIÁRIO) */
+    .day-note-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin: 10px 0 0;
+      padding: 7px 10px;
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--navy);
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .day-note-toggle.has-note { border-color: var(--terra); color: var(--terra); }
+    .day-note-area {
+      display: none;
+      margin-top: 8px;
+    }
+    .day-note-area.open { display: block; }
+    .day-note-area textarea {
+      width: 100%;
+      min-height: 72px;
+      padding: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      line-height: 1.45;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--cream);
+      color: var(--text-primary);
+      resize: vertical;
+    }
   </style>
 </head>
 <body>
@@ -868,10 +1012,16 @@
   <!-- CABEÇALHO FIXO -->
   <div class="header-bar">
     <h1>🇪🇺 Carol &amp; Naka 2026</h1>
+    <span class="conn-badge" id="conn-badge" title="Status da conexão">
+      <span class="dot"></span><span id="conn-text">Online</span>
+    </span>
   </div>
 
   <!-- VIEW 1: INÍCIO (HOME VIEW) -->
   <div class="view active" id="view-inicio">
+    <button class="install-btn" id="install-btn" onclick="installApp()">
+      ⬇️ Instalar o guia na tela inicial
+    </button>
     <div class="card">
       <div class="label">Destino Atual</div>
       <div class="dest-row">
@@ -991,6 +1141,7 @@
     <h2>🧳 Essenciais de Viagem</h2>
     <div class="essenciais-tab-container">
       <button class="essenciais-tab active" onclick="switchSubView('fx')">Câmbio</button>
+      <button class="essenciais-tab" onclick="switchSubView('gastos')">Gastos</button>
       <button class="essenciais-tab" onclick="switchSubView('bagagem')">Mala</button>
       <button class="essenciais-tab" onclick="switchSubView('info')">Info Geral</button>
     </div>
@@ -1002,19 +1153,46 @@
         <div class="fx-container">
           <div class="fx-input-group">
             <span class="fx-label">EUR €</span>
-            <input type="number" class="fx-input" id="input-eur" value="1" oninput="convertCurrency()">
+            <input type="number" inputmode="decimal" class="fx-input" id="input-eur" value="1" oninput="convertFrom('eur')">
           </div>
           <div class="fx-input-group">
             <span class="fx-label">RON L</span>
-            <input type="text" class="fx-input" id="output-ron" readonly>
+            <input type="number" inputmode="decimal" class="fx-input" id="input-ron" oninput="convertFrom('ron')">
           </div>
           <div class="fx-input-group">
             <span class="fx-label">BRL R$</span>
-            <input type="text" class="fx-input" id="output-brl" readonly>
+            <input type="number" inputmode="decimal" class="fx-input" id="input-brl" oninput="convertFrom('brl')">
           </div>
+          <small style="text-align:center; color: var(--text-secondary); font-size: 11.5px;">💡 Digite em qualquer campo para converter nos dois sentidos.</small>
           <button class="fx-update-btn" onclick="fetchExchangeRates()">Atualizar Taxas Online</button>
           <small id="fx-update-label" style="text-align: center; color: var(--text-secondary); margin-top: 4px; font-size: 11.5px;"></small>
         </div>
+      </div>
+    </div>
+
+    <!-- SUBVIEW: RASTREADOR DE GASTOS -->
+    <div class="subview" id="subview-gastos">
+      <div class="card">
+        <div class="label">Registrar Gasto</div>
+        <div class="expense-form">
+          <input type="text" id="exp-note" class="full" placeholder="Descrição (ex: Jantar, Táxi, Souvenir)">
+          <input type="number" inputmode="decimal" id="exp-amount" placeholder="Valor">
+          <select id="exp-currency">
+            <option value="EUR">EUR €</option>
+            <option value="RON">RON L</option>
+            <option value="BRL">BRL R$</option>
+          </select>
+          <button class="expense-add-btn" onclick="addExpense()">+ Adicionar gasto</button>
+        </div>
+        <div class="expense-total">
+          <span class="label" style="margin:0;">Total da viagem (aprox.)</span>
+          <span class="big" id="exp-total-brl">R$ 0,00</span>
+        </div>
+        <small style="color: var(--text-secondary); font-size: 11.5px;">Convertido com as últimas taxas salvas. Tudo fica guardado offline no seu aparelho.</small>
+      </div>
+      <div class="card">
+        <div class="label">Histórico</div>
+        <div id="expense-list"></div>
       </div>
     </div>
 
@@ -1118,7 +1296,10 @@
       checklist: 'guia_checklist',
       lastCity: 'guia_last_city',
       fx: 'guia_fx',
-      lastView: 'guia_last_view'
+      lastView: 'guia_last_view',
+      expenses: 'guia_expenses',
+      notes: 'guia_notes',
+      weather: 'guia_weather'
     };
 
     // DADOS DAS FRASES
@@ -1431,33 +1612,49 @@
       }
     }
 
-    // CONVERSOR DE MOEDAS (EUR -> RON / BRL)
+    // CONVERSOR DE MOEDAS BIDIRECIONAL (EUR <-> RON <-> BRL)
     function renderFXRates(rates) {
       window.fxRates = rates;
       const dateLabel = document.getElementById('fx-update-label');
-      dateLabel.textContent = `Atualizado em: ${rates.updated}`;
-      convertCurrency();
+      if (dateLabel) dateLabel.textContent = `Atualizado em: ${rates.updated}`;
+      convertFrom('eur');
+      renderExpenses(); // recalcula o total dos gastos com a taxa mais recente
     }
 
-    function convertCurrency() {
-      const inputEur = document.getElementById('input-eur');
-      const outputRon = document.getElementById('output-ron');
-      const outputBrl = document.getElementById('output-brl');
-      
-      const eurVal = parseFloat(inputEur.value);
-      if (isNaN(eurVal) || eurVal < 0) {
-        outputRon.value = "L 0.00";
-        outputBrl.value = "R$ 0.00";
+    // Converte um valor em qualquer moeda para EUR (moeda base das taxas)
+    function toEur(value, currency, rates) {
+      if (currency === 'EUR') return value;
+      if (currency === 'RON') return value / rates.eur_ron;
+      if (currency === 'BRL') return value / rates.eur_brl;
+      return value;
+    }
+
+    function convertFrom(source) {
+      const rates = window.fxRates || { eur_ron: 5.25, eur_brl: 5.88 };
+      const eurEl = document.getElementById('input-eur');
+      const ronEl = document.getElementById('input-ron');
+      const brlEl = document.getElementById('input-brl');
+
+      const map = { eur: eurEl, ron: ronEl, brl: brlEl };
+      const srcEl = map[source];
+      const raw = parseFloat(srcEl.value);
+
+      if (isNaN(raw) || raw < 0) {
+        if (source !== 'eur') eurEl.value = '';
+        if (source !== 'ron') ronEl.value = '';
+        if (source !== 'brl') brlEl.value = '';
         return;
       }
 
-      const rates = window.fxRates || { eur_ron: 5.25, eur_brl: 5.88 };
-      
-      const ronVal = (eurVal * rates.eur_ron).toFixed(2);
-      const brlVal = (eurVal * rates.eur_brl).toFixed(2);
-      
-      outputRon.value = `RON ${ronVal}`;
-      outputBrl.value = `BRL ${brlVal}`;
+      // Normaliza para EUR e distribui para as demais moedas
+      let eur;
+      if (source === 'eur') eur = raw;
+      else if (source === 'ron') eur = raw / rates.eur_ron;
+      else eur = raw / rates.eur_brl;
+
+      if (source !== 'eur') eurEl.value = eur.toFixed(2);
+      if (source !== 'ron') ronEl.value = (eur * rates.eur_ron).toFixed(2);
+      if (source !== 'brl') brlEl.value = (eur * rates.eur_brl).toFixed(2);
     }
 
     function fetchExchangeRates() {
@@ -1546,6 +1743,116 @@
       }
     }
 
+    // RASTREADOR DE GASTOS (LOCALSTORAGE)
+    const CURRENCY_SYMBOL = { EUR: '€', RON: 'L', BRL: 'R$' };
+
+    function getExpenses() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.expenses)) || [];
+    }
+
+    function formatBRL(value) {
+      return 'R$ ' + value.toFixed(2).replace('.', ',');
+    }
+
+    function addExpense() {
+      const noteEl = document.getElementById('exp-note');
+      const amountEl = document.getElementById('exp-amount');
+      const currencyEl = document.getElementById('exp-currency');
+
+      const amount = parseFloat(amountEl.value);
+      if (isNaN(amount) || amount <= 0) {
+        showToast('Informe um valor válido. 💸');
+        return;
+      }
+
+      const expenses = getExpenses();
+      expenses.unshift({
+        id: Date.now(),
+        note: (noteEl.value || 'Gasto').trim(),
+        amount: amount,
+        currency: currencyEl.value,
+        date: new Date().toISOString().slice(0, 10)
+      });
+      localStorage.setItem(STORAGE_KEYS.expenses, JSON.stringify(expenses));
+
+      noteEl.value = '';
+      amountEl.value = '';
+      renderExpenses();
+      showToast('Gasto registrado! 🧾');
+    }
+
+    function deleteExpense(id) {
+      const expenses = getExpenses().filter(e => e.id !== id);
+      localStorage.setItem(STORAGE_KEYS.expenses, JSON.stringify(expenses));
+      renderExpenses();
+    }
+
+    function renderExpenses() {
+      const list = document.getElementById('expense-list');
+      const totalEl = document.getElementById('exp-total-brl');
+      if (!list || !totalEl) return;
+
+      const rates = window.fxRates || { eur_ron: 5.25, eur_brl: 5.88 };
+      const expenses = getExpenses();
+
+      let totalBrl = 0;
+      list.innerHTML = '';
+
+      if (expenses.length === 0) {
+        list.innerHTML = '<div class="expense-empty">Nenhum gasto registrado ainda.</div>';
+        totalEl.textContent = formatBRL(0);
+        return;
+      }
+
+      expenses.forEach(e => {
+        const brl = toEur(e.amount, e.currency, rates) * rates.eur_brl;
+        totalBrl += brl;
+
+        const row = document.createElement('div');
+        row.className = 'expense-row';
+        row.innerHTML = `
+          <div class="meta">
+            <div class="note">${escapeHtml(e.note)}</div>
+            <div class="sub">${e.date} · ≈ ${formatBRL(brl)}</div>
+          </div>
+          <span class="amt">${CURRENCY_SYMBOL[e.currency]} ${e.amount.toFixed(2)}</span>
+          <button class="expense-del" title="Remover" onclick="deleteExpense(${e.id})">🗑</button>
+        `;
+        list.appendChild(row);
+      });
+
+      totalEl.textContent = formatBRL(totalBrl);
+    }
+
+    // Escapa HTML para conteúdo inserido pelo usuário (gastos e notas)
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // ANOTAÇÕES POR DIA (DIÁRIO DE VIAGEM)
+    function getNotes() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.notes)) || {};
+    }
+
+    function toggleDayNote(dayId) {
+      const area = document.getElementById(`note-area-${dayId}`);
+      if (area) area.classList.toggle('open');
+    }
+
+    function saveDayNote(dayId) {
+      const area = document.getElementById(`note-input-${dayId}`);
+      if (!area) return;
+      const notes = getNotes();
+      const val = area.value.trim();
+      if (val) notes[dayId] = val; else delete notes[dayId];
+      localStorage.setItem(STORAGE_KEYS.notes, JSON.stringify(notes));
+
+      const toggle = document.getElementById(`note-toggle-${dayId}`);
+      if (toggle) toggle.classList.toggle('has-note', !!val);
+    }
+
     // AGENDA E TIMELINE COMPONENT
     function renderAgenda() {
       const container = document.getElementById('timeline-container');
@@ -1600,7 +1907,21 @@
           
           dayCard.appendChild(slot);
         });
-        
+
+        // Bloco de anotações do dia (diário de viagem)
+        const notes = getNotes();
+        const savedNote = notes[day.id] || '';
+        const noteBlock = document.createElement('div');
+        noteBlock.innerHTML = `
+          <button class="day-note-toggle ${savedNote ? 'has-note' : ''}" id="note-toggle-${day.id}" onclick="toggleDayNote('${day.id}')">
+            📝 Anotações do dia
+          </button>
+          <div class="day-note-area ${savedNote ? 'open' : ''}" id="note-area-${day.id}">
+            <textarea id="note-input-${day.id}" placeholder="O que rolou hoje? Lugares, sabores, lembranças..." oninput="saveDayNote('${day.id}')">${escapeHtml(savedNote)}</textarea>
+          </div>
+        `;
+        dayCard.appendChild(noteBlock);
+
         container.appendChild(dayCard);
       });
     }
@@ -1783,6 +2104,53 @@
       window.hotelAddress = hotelAddress;
       window.hotelName = hotelName;
       window.hotelMapsUrl = mapsUrl;
+
+      // Tenta atualizar o clima com dados reais ao vivo
+      fetchLiveWeather(currentCity);
+    }
+
+    // CLIMA AO VIVO (OPEN-METEO, SEM CHAVE DE API)
+    const CITY_COORDS = [
+      { match: 'Leipzig',    lat: 51.3397, lon: 12.3731 },
+      { match: 'Berlim',     lat: 52.5200, lon: 13.4050 },
+      { match: 'Timișoara',  lat: 45.7489, lon: 21.2087 }
+    ];
+
+    function weatherEmoji(code) {
+      if (code === 0) return '☀️';
+      if (code <= 2) return '🌤️';
+      if (code === 3) return '☁️';
+      if (code <= 48) return '🌫️';
+      if (code <= 67) return '🌧️';
+      if (code <= 77) return '❄️';
+      if (code <= 82) return '🌦️';
+      if (code <= 86) return '🌨️';
+      return '⛈️';
+    }
+
+    function fetchLiveWeather(cityName) {
+      const coords = CITY_COORDS.find(c => cityName && cityName.includes(c.match));
+      const el = document.getElementById('dest-weather');
+      if (!coords || !el) return;
+
+      const cacheKey = coords.match;
+      // Mostra o valor salvo imediatamente (offline-friendly)
+      const cached = JSON.parse(localStorage.getItem(STORAGE_KEYS.weather) || '{}');
+      if (cached[cacheKey]) {
+        el.textContent = `${weatherEmoji(cached[cacheKey].code)} ${cached[cacheKey].temp}°C`;
+      }
+
+      fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,weather_code`)
+        .then(res => res.json())
+        .then(data => {
+          if (!data || !data.current) return;
+          const temp = Math.round(data.current.temperature_2m);
+          const code = data.current.weather_code;
+          el.textContent = `${weatherEmoji(code)} ${temp}°C`;
+          cached[cacheKey] = { temp, code };
+          localStorage.setItem(STORAGE_KEYS.weather, JSON.stringify(cached));
+        })
+        .catch(() => {/* Offline: mantém o valor em cache ou estimado */});
     }
 
     // COPIAR ENDEREÇO DO HOTEL & ABRIR GOOGLE MAPS
@@ -1902,26 +2270,90 @@
       });
     }
 
+    // INDICADOR DE CONEXÃO (ONLINE / OFFLINE)
+    function updateConnStatus() {
+      const badge = document.getElementById('conn-badge');
+      const text = document.getElementById('conn-text');
+      if (!badge || !text) return;
+      if (navigator.onLine) {
+        badge.classList.remove('offline');
+        text.textContent = 'Online';
+      } else {
+        badge.classList.add('offline');
+        text.textContent = 'Offline';
+      }
+    }
+    window.addEventListener('online', () => { updateConnStatus(); showToast('Conexão restabelecida 🌐'); });
+    window.addEventListener('offline', () => { updateConnStatus(); showToast('Você está offline — o guia continua funcionando 📴'); });
+
+    // PROMPT DE INSTALAÇÃO DO APP (ADD TO HOME SCREEN)
+    let deferredInstallPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      const btn = document.getElementById('install-btn');
+      if (btn) btn.classList.add('show');
+    });
+    window.addEventListener('appinstalled', () => {
+      const btn = document.getElementById('install-btn');
+      if (btn) btn.classList.remove('show');
+      deferredInstallPrompt = null;
+      showToast('Guia instalado! 🎉');
+    });
+    function installApp() {
+      if (!deferredInstallPrompt) {
+        showToast('Use o menu do navegador → "Adicionar à tela inicial".');
+        return;
+      }
+      deferredInstallPrompt.prompt();
+      deferredInstallPrompt.userChoice.finally(() => {
+        deferredInstallPrompt = null;
+        const btn = document.getElementById('install-btn');
+        if (btn) btn.classList.remove('show');
+      });
+    }
+
+    // ATALHOS DO PWA / DEEP-LINKS (?view=, ?sub=, ?action=)
+    function handleLaunchParams() {
+      const params = new URLSearchParams(window.location.search);
+      const view = params.get('view');
+      const sub = params.get('sub');
+      const action = params.get('action');
+
+      if (view) switchView(view);
+      if (view === 'essenciais' && sub) switchSubView(sub);
+      if (action === 'help') openHelpModal();
+    }
+
     // DOM CONTENT LOADED - INICIALIZAÇÕES
     document.addEventListener('DOMContentLoaded', () => {
       // 1. Atualizar Destino Atual e Compromissos
       updateCurrentDestination();
-      
+
       // 2. Renderizar a Timeline Diária da Agenda
       renderAgenda();
-      
+
       // 3. Renderizar o Checklist Interativo de Malas
       renderChecklist();
-      
-      // 4. Buscar e Inicializar as Taxas de Câmbio (EUR -> RON/BRL)
+
+      // 4. Renderizar o Rastreador de Gastos
+      renderExpenses();
+
+      // 5. Buscar e Inicializar as Taxas de Câmbio (EUR <-> RON <-> BRL)
       fetchExchangeRates();
-      
-      // 5. Inicializar o Dicionário Offline (Frases)
+
+      // 6. Inicializar o Dicionário Offline (Frases)
       switchLang('de');
 
-      // 6. Restaurar Última View Salva (Ou padrão Inicio)
+      // 7. Status de conexão
+      updateConnStatus();
+
+      // 8. Restaurar Última View Salva (Ou padrão Inicio)
       const lastView = localStorage.getItem(STORAGE_KEYS.lastView) || 'inicio';
       switchView(lastView);
+
+      // 9. Atalhos do PWA têm prioridade sobre a última view
+      handleLaunchParams();
     });
   </script>
 </body>
