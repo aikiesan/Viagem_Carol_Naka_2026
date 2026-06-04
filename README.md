@@ -36,5 +36,10 @@ O que é coberto:
 
 Tudo roda automaticamente no **GitHub Actions** (`.github/workflows/ci.yml`) a cada push e pull request.
 
+## Deploy (GitHub Pages)
+O deploy é automático via GitHub Actions (`.github/workflows/deploy.yml`): a cada push na `main`, os testes rodam como *gate* e, passando, o site estático é publicado.
+
+**Ativação (uma única vez):** em **Settings → Pages → Build and deployment → Source**, selecione **GitHub Actions**.
+
 ## Tecnologias
 Construído com HTML5 estático, CSS3 premium (responsivo e mobile-first) e JavaScript leve e performático para injeção dinâmica de conteúdo e modais bottom-sheet. PWA com Service Worker (cache-first para o app, network-first para câmbio e clima) e persistência via LocalStorage.

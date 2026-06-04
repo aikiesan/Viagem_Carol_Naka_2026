@@ -1,0 +1,58 @@
+name: Deploy GitHub Pages
+
+# Publica o app no GitHub Pages a cada push na main, mas só depois que os
+# testes/verificações passarem (gate de qualidade antes da produção).
+#
+# IMPORTANTE: ative uma vez em Settings → Pages → Source = "GitHub Actions".
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Garante um deploy por vez, sem cancelar um deploy em andamento
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Verificações antes do deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm test
+
+  deploy:
+    name: Build & Deploy
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+      - name: Selecionar apenas os arquivos de produção
+        run: |
+          mkdir -p _site
+          cp index.html sw.js manifest.json .nojekyll _site/
+          cp *.jpg *.png _site/
+      - name: Empacotar o site estático
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+      - name: Deploy para o GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
