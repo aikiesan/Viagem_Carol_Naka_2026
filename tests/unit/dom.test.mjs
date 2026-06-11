@@ -56,11 +56,11 @@ test('a agenda renderiza todos os 18 dias da viagem', async () => {
   assert.equal(cards.length, 18);
 });
 
-test('o checklist renderiza 5 categorias e 22 itens', async () => {
+test('o checklist renderiza 6 categorias e 32 itens', async () => {
   const { document } = await loadApp();
-  assert.equal(document.querySelectorAll('.checklist-category').length, 5);
-  assert.equal(document.querySelectorAll('.checklist-item').length, 22);
-  assert.match(document.getElementById('checklist-progress-count').textContent, /0\/22/);
+  assert.equal(document.querySelectorAll('.checklist-category').length, 6);
+  assert.equal(document.querySelectorAll('.checklist-item').length, 32);
+  assert.match(document.getElementById('checklist-progress-count').textContent, /0\/32/);
 });
 
 test('navegação entre views funciona e persiste no localStorage', async () => {
@@ -152,7 +152,7 @@ test('frases: troca de idioma e filtro por categoria', async () => {
 test('progresso do checklist e da agenda atualiza ao interagir', async () => {
   const { window, document } = await loadApp();
   window.toggleChecklistItem('documentos_0');
-  assert.match(document.getElementById('checklist-progress-count').textContent, /1\/22/);
+  assert.match(document.getElementById('checklist-progress-count').textContent, /1\/32/);
 
   window.cycleAgendaStatus('22jun_task_0'); // pendente -> feito
   assert.notEqual(document.getElementById('agenda-progress-count').textContent, '0%');
