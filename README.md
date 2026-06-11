@@ -3,11 +3,12 @@
 Este repositório contém o guia de viagem interativo e personalizado para a jornada de Carol e Naka à Romênia (Timișoara) e Alemanha (Berlim e Leipzig) em junho-julho de 2026.
 
 ## Cronograma Resumido
-* **Leipzig (23 Jun a 26 Jun)**: Colaboração técnica de pesquisa na **DBFZ** (24 e 25 de Junho).
-* **Berlim (26 Jun a 28 Jun)**.
-* **Timișoara (29 Jun a 05 Jul)**: Apresentações e conferência no **FOSS4G Europe 2026**.
-* **Berlim (05 Jul a 08 Jul)**: Show do **Critical Role Live** na Uber Arena (07 de Julho).
-* **Retorno (08 Jul a 10 Jul)**: Voo via Air Canada com conexão em Montreal.
+* **Outbound (22 Jun a 23 Jun)**: Voo São Paulo (GRU) → Frankfurt (FRA) → Leipzig (LEJ).
+* **Leipzig (23 Jun a 26 Jun)**: Colaboração técnica de pesquisa na **DBFZ** (24 e 25 de Junho). Hospedagem no Premier Inn Leipzig.
+* **Berlim (26 Jun a 28 Jun)**: Hospedagem no Garner Hotel Berlin.
+* **Timișoara (28 Jun a 05 Jul)**: Voo Wizz Air. Apresentações e conferência no **FOSS4G Europe 2026** (Apresentação PILAR-2b no Academic Track). Hospedagem no River Residence.
+* **Berlim (05 Jul a 08 Jul)**: Voo Wizz Air. Show do **Critical Role Live** na Uber Arena (07 de Julho). Hospedagem no Park Inn Alexanderplatz.
+* **Retorno (08 Jul a 09 Jul)**: Voo Air Canada BER → Montreal (YUL) → São Paulo (GRU).
 
 ## Funcionalidades do App (Companion)
 * **📴 Offline-first de verdade:** todas as imagens dos destinos e ícones são pré-cacheadas pelo Service Worker, então o guia funciona 100% sem internet no exterior.
