@@ -56,11 +56,11 @@ test('a agenda renderiza todos os 18 dias da viagem', async () => {
   assert.equal(cards.length, 18);
 });
 
-test('o checklist renderiza 6 categorias e 32 itens', async () => {
+test('o checklist renderiza 6 categorias e 37 itens', async () => {
   const { document } = await loadApp();
   assert.equal(document.querySelectorAll('.checklist-category').length, 6);
-  assert.equal(document.querySelectorAll('.checklist-item').length, 32);
-  assert.match(document.getElementById('checklist-progress-count').textContent, /0\/32/);
+  assert.equal(document.querySelectorAll('.checklist-item').length, 37);
+  assert.match(document.getElementById('checklist-progress-count').textContent, /0\/37/);
 });
 
 test('navegação entre views funciona e persiste no localStorage', async () => {
@@ -141,18 +141,23 @@ test('escapeHtml protege conteúdo do usuário (XSS)', async () => {
 test('frases: troca de idioma e filtro por categoria', async () => {
   const { window, document } = await loadApp();
   window.switchLang('de');
-  assert.equal(document.querySelectorAll('#frases-list .frase-card').length, 13);
+  assert.equal(document.querySelectorAll('#frases-list .frase-card').length, 99);
   window.switchLang('ro');
-  assert.equal(document.querySelectorAll('#frases-list .frase-card').length, 13);
+  assert.equal(document.querySelectorAll('#frases-list .frase-card').length, 99);
   window.filterFrases('emerg', null);
   const filtered = document.querySelectorAll('#frases-list .frase-card').length;
-  assert.ok(filtered >= 1 && filtered < 13, `filtro inesperado: ${filtered}`);
+  assert.ok(filtered >= 1 && filtered < 99, `filtro inesperado: ${filtered}`);
+  // novas categorias: Carol solo e Lucas social
+  window.filterFrases('solo', null);
+  assert.ok(document.querySelectorAll('#frases-list .frase-card').length >= 1, 'categoria solo vazia');
+  window.filterFrases('social', null);
+  assert.ok(document.querySelectorAll('#frases-list .frase-card').length >= 1, 'categoria social vazia');
 });
 
 test('progresso do checklist e da agenda atualiza ao interagir', async () => {
   const { window, document } = await loadApp();
   window.toggleChecklistItem('documentos_0');
-  assert.match(document.getElementById('checklist-progress-count').textContent, /1\/32/);
+  assert.match(document.getElementById('checklist-progress-count').textContent, /1\/37/);
 
   window.cycleAgendaStatus('22jun_task_0'); // pendente -> feito
   assert.notEqual(document.getElementById('agenda-progress-count').textContent, '0%');
