@@ -1,4 +1,6 @@
-const CACHE_NAME = 'europa2026-v4';
+const CACHE_NAME = 'europa2026-v5';
+const TILE_CACHE = 'osm-tiles-v1';
+const TILE_CACHE_MAX = 600; // limite de blocos de mapa guardados
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -38,7 +40,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
+          if (cacheName !== CACHE_NAME && cacheName !== TILE_CACHE) {
             console.log('[Service Worker] Limpando cache antigo:', cacheName);
             return caches.delete(cacheName);
           }
@@ -48,9 +50,55 @@ self.addEventListener('activate', (event) => {
   );
 });
 
+// Limita o tamanho do cache de blocos do mapa (remove os mais antigos)
+async function trimTileCache() {
+  const cache = await caches.open(TILE_CACHE);
+  const keys = await cache.keys();
+  if (keys.length > TILE_CACHE_MAX) {
+    for (let i = 0; i < keys.length - TILE_CACHE_MAX; i++) {
+      await cache.delete(keys[i]);
+    }
+  }
+}
+
 // Intercepção de Requisições
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
+
+  // Blocos do OpenStreetMap: Cache-First, para o mapa funcionar offline na viagem
+  if (url.hostname.endsWith('tile.openstreetmap.org')) {
+    event.respondWith(
+      caches.open(TILE_CACHE).then((cache) =>
+        cache.match(event.request).then((cached) => {
+          if (cached) return cached;
+          return fetch(event.request).then((response) => {
+            if (response && response.status === 200) {
+              cache.put(event.request, response.clone());
+              trimTileCache();
+            }
+            return response;
+          }).catch(() => new Response('', { status: 503, statusText: 'Offline tile' }));
+        })
+      )
+    );
+    return;
+  }
+
+  // Biblioteca do mapa (Leaflet via unpkg): Cache-First
+  if (url.hostname.endsWith('unpkg.com')) {
+    event.respondWith(
+      caches.match(event.request).then((cached) =>
+        cached || fetch(event.request).then((response) => {
+          if (response && response.status === 200) {
+            const copy = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+          }
+          return response;
+        }).catch(() => cached)
+      )
+    );
+    return;
+  }
 
   // Tratar dados ao vivo (câmbio frankfurter.app + clima open-meteo) com Network-First
   if (

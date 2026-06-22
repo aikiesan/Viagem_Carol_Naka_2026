@@ -15,28 +15,29 @@
   <style>
     /* SISTEMA DE DESIGN & CORES COMPANION V2 */
     :root {
-      --navy: #0F2C59;      /* Primário */
-      --terra: #D37556;     /* Acento / CTAs */
-      --cream: #FDFDFB;     /* Fundo */
-      --text-primary: #1A1A2E;
-      --text-secondary: #666666;
-      --card-bg: #FFFFFF;
-      --border: #E8E4DC;
-      --success: #2D8653;
+      --navy: #8C4A2F;      /* Primário (terracota / barro queimado) */
+      --terra: #CB7A3E;     /* Acento / CTAs (ocre quente) */
+      --cream: #F7F1E6;     /* Fundo (areia quente) */
+      --text-primary: #3D352A;
+      --text-secondary: #8A7B68;
+      --card-bg: #FFFCF6;
+      --border: #E6DBCA;
+      --success: #5C7A3A;   /* oliva quente */
       --radius: 12px;
       --radius-sm: 8px;
     }
 
-    /* Dark Mode Automático */
+    /* Modo escuro "anoitecer quente": tons de café e cacau, nunca frio */
     @media (prefers-color-scheme: dark) {
       :root {
-        --cream: #0F1118;
-        --card-bg: #1A1D27;
-        --border: #2A2D3A;
-        --text-primary: #F0EDE8;
-        --text-secondary: #9A97A0;
-        --navy: #3C639B;
-        --terra: #E48D70;
+        --cream: #221B14;
+        --card-bg: #2E2419;
+        --border: #463829;
+        --text-primary: #F3E9DB;
+        --text-secondary: #BCA88E;
+        --navy: #E0995C;
+        --terra: #E6A867;
+        --success: #9CB36A;
       }
     }
 
@@ -675,7 +676,7 @@
       left: 0;
       width: 100%;
       height: calc(64px + env(safe-area-inset-bottom));
-      background-color: rgba(255, 255, 255, 0.92);
+      background-color: rgba(255, 252, 246, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-top: 1px solid var(--border);
@@ -688,7 +689,7 @@
 
     @media (prefers-color-scheme: dark) {
       .bottom-nav {
-        background-color: rgba(26, 29, 39, 0.92);
+        background-color: rgba(46, 36, 25, 0.94);
       }
     }
 
@@ -696,7 +697,7 @@
       background: none;
       border: none;
       color: var(--text-secondary);
-      font-size: 11px;
+      font-size: 9.5px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -1012,10 +1013,10 @@
 
     /* Tokens de elevação (sombras) */
     :root {
-      --shadow-sm: 0 1px 3px rgba(15,44,89,.06), 0 1px 2px rgba(15,44,89,.05);
-      --shadow-md: 0 8px 24px rgba(15,44,89,.12);
+      --shadow-sm: 0 1px 3px rgba(90,60,35,.08), 0 1px 2px rgba(90,60,35,.06);
+      --shadow-md: 0 8px 24px rgba(90,60,35,.14);
       --accent: var(--terra);
-      --accent-soft: rgba(211,117,86,.12);
+      --accent-soft: rgba(203,122,62,.14);
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -1025,9 +1026,10 @@
     }
 
     /* Cor de acento dinâmica por cidade (tema "bolder & colorful") */
-    body[data-city="leipzig"]   { --accent:#1B9C6B; --accent-soft:rgba(27,156,107,.14); }
-    body[data-city="berlim"]    { --accent:#6C5CE7; --accent-soft:rgba(108,92,231,.14); }
-    body[data-city="timisoara"] { --accent:#E0457B; --accent-soft:rgba(224,69,123,.14); }
+    body[data-city="leipzig"]   { --accent:#74803C; --accent-soft:rgba(116,128,60,.16); }   /* oliva/musgo */
+    body[data-city="berlim"]    { --accent:#B05A33; --accent-soft:rgba(176,90,51,.16); }   /* terracota/ferrugem */
+    body[data-city="timisoara"] { --accent:#C18A35; --accent-soft:rgba(193,138,53,.16); }  /* ambar/paprica */
+    body[data-city="montreal"]  { --accent:#9A4A2C; --accent-soft:rgba(154,74,44,.16); }   /* barro outono */
 
     /* Profundidade nos componentes existentes */
     .card, .timeline-day-card, .dest-accordion, .frase-card { box-shadow: var(--shadow-sm); }
@@ -1102,9 +1104,10 @@
     .checklist-category.complete .checklist-count { color:var(--success); }
 
     /* ---------- DESTINOS: COR POR CIDADE ---------- */
-    #acc-leipzig   { --accent:#1B9C6B; }
-    #acc-berlim    { --accent:#6C5CE7; }
-    #acc-timisoara { --accent:#E0457B; }
+    #acc-leipzig   { --accent:#74803C; }
+    #acc-berlim    { --accent:#B05A33; }
+    #acc-timisoara { --accent:#C18A35; }
+    #acc-montreal  { --accent:#9A4A2C; }
     .accordion-header { color: var(--accent); border-left:4px solid var(--accent); }
     .dest-accordion { scroll-margin-top: 72px; }
     .dest-accordion.active { box-shadow: var(--shadow-md); }
@@ -1158,6 +1161,112 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
     }
+
+    /* ===================================================================
+       MAPAS INTERATIVOS, GUIA DE COMIDA, CULTURA, PRECOS E TRANSPORTE
+       =================================================================== */
+
+    /* Mapa (Leaflet, carregado sob demanda) */
+    .map-skeleton {
+      height: 340px; background: var(--border); border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-secondary); font-size: 14px; font-weight: 600;
+      margin-bottom: 12px; position: relative; overflow: hidden; text-align: center; padding: 0 20px;
+    }
+    .map-skeleton::after {
+      content:""; position:absolute; inset:0; transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+      animation: shimmer 1.4s infinite;
+    }
+    #map-container { box-shadow: var(--shadow-sm); }
+    .leaflet-popup-content { font-family: inherit; }
+
+    /* Filtro "quem vai" */
+    .map-who-filter { display:flex; gap:6px; margin-bottom:12px; }
+    .who-btn {
+      padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 600;
+      border: 1px solid var(--border); background-color: var(--card-bg);
+      color: var(--text-secondary); cursor: pointer; font-family: inherit; min-height: 36px; flex:1;
+    }
+    .who-btn.active { background-color: var(--navy); color:#fff; border-color: var(--navy); }
+
+    /* Cartoes de local (lista abaixo do mapa) */
+    .place-card {
+      background-color: var(--card-bg); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 12px; margin-bottom: 8px;
+      display: flex; align-items: flex-start; gap: 10px; box-shadow: var(--shadow-sm);
+    }
+    .place-dot { width: 12px; height: 12px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
+    .place-info { flex-grow: 1; min-width: 0; }
+    .place-name { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+    .place-addr { font-size: 11.5px; color: var(--text-secondary); margin-bottom: 4px; }
+    .place-note { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; line-height: 1.45; }
+    .place-badges { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+    .badge { font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 5px; }
+    .badge-cash   { background: #F5E6C8; color: #8A5A1A; }
+    .badge-book   { background: #E9DEC8; color: #6B4A1E; }
+    .badge-closed { background: #F3D9CF; color: #9C3D22; }
+    .badge-solo   { background: #E7EDD4; color: #4E6327; }
+    .badge-couple { background: #EDE2CC; color: #7A5524; }
+    .badge-hours  { background: var(--cream); color: var(--text-secondary); border: 1px solid var(--border); }
+    .place-maps-link { display: inline-block; margin-top: 6px; font-size: 11.5px; font-weight: 700; color: var(--navy); text-decoration: none; }
+    .place-maps-link:active { opacity: .7; }
+
+    /* Cartoes de transporte / cultura / precos */
+    .ref-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 14px; margin-bottom: 10px; box-shadow: var(--shadow-sm);
+    }
+    .ref-card h3 {
+      font-size: 14.5px; font-weight: 700; color: var(--navy); margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .ref-card p, .ref-card li { font-size: 13px; line-height: 1.5; color: var(--text-primary); margin-bottom: 4px; }
+    .ref-card ul { margin-left: 16px; margin-bottom: 8px; }
+    .ref-card .muted { color: var(--text-secondary); }
+    .ref-warn {
+      background: var(--accent-soft); border-left: 3px solid var(--accent);
+      border-radius: 6px; padding: 7px 10px; font-size: 12px; font-weight: 600;
+      color: var(--text-primary); margin-top: 8px;
+    }
+
+    /* Tabela de precos */
+    .price-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 4px; }
+    .price-table td { padding: 7px 6px; border-bottom: 1px dashed var(--border); vertical-align: top; }
+    .price-table td:last-child { text-align: right; font-weight: 700; color: var(--navy); white-space: nowrap; }
+    .price-table tr:last-child td { border-bottom: none; }
+
+    /* Guia de comida: cartao de prato */
+    .food-card {
+      background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin-bottom: 10px; box-shadow: var(--shadow-sm);
+    }
+    .food-card img { width: 100%; height: 130px; object-fit: cover; display: block; background: var(--border); }
+    .food-card .food-body { padding: 12px 14px; }
+    .food-name { font-size: 14.5px; font-weight: 700; color: var(--text-primary); }
+    .food-orig { font-size: 12px; font-style: italic; color: var(--accent); margin-bottom: 4px; }
+    .food-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 6px; }
+    .food-price { font-size: 12px; font-weight: 700; color: var(--success); }
+    .food-where { font-size: 11.5px; color: var(--text-secondary); margin-top: 2px; }
+    .food-flag {
+      display:inline-block; margin-bottom:8px; font-size: 11px; font-weight:700;
+      background: var(--accent-soft); color: var(--accent); padding: 3px 9px; border-radius: 20px;
+    }
+
+    /* Contador do show (Critical Role) */
+    .cr-countdown {
+      background: linear-gradient(135deg, #2A1708 0%, #6B3B16 100%);
+      border-radius: var(--radius); padding: 16px; margin-bottom: 12px; text-align: center;
+      color: #FFF6EC; box-shadow: var(--shadow-md);
+    }
+    .cr-countdown .cr-title { font-size: 12.5px; font-weight: 700; letter-spacing: .03em; opacity: .9; margin-bottom: 6px; }
+    .cr-countdown .cr-days { font-size: 34px; font-weight: 700; line-height: 1; color: #F2C18A; }
+    .cr-countdown .cr-sub { font-size: 11px; opacity: .75; margin-top: 5px; }
+
+    /* Dica de subsecao / cabecalho de bairro */
+    .tip-block { background: var(--accent-soft); border-radius: var(--radius-sm); padding: 10px 12px; margin: 8px 0; }
+    .tip-block strong { color: var(--accent); }
+    .view-hint { font-size: 12px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.45; }
   </style>
 </head>
 <body>
@@ -1235,6 +1344,7 @@
       <div class="accordion-content">
         <div class="accordion-inner">
           <img src="plagwitz.jpg" alt="Canais de Plagwitz" loading="lazy" onerror="this.style.display='none'">
+          <div class="tip-block"><strong>👩 Dia solo da Carol:</strong> Leipzig e compacta e segura de dia. Do hotel da para ir a pe ate o Marktplatz (feira qua e sex), a Thomaskirche (tumulo de Bach, com o Café Kandler ao lado, prove a Leipziger Lerche) e o Museum der bildenden Künste. A "Karli" (Karl-Liebknecht-Str.) e a rua descolada de cafes e o Connewitz e o bairro alternativo. No <strong>domingo</strong>, com o comercio fechado, o shopping da estacao (Promenaden Hauptbahnhof) costuma abrir.</div>
           <p><strong>🚇 Transporte:</strong> Pegue o bonde <strong>Tram Linha 3</strong> (sentido Taucha ou Sommerfeld) e desça na estação <em>DBFZ / Heiterblick</em> para ir à DBFZ. Utilize o app oficial da Deutsche Bahn (DB Navigator) para horários e bilhetes.</p>
           <p><strong>🔬 DBFZ:</strong> German Biomass Research Centre. Código de vestimenta acadêmica é o <em>Smart Casual</em>. Reuniões de cooperação científica nos dias 24 e 25 de Junho.
             <br>📍 Torgauer Straße 116, 04347 Leipzig <button class="copy-address-btn" style="min-height: 48px; min-width: 48px; padding: 2px 8px; font-family: inherit; font-size: 11px; font-weight: 700; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--cream); cursor: pointer;" onclick="copyText('Torgauer Straße 116, 04347 Leipzig')">📋 Copiar</button>
@@ -1261,9 +1371,10 @@
       <div class="accordion-content">
         <div class="accordion-inner">
           <img src="uber-arena.jpg" alt="Uber Arena" loading="lazy" onerror="this.style.display='none'">
+          <div class="tip-block"><strong>📍 Voces ficam perto de Alexanderplatz.</strong> A pe dali: Fernsehturm (Torre de TV), Rotes Rathaus, o medieval Nikolaiviertel a beira do Spree (otimo para Eisbein), Hackescher Markt com os patios Hackesche Höfe, e a Ilha dos Museus (Neues Museum, busto de Nefertiti). O shopping ALEXA fica ao lado do hotel (fecha domingo). <strong>O show do Critical Role e na segunda, 06 Jul, as 20h</strong>, na Uber Arena (Tram M10 do Alex, ~20 min).</div>
           <p><strong>🚇 Transporte:</strong> Rede BVG de metrô (U-Bahn) e trens (S-Bahn). Bilhete zonas ABC cobre aeroporto e centro. **Importante:** A validação é obrigatória. Não validar acarreta multa de €60 cobrada por fiscais à paisana.</p>
           
-          <p><strong>⚔️ Uber Arena (Show do Critical Role - 07 Jul):</strong>
+          <p><strong>⚔️ Uber Arena (Show do Critical Role - 06 Jul, Seg):</strong>
             <br>📍 Uber-Platz 1, 10243 Berlin <button class="copy-address-btn" style="min-height: 48px; min-width: 48px; padding: 2px 8px; font-family: inherit; font-size: 11px; font-weight: 700; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--cream); cursor: pointer;" onclick="copyText('Uber-Platz 1, 10243 Berlin')">📋 Copiar</button>
             <br>• Mochilas grandes são proibidas! Levar apenas bolsas muito pequenas (folha A4 ou menor).
             <br>• Portões abrem às 18h. Chegue 1h mais cedo se quiser garantir o merchandising oficial sem filas. Show começa às 20h.
@@ -1275,8 +1386,8 @@
             <li><strong>26 Jun (Sex):</strong> Chegada, check-in no Garner Hotel. Tarde/Noite: Explorar Alexanderplatz, subir na Torre de TV (Fernsehturm) e jantar nos arredores.</li>
             <li><strong>27 Jun (Sáb):</strong> Roteiro Histórico Central: Portão de Brandemburgo, Reichstag, Memorial do Holocausto, Checkpoint Charlie (ao lado do hotel), East Side Gallery (Muro) e bares/comida em Kreuzberg à noite.</li>
             <li><strong>05 Jul (Dom):</strong> Chegada do voo de Timișoara, check-in no Park Inn. Passeio à noite por Alexanderplatz e arredores.</li>
-            <li><strong>06 Jul (Seg):</strong> Museus e Compras: Ilha dos Museus (Museumsinsel - Berliner Dom, Pergamon, Neues Museum), caminhar pela Unter den Linden, compras no shopping Alexa e jantar no clássico Currywurst no Konnopke's Imbiss.</li>
-            <li><strong>07 Jul (Ter):</strong> Dia do Show: Caminhada relaxante matinal no parque Tiergarten, subida na Siegessäule. Tarde: metrô para Warschauer Straße. Noite: Critical Role Live na Uber Arena.</li>
+            <li><strong>06 Jul (Seg):</strong> DIA DO SHOW: manha tranquila (café EINSTEIN e Tiergarten/Siegessäule), tarde de compras leves perto do Alexa e descanso. Noite: chegar cedo na Uber Arena (portoes 18h) para o Critical Role Live as 20h.</li>
+            <li><strong>07 Jul (Ter):</strong> Museus e Compras: Ilha dos Museus (Neues Museum, Nefertiti), caminhar pela Unter den Linden, sneakers (SNS, Fair Catch) e Türkenmarkt em Kreuzberg (terca). Jantar no NOVEMBER ou MaMi's (reservar).</li>
           </ul>
 
           <p><strong>🏛️ Roteiro Histórico:</strong> East Side Gallery (Muro de Berlim), Checkpoint Charlie, Memorial do Holocausto e Reichstag (reserva grátis obrigatória online semanas antes).</p>
@@ -1298,6 +1409,7 @@
       <div class="accordion-content">
         <div class="accordion-inner">
           <img src="timisoara-squares.jpg" alt="Piața Unirii" loading="lazy" onerror="this.style.display='none'">
+          <div class="tip-block"><strong>👩 Dia solo da Carol (centro universitario):</strong> tudo a pe. As tres pracas (Unirii barroca colorida, Victoriei com a Opera e a Catedral, Libertatii) ficam coladas. Caminhe a beira do Bega ate o Parcul Rozelor, sente numa terraca (cultura de "terasa"), visite o bairro Fabric (arte urbana) e o Museu de Arte no Palacio Barroco. Cidade tranquila e segura de dia; a noite, prefira areas movimentadas e use Bolt.</div>
           <p><strong>✈️ Aeroporto:</strong> Aeroporto Traian Vuia (TSR). Táxis autorizados até o centro custam aproximadamente 25 RON. Verifique o taxímetro.</p>
           <p><strong>🌍 FOSS4G Europe 2026:</strong> Regional Business Centre CRAFT. O polo de discussão cartográfica e geotecnologia livre.
             <br>📍 Bulevardul Eroilor de la Tisa 22, 300575 Timișoara <button class="copy-address-btn" style="min-height: 48px; min-width: 48px; padding: 2px 8px; font-family: inherit; font-size: 11px; font-weight: 700; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--cream); cursor: pointer;" onclick="copyText('Bulevardul Eroilor de la Tisa 22, 300575 Timișoara')">📋 Copiar</button>
@@ -1330,16 +1442,41 @@
         </div>
       </div>
     </div>
+
+    <!-- ACCORDION MONTREAL -->
+    <div class="dest-accordion" id="acc-montreal">
+      <div class="accordion-header" onclick="toggleAccordion('acc-montreal')">Montreal 🇨🇦 (conexao de 8h)</div>
+      <div class="accordion-content">
+        <div class="accordion-inner">
+          <p><strong>🇨🇦 eTA Canadense:</strong> brasileiros que saírem do aeroporto precisam do eTA eletrônico. Solicitar em <strong>canada.ca/eta</strong> (~CAD $7) com antecedencia. Sem eTA, sem saída do aeroporto.</p>
+          <p><strong>✈️ Aeroporto YUL para o centro:</strong> taxi ou Uber, ~25-30 min, ~CAD $45-55. Guarde pelo menos 2h de folga para voltar antes do embarque.</p>
+          <p><strong>🗺️ Roteiro para ~5h aproveitaveis:</strong></p>
+          <ul>
+            <li>Imigracao canadense e retirada de bagagem (se houver)</li>
+            <li><strong>Basilique Notre-Dame:</strong> interior azul e dourado deslumbrante, ~CAD $16. Abre 9h.</li>
+            <li><strong>Vieux-Montreal:</strong> ruas de paralelepipedo, Place d'Armes</li>
+            <li>Poutine ou smoked meat num restaurante local</li>
+            <li>Retorno ao YUL com 2h de folga</li>
+          </ul>
+          <p><strong>🍁 Para comer:</strong> Poutine (fritas, queijo coalho e molho) e Smoked Meat (sanduiche de carne defumada estilo Montreal).</p>
+          <p><strong>💰 Moeda:</strong> Dolar Canadense (CAD). Cartao em todo lugar. Gorjeta de ~15-18% em restaurantes.</p>
+          <p style="color: var(--terra); font-weight: 700;">⚠️ O eTA canadense e diferente do visto americano. Aplique antes da viagem em canada.ca/eta.</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- VIEW 4: ESSENCIAIS -->
   <div class="view" id="view-essenciais">
     <h2>🧳 Essenciais de Viagem</h2>
     <div class="essenciais-tab-container">
-      <button class="essenciais-tab active" onclick="switchSubView('fx')">Câmbio</button>
-      <button class="essenciais-tab" onclick="switchSubView('gastos')">Gastos</button>
-      <button class="essenciais-tab" onclick="switchSubView('bagagem')">Mala</button>
-      <button class="essenciais-tab" onclick="switchSubView('info')">Info Geral</button>
+      <button class="essenciais-tab active" onclick="switchSubView('fx')">💱 Câmbio</button>
+      <button class="essenciais-tab" onclick="switchSubView('gastos')">💸 Gastos</button>
+      <button class="essenciais-tab" onclick="switchSubView('comida')">🍽️ Comida</button>
+      <button class="essenciais-tab" onclick="switchSubView('cultura')">🌍 Cultura</button>
+      <button class="essenciais-tab" onclick="switchSubView('transporte')">🚇 Transporte</button>
+      <button class="essenciais-tab" onclick="switchSubView('bagagem')">🧳 Mala</button>
+      <button class="essenciais-tab" onclick="switchSubView('info')">📄 Docs</button>
     </div>
 
     <!-- SUBVIEW: CÂMBIO -->
@@ -1413,6 +1550,119 @@
         <p style="font-size: 13.5px; line-height: 1.5;">• <strong>Romênia:</strong> Custo de táxis é baixo. Cartão Wise funciona na grande maioria dos pontos, mas mantenha dinheiro físico (RON) para feiras de artesanato.</p>
       </div>
     </div>
+
+    <!-- SUBVIEW: COMIDA -->
+    <div class="subview" id="subview-comida">
+      <p class="view-hint">Pratos para experimentar, com precos de referencia. Os restaurantes especificos estao na aba <strong>Mapas</strong>, cada um com link para o Google Maps.</p>
+      <div class="essenciais-tab-container" id="food-country-tabs">
+        <button class="essenciais-tab active" onclick="switchFoodCountry('de', this)">🇩🇪 Alemanha</button>
+        <button class="essenciais-tab" onclick="switchFoodCountry('ro', this)">🇷🇴 Romenia</button>
+      </div>
+      <div id="food-list"></div>
+    </div>
+
+    <!-- SUBVIEW: CULTURA & ETIQUETA -->
+    <div class="subview" id="subview-cultura">
+      <div class="ref-card">
+        <h3>🇩🇪 Alemanha: costumes e etiqueta</h3>
+        <ul>
+          <li><strong>Gorjeta:</strong> 5 a 10%. Diga o valor total ao pagar (ex: "20, bitte") ou "stimmt so" para o troco virar gorjeta. Nao deixe moedas na mesa.</li>
+          <li><strong>Dinheiro e cartao:</strong> muitos lugares sao SO DINHEIRO (ex: Zur Haxe). O cartao local e o Girocard; Visa/Master estrangeiros nem sempre passam. Sempre tenha euros e moedas.</li>
+          <li><strong>Domingo:</strong> por lei o comercio FECHA (lojas e mercados). Abrem padarias (de manha), restaurantes, museus e lojas em estacoes/aeroportos. Em Leipzig, o shopping da estacao (Promenaden) salva o domingo.</li>
+          <li><strong>Atravessar a rua:</strong> espere o boneco verde (Ampelmann). Atravessar no vermelho e malvisto, mesmo sem carro.</li>
+          <li><strong>Silencio (Ruhezeit):</strong> 22h as 6h e domingo o dia todo. Evite barulho em predios.</li>
+          <li><strong>Pfand:</strong> garrafas e latas tem deposito (0,08 a 0,25 EUR). Devolva nas maquinas do supermercado e recupere o dinheiro.</li>
+          <li><strong>Agua:</strong> a de torneira (Leitungswasser) e potavel, mas restaurante cobra agua mineral. "Still" = sem gas.</li>
+          <li><strong>Transporte:</strong> valide o bilhete de papel antes de embarcar (entwerten). Fiscal a paisana, multa de 60 EUR.</li>
+          <li><strong>Pontualidade:</strong> levada a serio. Chegue no horario (importante para o trabalho do Lucas no DBFZ).</li>
+          <li><strong>Convivio:</strong> diretos e reservados (nao e grosseria). Aperto de mao, nao beijo. "Hallo / Danke / Tschüss".</li>
+          <li><strong>Banheiros:</strong> muitos cobram 0,50 a 1 EUR. Carregue moedas.</li>
+        </ul>
+        <table class="price-table">
+          <tr><td>Refeicao economica (Döner/Currywurst)</td><td>7-11 EUR</td></tr>
+          <tr><td>Jantar restaurante medio (por pessoa)</td><td>18-30 EUR</td></tr>
+          <tr><td>Cerveja 0,5L no bar</td><td>4-6 EUR</td></tr>
+          <tr><td>Cafe / cappuccino</td><td>3-4,50 EUR</td></tr>
+          <tr><td>Agua mineral (restaurante)</td><td>4-6 EUR</td></tr>
+          <tr><td>Passagem avulsa Berlim (AB) / Leipzig</td><td>3,80 / 3,40 EUR</td></tr>
+          <tr><td>Bilhete diario (Berlim / Leipzig)</td><td>~10,60 / ~9 EUR</td></tr>
+          <tr><td>Entrada de museu</td><td>10-20 EUR</td></tr>
+          <tr><td>Banheiro publico</td><td>0,50-1 EUR</td></tr>
+        </table>
+        <div class="ref-warn">💶 Saque em ATMs de bancos (Sparkasse, Volksbank). Evite caixas Euronet, taxas abusivas.</div>
+      </div>
+
+      <div class="ref-card">
+        <h3>🇷🇴 Romenia: costumes e etiqueta</h3>
+        <ul>
+          <li><strong>Gorjeta:</strong> ~10%, de preferencia em DINHEIRO na mesa (a maquininha nem sempre aceita gorjeta).</li>
+          <li><strong>Cartao e dinheiro:</strong> cartao aceito em quase tudo (contactless). Leve RON para feiras, vendedores de rua e alguns taxis.</li>
+          <li><strong>ATM:</strong> use bancos (Banca Transilvania, BCR, BRD, ING). Evite Euronet. Sempre recuse "conversao dinamica" e escolha ser cobrado em RON (lei local), sai bem mais barato.</li>
+          <li><strong>Transporte por app:</strong> NAO tem Uber, use o Bolt. Taxi: taximetro ou combine antes. Aeroporto-centro ~40-60 RON.</li>
+          <li><strong>Hospitalidade:</strong> oferecem comida e tuica/palinca. Aceitar um pouco e educado. Brinde "Noroc!" olhando nos olhos.</li>
+          <li><strong>Igrejas ortodoxas:</strong> ombros e joelhos cobertos (lenco a mao), fale baixo, fotos as vezes proibidas. Catedral Metropolitana na Piata Victoriei.</li>
+          <li><strong>Idioma:</strong> romeno e latino, parente do portugues (noapte=noite, lapte=leite). Jovens falam ingles; no Banat, idosos podem falar alemao ou hungaro.</li>
+          <li><strong>Fumo:</strong> proibido em ambientes fechados; comum nas terracas ao ar livre.</li>
+          <li><strong>Banheiros:</strong> publicos costumam cobrar 1 a 2 RON. Tenha moedas.</li>
+        </ul>
+        <table class="price-table">
+          <tr><td>Refeicao economica (menu do dia)</td><td>25-40 RON (5-8 EUR)</td></tr>
+          <tr><td>Jantar restaurante medio (por pessoa)</td><td>50-90 RON (10-18 EUR)</td></tr>
+          <tr><td>Cerveja 0,5L na terraca</td><td>8-16 RON</td></tr>
+          <tr><td>Cappuccino</td><td>~13 RON</td></tr>
+          <tr><td>Mici (prato 4-5 un) / Papanasi</td><td>25-45 / 18-35 RON</td></tr>
+          <tr><td>Bilhete de bonde/onibus (60 min)</td><td>3-4 RON</td></tr>
+          <tr><td>Bolt: centro / aeroporto</td><td>12-25 / 40-60 RON</td></tr>
+          <tr><td>Entrada de museu</td><td>15-30 RON</td></tr>
+          <tr><td>Banheiro publico</td><td>1-2 RON</td></tr>
+        </table>
+        <div class="ref-warn">💡 Cambio de referencia: 1 EUR ~ 5 RON. A Romenia e bem mais barata que a Alemanha. Um jantar tradicional a dois com bebida sai por ~120-180 RON (24-36 EUR).</div>
+      </div>
+    </div>
+
+    <!-- SUBVIEW: TRANSPORTE -->
+    <div class="subview" id="subview-transporte">
+      <div class="ref-card">
+        <h3>🎼 Leipzig</h3>
+        <ul>
+          <li><strong>App:</strong> MDV (Mitteldeutscher Verkehrsverbund) ou DB Navigator.</li>
+          <li><strong>Leipzig Card:</strong> transporte ilimitado + descontos.</li>
+          <li><strong>DBFZ (trabalho do Lucas):</strong> Tram 3 sentido Taucha, descer em Heiterblick.</li>
+          <li><strong>Connewitz / a Karli:</strong> Tram 9 ou 11. Völkerschlachtdenkmal: Tram 2.</li>
+        </ul>
+        <div class="ref-warn">⚠️ VALIDE o bilhete no validador da plataforma antes de embarcar. Multa de 60 EUR.</div>
+      </div>
+      <div class="ref-card">
+        <h3>🏛️ Berlim</h3>
+        <ul>
+          <li><strong>App:</strong> BVG Tickets (U-Bahn, S-Bahn, Tram, Bus).</li>
+          <li><strong>Zona A+B:</strong> cobre a cidade toda e o aeroporto BER.</li>
+          <li><strong>Uber Arena (show 06 Jul):</strong> Tram M10 de Alexanderplatz (~20 min) ou S-Bahn ate Warschauer Str.</li>
+          <li><strong>Leipzig para Berlim:</strong> trem ICE, ~1h15min.</li>
+        </ul>
+        <div class="ref-warn">⚠️ VALIDE o bilhete. Fiscais a paisana, multa de 60 EUR.</div>
+      </div>
+      <div class="ref-card">
+        <h3>🇷🇴 Timisoara</h3>
+        <ul>
+          <li><strong>Centro:</strong> caminhavel para quase tudo (as 3 pracas e o Bega).</li>
+          <li><strong>Apps:</strong> use Bolt (NAO tem Uber aqui).</li>
+          <li><strong>Tram/onibus:</strong> bilhete comprado em bancas ANTES de embarcar.</li>
+          <li><strong>Vaporetto Bega:</strong> barco publico no canal, passeio leve e barato.</li>
+          <li><strong>Baile Herculane:</strong> onibus da Gara de Nord (~90 km).</li>
+        </ul>
+        <div class="ref-warn">💳 Saque RON em bancos (Banca Transilvania, BCR). Evite Euronet e recuse conversao em reais/euro (escolha RON).</div>
+      </div>
+      <div class="ref-card">
+        <h3>🇨🇦 Montreal (conexao)</h3>
+        <ul>
+          <li><strong>Aeroporto para o centro:</strong> taxi/Uber ~25-30 min, ~CAD $45-55.</li>
+          <li><strong>eTA canadense:</strong> obrigatorio para sair do aeroporto. Solicitar em canada.ca/eta (~CAD $7).</li>
+          <li><strong>Dica:</strong> guardar 2h de folga para voltar ao YUL antes do voo.</li>
+        </ul>
+        <div class="ref-warn">🍁 Passaporte + eTA valido sao obrigatorios na imigracao canadense.</div>
+      </div>
+    </div>
   </div>
 
   <!-- VIEW 5: FRASES -->
@@ -1423,19 +1673,62 @@
       <button class="frases-lang-btn" id="btn-lang-ro" onclick="switchLang('ro')">🇷🇴 Romeno</button>
     </div>
 
+    <p class="view-hint">👩 <strong>Solo</strong> = dia da Carol sozinha · 🤝 <strong>Social</strong> = Lucas no dia a dia · 👉 <strong>Indicar</strong> = aponte e mostre a tela. Toque em 🔊 para ouvir a pronuncia.</p>
     <div class="essenciais-tab-container" id="frase-cats">
       <button class="essenciais-tab active" onclick="filterFrases('all', this)">Todas</button>
       <button class="essenciais-tab" onclick="filterFrases('cump', this)">🗣️ Cumprimentos</button>
+      <button class="essenciais-tab" onclick="filterFrases('point', this)">👉 Indicar</button>
+      <button class="essenciais-tab" onclick="filterFrases('solo', this)">👩 Solo</button>
+      <button class="essenciais-tab" onclick="filterFrases('social', this)">🤝 Social</button>
       <button class="essenciais-tab" onclick="filterFrases('comp', this)">🛒 Compras</button>
       <button class="essenciais-tab" onclick="filterFrases('trans', this)">🚇 Transporte</button>
       <button class="essenciais-tab" onclick="filterFrases('rest', this)">🍽️ Restaurante</button>
       <button class="essenciais-tab" onclick="filterFrases('emerg', this)">🆘 Emergência</button>
       <button class="essenciais-tab" onclick="filterFrases('hotel', this)">🏨 Hotel</button>
+      <button class="essenciais-tab" onclick="filterFrases('num', this)">🔢 Números</button>
     </div>
 
     <div id="frases-list">
       <!-- Injeção de frases via JS -->
     </div>
+  </div>
+
+  <!-- VIEW 6: MAPAS INTERATIVOS -->
+  <div class="view" id="view-mapas">
+    <h2>🗺️ Mapa Interativo</h2>
+
+    <div class="cr-countdown" id="cr-countdown-widget"></div>
+
+    <p class="view-hint">Locais com coordenadas verificadas. Toque num marcador ou cartao para abrir no Google Maps. Funciona offline depois da primeira carga (os blocos do mapa ficam em cache).</p>
+
+    <div class="essenciais-tab-container" id="map-city-tabs">
+      <button class="essenciais-tab active" onclick="selectMapCity('leipzig', this)">🎼 Leipzig</button>
+      <button class="essenciais-tab" onclick="selectMapCity('berlin', this)">🏛️ Berlim</button>
+      <button class="essenciais-tab" onclick="selectMapCity('timisoara', this)">🇷🇴 Timisoara</button>
+      <button class="essenciais-tab" onclick="selectMapCity('montreal', this)">🇨🇦 Montreal</button>
+    </div>
+
+    <div class="essenciais-tab-container" id="map-cat-tabs">
+      <button class="essenciais-tab active" onclick="filterMapCat('all', this)">Todos</button>
+      <button class="essenciais-tab" onclick="filterMapCat('lodging', this)">🏨 Hotel</button>
+      <button class="essenciais-tab" onclick="filterMapCat('food', this)">🍽️ Comida</button>
+      <button class="essenciais-tab" onclick="filterMapCat('sight', this)">📍 Pontos</button>
+      <button class="essenciais-tab" onclick="filterMapCat('culture', this)">🎭 Cultura</button>
+      <button class="essenciais-tab" onclick="filterMapCat('shopping', this)">🛍️ Compras</button>
+      <button class="essenciais-tab" onclick="filterMapCat('nightlife', this)">🍻 Noite</button>
+      <button class="essenciais-tab" onclick="filterMapCat('event', this)">⚔️ Evento</button>
+    </div>
+
+    <div class="map-who-filter">
+      <button class="who-btn active" onclick="filterMapWho('all', this)">Todos</button>
+      <button class="who-btn" onclick="filterMapWho('solo', this)">👩 Carol solo</button>
+      <button class="who-btn" onclick="filterMapWho('couple', this)">👫 A dois</button>
+    </div>
+
+    <div class="map-skeleton" id="map-skeleton">🗺️ Carregando o mapa...</div>
+    <div id="map-container" style="height:340px;border-radius:12px;overflow:hidden;margin-bottom:12px;display:none;border:1px solid var(--border);"></div>
+
+    <div id="map-place-list"></div>
   </div>
 
   <!-- BOTÃO FLUTUANTE: VOLTAR AO TOPO -->
@@ -1473,6 +1766,10 @@
       <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
       <span>Agenda</span>
     </button>
+    <button class="nav-btn" onclick="switchView('mapas', this)">
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+      <span>Mapas</span>
+    </button>
     <button class="nav-btn" onclick="switchView('destinos', this)">
       <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       <span>Destinos</span>
@@ -1504,34 +1801,206 @@
     // DADOS DAS FRASES
     const DICTIONARY = {
       de: [
-        { pt: "Bom dia / Olá", text: "Guten Tag", pron: "Gúten Tág", cat: "cump" },
-        { pt: "Muito obrigado", text: "Vielen Dank", pron: "Fílen Dánk", cat: "cump" },
+        { pt: "Bom dia (manhã)", text: "Guten Morgen", pron: "Gúten Mórguen", cat: "cump" },
+        { pt: "Bom dia / Boa tarde (formal)", text: "Guten Tag", pron: "Gúten Tág", cat: "cump" },
+        { pt: "Boa noite (ao chegar)", text: "Guten Abend", pron: "Gúten Ábent", cat: "cump" },
+        { pt: "Oi (informal)", text: "Hallo", pron: "Háló", cat: "cump" },
+        { pt: "Tchau", text: "Tschüss", pron: "Tchüss", cat: "cump" },
+        { pt: "Até logo (formal)", text: "Auf Wiedersehen", pron: "Auf Víder-zên", cat: "cump" },
         { pt: "Por favor", text: "Bitte", pron: "Bíte", cat: "cump" },
-        { pt: "Tchau", text: "Tschüss", pron: "Tchýss", cat: "cump" },
-        { pt: "Quanto custa?", text: "Was kostet das?", pron: "Vas cós-tet das?", cat: "comp" },
-        { pt: "Você aceita cartão?", text: "Akzeptieren Sie Kartenzahlung?", pron: "Ak-tsép-tíren zí Kár-ten-tsá-lung?", cat: "comp" },
-        { pt: "Onde fica o metrô?", text: "Wo ist die U-Bahn?", pron: "Vo ist dí Ú-bán?", cat: "trans" },
-        { pt: "Este trem vai para...", text: "Fährt dieser Zug nach...", pron: "Fért dízer tsúg nah...", cat: "trans" },
-        { pt: "A conta, por favor", text: "Die Rechnung, bitte.", pron: "Dí réch-nung, bíte.", cat: "rest" },
-        { pt: "Uma água sem gás, por favor", text: "Ein stilles Wasser, bitte.", pron: "Ain chtíles váser, bíte.", cat: "rest" },
-        { pt: "Ajuda! É uma emergência!", text: "Hilfe! Es ist ein Notfall!", pron: "Hílfe! Es ist ain Nót-fal!", cat: "emerg" },
-        { pt: "Onde fica a farmácia 24h?", text: "Wo ist die Notapotheke?", pron: "Wo ist dí Nót-apo-té-ke?", cat: "emerg" },
-        { pt: "Tenho uma reserva em nome de...", text: "Ich habe eine Reservierung auf den Namen...", pron: "Ish hábe áine Re-zerví-rung auf den Námen...", cat: "hotel" }
+        { pt: "Obrigado(a)", text: "Danke", pron: "Dánke", cat: "cump" },
+        { pt: "Muito obrigado(a)", text: "Vielen Dank", pron: "Fílen Dánk", cat: "cump" },
+        { pt: "De nada", text: "Gern geschehen", pron: "Guérn gue-chêen", cat: "cump" },
+        { pt: "Com licença (chamar atenção)", text: "Entschuldigung", pron: "Ent-chúldigung", cat: "cump" },
+        { pt: "Desculpe (perdão)", text: "Es tut mir leid", pron: "Es tút mir láit", cat: "cump" },
+        { pt: "Sim / Não", text: "Ja / Nein", pron: "Iá / Náin", cat: "cump" },
+        { pt: "Tudo bem? Como vai?", text: "Wie geht es Ihnen?", pron: "Ví guét es ínen?", cat: "cump" },
+        { pt: "Você fala inglês?", text: "Sprechen Sie Englisch?", pron: "Chpréren zi Énglich?", cat: "cump" },
+        { pt: "Eu não falo alemão", text: "Ich spreche kein Deutsch", pron: "Ish chpréche káin Dóitch", cat: "cump" },
+        { pt: "Não entendi", text: "Ich habe das nicht verstanden", pron: "Ish hábe das nisht fer-chtánden", cat: "cump" },
+        { pt: "Pode repetir, por favor?", text: "Können Sie das bitte wiederholen?", pron: "Kőnen zi das bíte víder-hólen?", cat: "cump" },
+        { pt: "Pode falar mais devagar?", text: "Können Sie langsamer sprechen?", pron: "Kőnen zi láng-zamer chpréchen?", cat: "cump" },
+        { pt: "Isto, por favor (apontando)", text: "Das hier, bitte", pron: "Das rír, bíte", cat: "point" },
+        { pt: "Aquilo ali", text: "Das da drüben", pron: "Das dá drűben", cat: "point" },
+        { pt: "Eu queria isto", text: "Ich hätte gerne das", pron: "Ish réte guérne das", cat: "point" },
+        { pt: "Quanto custa isto?", text: "Was kostet das?", pron: "Vas cóstet das?", cat: "point" },
+        { pt: "Pode me mostrar?", text: "Können Sie es mir zeigen?", pron: "Kőnen zi es mir tsáiguen?", cat: "point" },
+        { pt: "Um pouco / mais / menos", text: "Ein bisschen / mehr / weniger", pron: "Áin bíssen / mêr / vêniguer", cat: "point" },
+        { pt: "Onde fica...?", text: "Wo ist...?", pron: "Vo íst...?", cat: "point" },
+        { pt: "Onde fica o banheiro?", text: "Wo ist die Toilette?", pron: "Vo íst di tualéte?", cat: "point" },
+        { pt: "Quanto custa?", text: "Was kostet das?", pron: "Vas cóstet das?", cat: "comp" },
+        { pt: "Você aceita cartão?", text: "Kann ich mit Karte zahlen?", pron: "Kan ish mit cárte tsálen?", cat: "comp" },
+        { pt: "É só dinheiro?", text: "Nur Bargeld?", pron: "Núr bárguelt?", cat: "comp" },
+        { pt: "Estou só olhando", text: "Ich schaue mich nur um", pron: "Ish cháue mish núr um", cat: "comp" },
+        { pt: "Tem em outro tamanho?", text: "Haben Sie das in einer anderen Größe?", pron: "Háben zi das in áiner ánderen grősse?", cat: "comp" },
+        { pt: "Uma sacola, por favor", text: "Eine Tüte, bitte", pron: "Áine tűte, bíte", cat: "comp" },
+        { pt: "A que horas fecha?", text: "Wann schließen Sie?", pron: "Van chlíssen zi?", cat: "comp" },
+        { pt: "Onde fica a estação central?", text: "Wo ist der Hauptbahnhof?", pron: "Vo íst der Háupt-bán-rôf?", cat: "trans" },
+        { pt: "Onde compro o bilhete?", text: "Wo kann ich ein Ticket kaufen?", pron: "Vo kan ish áin tíket cáufen?", cat: "trans" },
+        { pt: "Um bilhete para..., por favor", text: "Eine Fahrkarte nach..., bitte", pron: "Áine fár-cárte nár..., bíte", cat: "trans" },
+        { pt: "Preciso validar o bilhete?", text: "Muss ich das Ticket entwerten?", pron: "Mus ish das tíket ent-vérten?", cat: "trans" },
+        { pt: "Este trem vai para...?", text: "Fährt dieser Zug nach...?", pron: "Fért dízer tsúg nár...?", cat: "trans" },
+        { pt: "Qual plataforma?", text: "Welches Gleis?", pron: "Vélches gláis?", cat: "trans" },
+        { pt: "Pode chamar um táxi?", text: "Können Sie ein Taxi rufen?", pron: "Kőnen zi áin táxi rúfen?", cat: "trans" },
+        { pt: "Onde fica o ponto de bonde?", text: "Wo ist die Straßenbahnhaltestelle?", pron: "Vo íst di chtrássen-bán-hálte-chtéle?", cat: "trans" },
+        { pt: "Uma mesa para dois, por favor", text: "Einen Tisch für zwei, bitte", pron: "Áinen tích fűr tsvái, bíte", cat: "rest" },
+        { pt: "O cardápio, por favor", text: "Die Speisekarte, bitte", pron: "Di chpáize-cárte, bíte", cat: "rest" },
+        { pt: "O que você recomenda?", text: "Was empfehlen Sie?", pron: "Vas emp-fêlen zi?", cat: "rest" },
+        { pt: "Eu vou querer isto", text: "Ich nehme das", pron: "Ish nême das", cat: "rest" },
+        { pt: "Sou vegetariano(a)", text: "Ich bin Vegetarier(in)", pron: "Ish bin veguetárier(in)", cat: "rest" },
+        { pt: "Sem carne de porco, por favor", text: "Ohne Schweinefleisch, bitte", pron: "Óne chváine-fláich, bíte", cat: "rest" },
+        { pt: "Uma cerveja / um vinho", text: "Ein Bier / ein Wein", pron: "Áin bír / áin váin", cat: "rest" },
+        { pt: "Água sem gás / com gás", text: "Stilles Wasser / Wasser mit Kohlensäure", pron: "Chtíles vásser / vásser mit cólen-zóire", cat: "rest" },
+        { pt: "A conta, por favor", text: "Die Rechnung, bitte", pron: "Di réchnung, bíte", cat: "rest" },
+        { pt: "Estava delicioso!", text: "Es war köstlich!", pron: "Es vár kőst-lish!", cat: "rest" },
+        { pt: "Pode ficar com o troco", text: "Stimmt so", pron: "Chtimt zó", cat: "rest" },
+        { pt: "Sou alérgico(a) a...", text: "Ich bin allergisch gegen...", pron: "Ish bin a-lér-guish guêguen...", cat: "rest" },
+        { pt: "Pode me ajudar?", text: "Können Sie mir helfen?", pron: "Kőnen zi mir hélfen?", cat: "solo" },
+        { pt: "Estou perdida", text: "Ich habe mich verlaufen", pron: "Ish hábe mish fer-láufen", cat: "solo" },
+        { pt: "Como chego até...?", text: "Wie komme ich zu...?", pron: "Ví cóme ish tsú...?", cat: "solo" },
+        { pt: "É longe daqui?", text: "Ist es weit von hier?", pron: "Íst es váit fon rír?", cat: "solo" },
+        { pt: "É seguro andar aqui?", text: "Ist es hier sicher?", pron: "Íst es rír zísher?", cat: "solo" },
+        { pt: "Não, obrigada", text: "Nein, danke", pron: "Náin, dánke", cat: "solo" },
+        { pt: "Por favor, me deixe em paz", text: "Bitte lassen Sie mich in Ruhe", pron: "Bíte lássen zi mish in rúe", cat: "solo" },
+        { pt: "Pode tirar uma foto minha?", text: "Können Sie ein Foto von mir machen?", pron: "Kőnen zi áin fóto fon mir máchen?", cat: "solo" },
+        { pt: "Estou esperando alguém", text: "Ich warte auf jemanden", pron: "Ish várte auf iémanden", cat: "solo" },
+        { pt: "Onde fica a farmácia?", text: "Wo ist die Apotheke?", pron: "Vo íst di apo-têke?", cat: "solo" },
+        { pt: "Tem Wi-Fi aqui?", text: "Gibt es hier WLAN?", pron: "Guíbt es rír vê-lán?", cat: "solo" },
+        { pt: "Prazer em conhecê-lo(a)", text: "Freut mich, Sie kennenzulernen", pron: "Fróit mish, zi kénen-tsu-lérnen", cat: "social" },
+        { pt: "Meu nome é Lucas", text: "Ich heiße Lucas", pron: "Ish ráisse Lúcas", cat: "social" },
+        { pt: "Eu sou do Brasil", text: "Ich komme aus Brasilien", pron: "Ish cóme aus bra-zílien", cat: "social" },
+        { pt: "Eu trabalho com pesquisa", text: "Ich arbeite in der Forschung", pron: "Ish ar-báite in der fór-chung", cat: "social" },
+        { pt: "De onde você é?", text: "Woher kommen Sie?", pron: "Vo-hér cómen zi?", cat: "social" },
+        { pt: "Foi um prazer", text: "Es war mir ein Vergnügen", pron: "Es vár mir áin fer-gnű-guen", cat: "social" },
+        { pt: "Vamos manter contato", text: "Bleiben wir in Kontakt", pron: "Bláiben vír in cóntakt", cat: "social" },
+        { pt: "Com licença, preciso ir", text: "Entschuldigung, ich muss los", pron: "Ent-chúldigung, ish mus lós", cat: "social" },
+        { pt: "Posso lhe pagar uma bebida?", text: "Darf ich Sie auf ein Getränk einladen?", pron: "Darf ish zi auf áin gue-trénk áin-láden?", cat: "social" },
+        { pt: "Saúde! (brinde)", text: "Prost!", pron: "Próst!", cat: "social" },
+        { pt: "Ajuda!", text: "Hilfe!", pron: "Hílfe!", cat: "emerg" },
+        { pt: "É uma emergência", text: "Es ist ein Notfall", pron: "Es íst áin nót-fal", cat: "emerg" },
+        { pt: "Chame a polícia", text: "Rufen Sie die Polizei", pron: "Rúfen zi di poli-tsái", cat: "emerg" },
+        { pt: "Chame uma ambulância", text: "Rufen Sie einen Krankenwagen", pron: "Rúfen zi áinen cránken-váguen", cat: "emerg" },
+        { pt: "Preciso de um médico", text: "Ich brauche einen Arzt", pron: "Ish bráuche áinen ártst", cat: "emerg" },
+        { pt: "Não estou me sentindo bem", text: "Mir geht es nicht gut", pron: "Mir guét es nisht gút", cat: "emerg" },
+        { pt: "Onde fica o hospital?", text: "Wo ist das Krankenhaus?", pron: "Vo íst das cránken-raus?", cat: "emerg" },
+        { pt: "Onde fica a farmácia de plantão?", text: "Wo ist die Notapotheke?", pron: "Vo íst di nót-apo-têke?", cat: "emerg" },
+        { pt: "Perdi meu passaporte", text: "Ich habe meinen Pass verloren", pron: "Ish hábe máinen pas fer-lóren", cat: "emerg" },
+        { pt: "Roubaram minha bolsa", text: "Meine Tasche wurde gestohlen", pron: "Máine táche vúrde gue-chtólen", cat: "emerg" },
+        { pt: "Preciso da polícia (registro)", text: "Ich brauche eine Polizeianzeige", pron: "Ish bráuche áine poli-tsái-an-tsáigue", cat: "emerg" },
+        { pt: "Tenho uma reserva", text: "Ich habe eine Reservierung", pron: "Ish hábe áine rezer-vírung", cat: "hotel" },
+        { pt: "Em nome de...", text: "Auf den Namen...", pron: "Auf den námen...", cat: "hotel" },
+        { pt: "A que horas é o check-out?", text: "Wann ist der Check-out?", pron: "Van íst der tchék-aut?", cat: "hotel" },
+        { pt: "Posso deixar minha mala?", text: "Kann ich mein Gepäck hier lassen?", pron: "Kan ish máin gue-pék rír lássen?", cat: "hotel" },
+        { pt: "O café da manhã está incluído?", text: "Ist das Frühstück inklusive?", pron: "Íst das frű-chtük inclu-zíve?", cat: "hotel" },
+        { pt: "A chave, por favor", text: "Den Schlüssel, bitte", pron: "Den chlűssel, bíte", cat: "hotel" },
+        { pt: "Um, dois, três", text: "eins, zwei, drei", pron: "áins, tsvái, drái", cat: "num" },
+        { pt: "Quatro, cinco, seis", text: "vier, fünf, sechs", pron: "fír, fűnf, zéks", cat: "num" },
+        { pt: "Sete, oito, nove, dez", text: "sieben, acht, neun, zehn", pron: "zíben, árt, nóin, tsên", cat: "num" },
+        { pt: "Que horas são?", text: "Wie spät ist es?", pron: "Ví chpét íst es?", cat: "num" },
+        { pt: "Hoje / amanhã / ontem", text: "heute / morgen / gestern", pron: "hóite / mórguen / guéstern", cat: "num" },
+        { pt: "Agora / mais tarde", text: "jetzt / später", pron: "iétst / chpéter", cat: "num" },
+        { pt: "Quanto tempo demora?", text: "Wie lange dauert es?", pron: "Ví lángue dáuert es?", cat: "num" }
       ],
       ro: [
-        { pt: "Bom dia / Olá", text: "Bună ziua", pron: "Bunâ zíua", cat: "cump" },
-        { pt: "Muito obrigado", text: "Mulțumesc mult", pron: "Multsumésc mult", cat: "cump" },
+        { pt: "Bom dia (manhã)", text: "Bună dimineața", pron: "Búna dimi-niátsa", cat: "cump" },
+        { pt: "Bom dia / Boa tarde (formal)", text: "Bună ziua", pron: "Búna zíua", cat: "cump" },
+        { pt: "Boa noite (ao chegar)", text: "Bună seara", pron: "Búna siára", cat: "cump" },
+        { pt: "Oi (informal)", text: "Salut", pron: "Salút", cat: "cump" },
+        { pt: "Tchau", text: "Pa", pron: "Pá", cat: "cump" },
+        { pt: "Até logo (formal)", text: "La revedere", pron: "La revédere", cat: "cump" },
         { pt: "Por favor", text: "Vă rog", pron: "Vâ róg", cat: "cump" },
-        { pt: "Tchau", text: "La revedere", pron: "La revédere", cat: "cump" },
+        { pt: "Obrigado(a)", text: "Mulțumesc", pron: "Multsu-mésc", cat: "cump" },
+        { pt: "Muito obrigado(a)", text: "Mulțumesc mult", pron: "Multsu-mésc múlt", cat: "cump" },
+        { pt: "De nada", text: "Cu plăcere", pron: "Cu plâ-tchére", cat: "cump" },
+        { pt: "Com licença (chamar atenção)", text: "Scuzați-mă", pron: "Scu-zátsi-mâ", cat: "cump" },
+        { pt: "Desculpe (perdão)", text: "Îmi pare rău", pron: "Ími páre râu", cat: "cump" },
+        { pt: "Sim / Não", text: "Da / Nu", pron: "Dá / Nú", cat: "cump" },
+        { pt: "Tudo bem? Como vai?", text: "Ce mai faceți?", pron: "Tché mái fá-tchets?", cat: "cump" },
+        { pt: "Você fala inglês?", text: "Vorbiți engleză?", pron: "Vor-bíts en-glézâ?", cat: "cump" },
+        { pt: "Eu não falo romeno", text: "Nu vorbesc românește", pron: "Nú vor-bésc româ-néshte", cat: "cump" },
+        { pt: "Não entendi", text: "Nu am înțeles", pron: "Nú am întse-lés", cat: "cump" },
+        { pt: "Pode repetir, por favor?", text: "Puteți repeta, vă rog?", pron: "Pu-téts repe-tá, vâ róg?", cat: "cump" },
+        { pt: "Pode falar mais devagar?", text: "Puteți vorbi mai rar?", pron: "Pu-téts vor-bí mái rár?", cat: "cump" },
+        { pt: "Isto, por favor (apontando)", text: "Asta, vă rog", pron: "Ásta, vâ róg", cat: "point" },
+        { pt: "Aquilo ali", text: "Ăla de acolo", pron: "Ála de acólo", cat: "point" },
+        { pt: "Eu queria isto", text: "Aș dori asta", pron: "Ash do-rí ásta", cat: "point" },
+        { pt: "Quanto custa isto?", text: "Cât costă asta?", pron: "Cât cóstâ ásta?", cat: "point" },
+        { pt: "Pode me mostrar?", text: "Îmi puteți arăta?", pron: "Ími pu-téts arâ-tá?", cat: "point" },
+        { pt: "Um pouco / mais / menos", text: "Puțin / mai mult / mai puțin", pron: "Pu-tsín / mái múlt / mái pu-tsín", cat: "point" },
+        { pt: "Onde fica...?", text: "Unde este...?", pron: "Únde iéste...?", cat: "point" },
+        { pt: "Onde fica o banheiro?", text: "Unde este toaleta?", pron: "Únde iéste toa-léta?", cat: "point" },
         { pt: "Quanto custa?", text: "Cât costă?", pron: "Cât cóstâ?", cat: "comp" },
-        { pt: "Você aceita cartão?", text: "Acceptați cardul?", pron: "Atchéptats kárdul?", cat: "comp" },
-        { pt: "Onde fica a estação de ônibus/barco?", text: "Unde este stația?", pron: "Únde iéste státsia?", cat: "trans" },
-        { pt: "Este ônibus vai para o centro?", text: "Acest autobuz merge în centru?", pron: "Atchést au-tóbuz mérge în txéntru?", cat: "trans" },
-        { pt: "A conta, por favor", text: "Nota, vă rog.", pron: "Nóta, vâ róg.", cat: "rest" },
-        { pt: "Uma água mineral, por favor", text: "O apă minerală, vă rog.", pron: "O ápâ mi-ne-rálâ, vâ róg.", cat: "rest" },
-        { pt: "Ajuda! Chame a polícia/médico!", text: "Ajutor! Sunați la poliție/medic!", pron: "Aiutór! Sunáts la polítsie/médik?", cat: "emerg" },
-        { pt: "Onde fica a farmácia?", text: "Unde este farmacia?", pron: "Únde iéste far-ma-tchía?", cat: "emerg" },
-        { pt: "Tenho uma reserva", text: "Am o rezervare.", pron: "Am o re-zervá-re.", cat: "hotel" }
+        { pt: "Você aceita cartão?", text: "Acceptați cardul?", pron: "Atchep-táts cárdul?", cat: "comp" },
+        { pt: "É só dinheiro?", text: "Doar numerar?", pron: "Doár nume-rár?", cat: "comp" },
+        { pt: "Estou só olhando", text: "Doar mă uit", pron: "Doár mâ úit", cat: "comp" },
+        { pt: "Tem em outro tamanho?", text: "Aveți altă mărime?", pron: "A-véts áltâ mâ-ríme?", cat: "comp" },
+        { pt: "Uma sacola, por favor", text: "O pungă, vă rog", pron: "O púngâ, vâ róg", cat: "comp" },
+        { pt: "A que horas fecha?", text: "La ce oră închideți?", pron: "La tché ó-râ în-kí-dets?", cat: "comp" },
+        { pt: "Onde fica a estação central?", text: "Unde este gara?", pron: "Únde iéste gára?", cat: "trans" },
+        { pt: "Onde compro o bilhete?", text: "De unde cumpăr biletul?", pron: "De únde cúm-pâr bi-létul?", cat: "trans" },
+        { pt: "Um bilhete para..., por favor", text: "Un bilet pentru..., vă rog", pron: "Un bi-lét péntru..., vâ róg", cat: "trans" },
+        { pt: "Preciso validar o bilhete?", text: "Trebuie să validez biletul?", pron: "Tré-buie sâ vali-déz bi-létul?", cat: "trans" },
+        { pt: "Este bonde vai ao centro?", text: "Acest tramvai merge în centru?", pron: "A-tchést tram-vái mérdje în tchén-tru?", cat: "trans" },
+        { pt: "Em qual parada desço?", text: "La ce stație cobor?", pron: "La tché stá-tsie co-bór?", cat: "trans" },
+        { pt: "Pode chamar um táxi?", text: "Puteți chema un taxi?", pron: "Pu-téts ke-má un táxi?", cat: "trans" },
+        { pt: "Quanto custa a corrida?", text: "Cât costă cursa?", pron: "Cât cóstâ cúrsa?", cat: "trans" },
+        { pt: "Uma mesa para dois, por favor", text: "O masă pentru doi, vă rog", pron: "O mása péntru dói, vâ róg", cat: "rest" },
+        { pt: "O cardápio, por favor", text: "Meniul, vă rog", pron: "Me-níul, vâ róg", cat: "rest" },
+        { pt: "O que você recomenda?", text: "Ce recomandați?", pron: "Tché reco-man-dáts?", cat: "rest" },
+        { pt: "Eu vou querer isto", text: "Aș dori asta", pron: "Ash do-rí ásta", cat: "rest" },
+        { pt: "Sou vegetariano(a)", text: "Sunt vegetarian(ă)", pron: "Súnt vedjeta-riám(â)", cat: "rest" },
+        { pt: "Sem carne de porco, por favor", text: "Fără carne de porc, vă rog", pron: "Fâ-râ cárne de pórc, vâ róg", cat: "rest" },
+        { pt: "Uma cerveja / um vinho", text: "O bere / un vin", pron: "O bére / un vín", cat: "rest" },
+        { pt: "Água sem gás / com gás", text: "Apă plată / apă minerală", pron: "Ápâ plá-tâ / ápâ mine-rá-lâ", cat: "rest" },
+        { pt: "A conta, por favor", text: "Nota, vă rog", pron: "Nóta, vâ róg", cat: "rest" },
+        { pt: "Estava delicioso!", text: "A fost delicios!", pron: "A fóst deli-tchós!", cat: "rest" },
+        { pt: "Pode ficar com o troco", text: "Păstrați restul", pron: "Pâs-tráts réstul", cat: "rest" },
+        { pt: "Sou alérgico(a) a...", text: "Sunt alergic(ă) la...", pron: "Súnt a-lér-djic(â) la...", cat: "rest" },
+        { pt: "Pode me ajudar?", text: "Mă puteți ajuta?", pron: "Mâ pu-téts aju-tá?", cat: "solo" },
+        { pt: "Estou perdida", text: "M-am rătăcit", pron: "Mam râtâ-tchít", cat: "solo" },
+        { pt: "Como chego até...?", text: "Cum ajung la...?", pron: "Cúm ajúng la...?", cat: "solo" },
+        { pt: "É longe daqui?", text: "Este departe de aici?", pron: "Iéste de-párte de a-ítch?", cat: "solo" },
+        { pt: "É seguro andar aqui?", text: "Este sigur aici?", pron: "Iéste si-gúr a-ítch?", cat: "solo" },
+        { pt: "Não, obrigada", text: "Nu, mulțumesc", pron: "Nú, multsu-mésc", cat: "solo" },
+        { pt: "Por favor, me deixe em paz", text: "Lăsați-mă în pace, vă rog", pron: "Lâ-sátsi-mâ în pá-tche, vâ róg", cat: "solo" },
+        { pt: "Pode tirar uma foto minha?", text: "Puteți face o poză cu mine?", pron: "Pu-téts fá-tche o pózâ cu míne?", cat: "solo" },
+        { pt: "Estou esperando alguém", text: "Aștept pe cineva", pron: "Ash-tépt pe tchine-vá", cat: "solo" },
+        { pt: "Onde fica a farmácia?", text: "Unde este farmacia?", pron: "Únde iéste far-ma-tchía?", cat: "solo" },
+        { pt: "Tem Wi-Fi aqui?", text: "Aveți Wi-Fi aici?", pron: "A-véts vái-fái a-ítch?", cat: "solo" },
+        { pt: "Prazer em conhecê-lo(a)", text: "Îmi pare bine de cunoștință", pron: "Ími páre bíne de cu-nosh-tín-tsâ", cat: "social" },
+        { pt: "Meu nome é Lucas", text: "Mă numesc Lucas", pron: "Mâ nu-mésc Lúcas", cat: "social" },
+        { pt: "Eu sou do Brasil", text: "Sunt din Brazilia", pron: "Súnt din bra-zília", cat: "social" },
+        { pt: "Eu trabalho com pesquisa", text: "Lucrez în cercetare", pron: "Lu-créz în tcher-tche-táre", cat: "social" },
+        { pt: "De onde você é?", text: "De unde sunteți?", pron: "De únde sun-téts?", cat: "social" },
+        { pt: "Foi um prazer", text: "A fost o plăcere", pron: "A fóst o plâ-tchére", cat: "social" },
+        { pt: "Vamos manter contato", text: "Să ținem legătura", pron: "Sâ tsí-nem legâ-túra", cat: "social" },
+        { pt: "Com licença, preciso ir", text: "Scuzați-mă, trebuie să plec", pron: "Scu-zátsi-mâ, tré-buie sâ pléc", cat: "social" },
+        { pt: "Posso lhe pagar uma bebida?", text: "Pot să vă ofer ceva de băut?", pron: "Pót sâ vâ o-fér tché-va de bâ-út?", cat: "social" },
+        { pt: "Saúde! (brinde)", text: "Noroc!", pron: "No-róc!", cat: "social" },
+        { pt: "Ajuda!", text: "Ajutor!", pron: "Aju-tór!", cat: "emerg" },
+        { pt: "É uma emergência", text: "Este o urgență", pron: "Iéste o ur-djén-tsâ", cat: "emerg" },
+        { pt: "Chame a polícia", text: "Chemați poliția", pron: "Ke-máts poli-tsía", cat: "emerg" },
+        { pt: "Chame uma ambulância", text: "Chemați o ambulanță", pron: "Ke-máts o ambu-lán-tsâ", cat: "emerg" },
+        { pt: "Preciso de um médico", text: "Am nevoie de un doctor", pron: "Ám ne-vóie de un dóc-tor", cat: "emerg" },
+        { pt: "Não estou me sentindo bem", text: "Nu mă simt bine", pron: "Nú mâ símt bíne", cat: "emerg" },
+        { pt: "Onde fica o hospital?", text: "Unde este spitalul?", pron: "Únde iéste spi-tálul?", cat: "emerg" },
+        { pt: "Onde fica a farmácia de plantão?", text: "Unde este farmacia de gardă?", pron: "Únde iéste far-ma-tchía de gár-dâ?", cat: "emerg" },
+        { pt: "Perdi meu passaporte", text: "Mi-am pierdut pașaportul", pron: "Miám pier-dút pasha-pórtul", cat: "emerg" },
+        { pt: "Roubaram minha bolsa", text: "Mi-au furat geanta", pron: "Miáu fu-rát djánta", cat: "emerg" },
+        { pt: "Preciso da polícia (registro)", text: "Am nevoie de poliție", pron: "Ám ne-vóie de poli-tsíe", cat: "emerg" },
+        { pt: "Tenho uma reserva", text: "Am o rezervare", pron: "Ám o rezer-váre", cat: "hotel" },
+        { pt: "Em nome de...", text: "Pe numele...", pron: "Pe nú-mele...", cat: "hotel" },
+        { pt: "A que horas é o check-out?", text: "La ce oră este check-out?", pron: "La tché ó-râ iéste tchék-aut?", cat: "hotel" },
+        { pt: "Posso deixar minha mala?", text: "Pot să las bagajul aici?", pron: "Pót sâ lás ba-gájul a-ítch?", cat: "hotel" },
+        { pt: "O café da manhã está incluído?", text: "Micul dejun este inclus?", pron: "Mícul de-jún iéste in-clús?", cat: "hotel" },
+        { pt: "A chave, por favor", text: "Cheia, vă rog", pron: "Kéia, vâ róg", cat: "hotel" },
+        { pt: "Um, dois, três", text: "unu, doi, trei", pron: "únu, dói, tréi", cat: "num" },
+        { pt: "Quatro, cinco, seis", text: "patru, cinci, șase", pron: "pátru, tchíntch, shá-se", cat: "num" },
+        { pt: "Sete, oito, nove, dez", text: "șapte, opt, nouă, zece", pron: "sháp-te, ópt, nóuâ, zé-tche", cat: "num" },
+        { pt: "Que horas são?", text: "Cât e ceasul?", pron: "Cât e tchá-sul?", cat: "num" },
+        { pt: "Hoje / amanhã / ontem", text: "azi / mâine / ieri", pron: "ázi / mâi-ne / iéri", cat: "num" },
+        { pt: "Agora / mais tarde", text: "acum / mai târziu", pron: "a-cúm / mái târ-zíu", cat: "num" },
+        { pt: "Quanto tempo demora?", text: "Cât durează?", pron: "Cât du-reá-zâ?", cat: "num" }
       ]
     };
 
@@ -1614,16 +2083,18 @@
         { time: "11:20", text: "🛬 Chegada a Berlim (BER) (Fuso: -1h) e trânsito para o centro" },
         { time: "15:00", text: "🏨 Check-in no Park Inn by Radisson Berlin Alexanderplatz", address: "Alexanderplatz 7, Mitte, Berlim, 10178, Alemanha (Conf: 5117675550, PIN: 5478)" }
       ]},
-      { id: "06jul", dateStr: "06 Jul (Seg)", city: "Berlim 🛍️", tasks: [
-        { time: "Manhã", text: "🛍️ Compras em Alexanderplatz e no shopping Alexa" },
-        { time: "Tarde", text: "🏛️ Visita cultural na Ilha dos Museus (Museumsinsel)" },
-        { time: "Noite", text: "🌭 Currywurst no Konnopke's Imbiss (Schönhauser Allee)" }
+      { id: "06jul", dateStr: "06 Jul (Seg)", city: "Berlim ⚔️", tasks: [
+        { time: "Manhã", text: "☕ Café no EINSTEIN (Unter den Linden) e caminhada relaxante no Tiergarten / Coluna da Vitória" },
+        { time: "Tarde", text: "🛍️ Compras leves perto da Alexanderplatz (ALEXA) e descanso antes do show" },
+        { time: "17:00", text: "🚊 Tram M10 de Alexanderplatz rumo à Uber Arena (sair cedo, vamos chegar adiantados)" },
+        { time: "18:00", text: "⚔️ Portões abrem na Uber Arena. Fila do merch oficial (mochila grande proibida)" },
+        { time: "20:00", text: "⚔️ Show do Critical Role Live 'Echoes of Exandria' na Uber Arena", address: "Uber-Platz 1, 10243 Berlin" }
       ]},
-      { id: "07jul", dateStr: "07 Jul (Ter)", city: "Berlim ⚔️", tasks: [
-        { time: "Manhã", text: "🌲 Caminhada relaxante no parque Tiergarten" },
-        { time: "17:30", text: "🚇 Metrô S-Bahn para Warschauer Straße rumo à Uber Arena" },
-        { time: "18:00", text: "⚔️ Abertura dos portões na Uber Arena para o show do Critical Role (chegar cedo para merch)" },
-        { time: "20:00", text: "⚔️ Show do Critical Role Live na Uber Arena", address: "Uber-Platz 1, 10243 Berlin" }
+      { id: "07jul", dateStr: "07 Jul (Ter)", city: "Berlim 🛍️", tasks: [
+        { time: "Manhã", text: "🥐 Brunch em Prenzlauer Berg ou no Hackescher Markt" },
+        { time: "Tarde", text: "🏛️ Ilha dos Museus (Neues Museum, busto de Nefertiti) e Unter den Linden" },
+        { time: "Tarde", text: "👟 Bloco de compras: sneakers (SNS, Fair Catch, UNIQLO) e Türkenmarkt em Kreuzberg (terça)" },
+        { time: "Noite", text: "🍽️ Jantar no NOVEMBER Brasserie ou MaMi's (reservar com antecedencia)" }
       ]},
       { id: "08jul", dateStr: "08 Jul (Qua)", city: "Montreal 🇨🇦", tasks: [
         { time: "08:00", text: "🛄 Check-out no Park Inn Berlin Alexanderplatz e trânsito para o Aeroporto BER (Term. 1)" },
@@ -1683,9 +2154,118 @@
         "Baixar apps (DB Navigator, Wizz Air, Air Canada, Wise, Google Maps offline)",
         "Imigração: imprimir hotéis, passagens, extrato financeiro e carta de propósito",
         "Montar cronograma de passeios por dia em Berlim",
-        "Pesquisar locais para comer (Lucas)"
+        "Pesquisar locais para comer (Lucas)",
+        "Baixar Google Translate offline: pacotes Alemao (de) e Romeno (ro)",
+        "Reservar com antecedencia: Auerbachs Keller (Leipzig), Casa Bunicii (Timisoara), MaMi's e NOVEMBER (Berlim)",
+        "Levar euros em especie: vários lugares na Alemanha sao só dinheiro (ex: Zur Haxe)",
+        "Confirmar ingresso Critical Role: 06 de Julho, 20h, Uber Arena (chegar cedo p/ merch)",
+        "Roupa do show do Critical Role separada (mochila grande proibida na Uber Arena)"
       ]
     };
+
+    // DADOS DE LOCAIS PARA O MAPA INTERATIVO (coordenadas verificadas)
+    const PLACES_DATA = [
+      // LEIPZIG
+      { id:'lej-hotel', name:'Premier Inn Leipzig City', category:'lodging', city:'leipzig', lat:51.3440, lng:12.3848, address:'Brandenburger Str. 2B, 04103 Leipzig', notes:'Base do casal. Conf: 6051218308, PIN: 7998.' },
+      { id:'lej-dbfz', name:'DBFZ (trabalho do Lucas)', category:'transport', city:'leipzig', lat:51.3760, lng:12.4290, address:'Torgauer Str. 116, 04347 Leipzig', notes:'Tram 3 sentido Taucha, descer em Heiterblick. Smart casual.' },
+      { id:'lej-mbk', name:'Museum der bildenden Künste', category:'culture', city:'leipzig', lat:51.3423, lng:12.3756, address:'Katharinenstr. 10, 04109 Leipzig', whoFor:'solo', hours:'Ter-Dom 10h-18h (Qua abre 12h)', notes:'15 min a pé do hotel. Otimo para o dia solo da Carol.' },
+      { id:'lej-thomas', name:'Thomaskirche (Igreja de Bach)', category:'culture', city:'leipzig', lat:51.3393, lng:12.3727, address:'Thomaskirchhof 18, 04109 Leipzig', notes:'Tumulo de Bach. Café Kandler ao lado (prove a Leipziger Lerche).' },
+      { id:'lej-markt', name:'Marktplatz + Altes Rathaus', category:'sight', city:'leipzig', lat:51.3403, lng:12.3753, address:'Markt 1, 04109 Leipzig', whoFor:'solo', notes:'Feira livre qua e sex. Coracao do centro historico.' },
+      { id:'lej-spinnerei', name:'Spinnerei (galerias)', category:'culture', city:'leipzig', lat:51.3278, lng:12.3200, address:'Spinnereistr. 7, 04179 Leipzig', whoFor:'solo', notes:'Fabrica virou polo de arte. Tram ~20 min.' },
+      { id:'lej-clara', name:'Clara-Zetkin-Park', category:'sight', city:'leipzig', lat:51.3300, lng:12.3600, address:'Clara-Zetkin-Park, 04107 Leipzig', whoFor:'solo', notes:'Parque grande ao lado da Karli. Bom para caminhar.' },
+      { id:'lej-promenaden', name:'Promenaden Hauptbahnhof', category:'shopping', city:'leipzig', lat:51.3458, lng:12.3826, address:'Willy-Brandt-Platz 7, 04109 Leipzig', notes:'Shopping na estacao, ~140 lojas. ABRE alguns domingos (plano B de domingo!).' },
+      { id:'lej-voelker', name:'Völkerschlachtdenkmal', category:'sight', city:'leipzig', lat:51.3124, lng:12.4133, address:'Str. des 18. Oktober 100, 04299 Leipzig', whoFor:'couple', notes:'Vista do topo. Tram 2 (~25 min).' },
+      { id:'lej-auerbachs', name:'Auerbachs Keller', category:'food', city:'leipzig', lat:51.3388, lng:12.3762, address:'Grimmaische Str. 2-4, 04109 Leipzig', mealType:'dinner', bookAhead:true, notes:'Historico do sec. 16 (Fausto de Goethe). RESERVAR.' },
+      { id:'lej-ratskeller', name:'Ratskeller der Stadt Leipzig', category:'food', city:'leipzig', lat:51.3393, lng:12.3746, address:'Lotterstr. 1, 04109 Leipzig', hours:'Abre 17h', mealType:'dinner', notes:'Adega tradicional sob o Neues Rathaus.' },
+      { id:'lej-riquet', name:'Kaffeehaus Riquet', category:'food', city:'leipzig', lat:51.3410, lng:12.3800, address:'Schuhmachergässchen 1, 04109 Leipzig', hours:'Abre 8h', mealType:'breakfast', notes:'Café Art Nouveau. Prove a Leipziger Lerche.' },
+      { id:'lej-auszeit', name:'Auszeit Café', category:'food', city:'leipzig', lat:51.3294, lng:12.3619, address:'Karl-Liebknecht-Str. 50, 04275 Leipzig', hours:'Abre 9h', mealType:'breakfast', whoFor:'solo', notes:'Brunch na Karli (Connewitz).' },
+      { id:'lej-puschkin', name:'Café Puschkin (Connewitz)', category:'nightlife', city:'leipzig', lat:51.3119, lng:12.3731, address:'Karl-Liebknecht-Str. 74, 04275 Leipzig', hours:'9h-1h', notes:'Ambiente DDR, bairro descolado.' },
+      { id:'lej-maex', name:'Maex Bar (Connewitz)', category:'nightlife', city:'leipzig', lat:51.3086, lng:12.3767, address:'Bornaische Str. 11, 04277 Leipzig', notes:'Coqueteis caseiros muito bem avaliados.' },
+
+      // BERLIN
+      { id:'ber-hotel1', name:'Garner Hotel Berlin Mitte (1a estadia)', category:'lodging', city:'berlin', lat:52.5077, lng:13.3885, address:'Zimmerstraße 88, 10117 Berlin', notes:'5 min do Checkpoint Charlie. Conf: 6841279676, PIN: 4905.' },
+      { id:'ber-hotel2', name:'Park Inn Alexanderplatz (2a estadia)', category:'lodging', city:'berlin', lat:52.5228, lng:13.4131, address:'Alexanderplatz 7, 10178 Berlin', notes:'Ao lado do ALEXA. Conf: 5117675550, PIN: 5478.' },
+      { id:'ber-cr', name:'Uber Arena, CRITICAL ROLE 06/Jul 20h', category:'event', city:'berlin', lat:52.5063, lng:13.4436, address:'Uber-Platz 1, 10243 Berlin', notes:'Show 06 Jul 20h. Tram M10 do Alex (~20 min). Portoes abrem 18h. Mochila grande PROIBIDA.' },
+      { id:'ber-checkpoint', name:'Checkpoint Charlie', category:'sight', city:'berlin', lat:52.5074, lng:13.3904, address:'Friedrichstr. 43-45, 10117 Berlin', notes:'5 min a pé do hotel 1.' },
+      { id:'ber-topography', name:'Topography of Terror', category:'culture', city:'berlin', lat:52.5067, lng:13.3837, address:'Niederkirchnerstr. 8, 10963 Berlin', notes:'GRATUITO. 10 min do hotel 1.' },
+      { id:'ber-fernsehturm', name:'Fernsehturm (Torre de TV)', category:'sight', city:'berlin', lat:52.5208, lng:13.4094, address:'Panoramastr. 1A, 10178 Berlin', notes:'Na Alexanderplatz. Mirante. Ingresso com horario.' },
+      { id:'ber-nikolai', name:'Nikolaiviertel', category:'sight', city:'berlin', lat:52.5163, lng:13.4080, address:'Nikolaikirchplatz, 10178 Berlin', notes:'Bairro medieval a beira do Spree. 10 min de Alex. Bom p/ Eisbein.' },
+      { id:'ber-museumsinsel', name:'Museumsinsel / Neues Museum', category:'culture', city:'berlin', lat:52.5169, lng:13.4019, address:'Bodestr. 1-3, 10178 Berlin', bookAhead:true, notes:'Nefertiti no Neues. Pergamon em reforma. Comprar online.' },
+      { id:'ber-hackescher', name:'Hackescher Markt + Höfe', category:'sight', city:'berlin', lat:52.5237, lng:13.4024, address:'Hackescher Markt, 10178 Berlin', notes:'Patios Art Nouveau, lojas, cafés. 10-15 min de Alex.' },
+      { id:'ber-eastside', name:'East Side Gallery', category:'sight', city:'berlin', lat:52.5050, lng:13.4397, address:'Mühlenstr. 3-100, 10243 Berlin', hours:'Gratis 24h', notes:'Maior trecho do Muro. Ao lado da Uber Arena.' },
+      { id:'ber-tiergarten', name:'Tiergarten + Coluna da Vitoria', category:'sight', city:'berlin', lat:52.5145, lng:13.3501, address:'Großer Stern 1, 10557 Berlin', notes:'Parque enorme. Siegessäule: 285 degraus, vista.' },
+      { id:'ber-alexa', name:'ALEXA (shopping)', category:'shopping', city:'berlin', lat:52.5202, lng:13.4150, address:'Grunerstr. 20, 10179 Berlin', closedDay:'domingo', notes:'Ao lado do Park Inn. FECHA DOM (lei alema).' },
+      { id:'ber-overkill', name:'Overkill (sneakers)', category:'shopping', city:'berlin', lat:52.5012, lng:13.4413, address:'Köpenicker Str. 195A, 10997 Berlin', hours:'Seg-Sab 11h-20h', notes:'Kreuzberg, perto da East Side Gallery.' },
+      { id:'ber-superconscious', name:'Superconscious (streetwear)', category:'shopping', city:'berlin', lat:52.5289, lng:13.4072, address:'Torstr. 72, 10119 Berlin', closedDay:'terca e domingo', notes:'FECHA TER e DOM.' },
+      { id:'ber-keyser', name:'Keyser Soze', category:'food', city:'berlin', lat:52.5253, lng:13.3935, address:'Tucholskystr. 33, 10117 Berlin', mealType:'dinner', notes:'Bistro em Mitte.' },
+      { id:'ber-zurhaxe', name:'Zur Haxe', category:'food', city:'berlin', lat:52.5440, lng:13.4190, address:'Erich-Weinert-Str. 128, 10409 Berlin', cashOnly:true, mealType:'dinner', notes:'Melhor Schweinshaxe/Eisbein. SO DINHEIRO.' },
+      { id:'ber-mamis', name:"MaMi's Food & Wine", category:'food', city:'berlin', lat:52.5376, lng:13.4085, address:'Oderberger Str. 13, 10435 Berlin', hours:'Abre 18h', mealType:'dinner', bookAhead:true, notes:'Michelin Bib Gourmand. RESERVAR.' },
+      { id:'ber-november', name:'NOVEMBER Brasserie', category:'food', city:'berlin', lat:52.5368, lng:13.4133, address:'Husemannstr. 15, 10435 Berlin', hours:'Abre 18h', mealType:'dinner', bookAhead:true, notes:'Fusao japonesa-europeia. RESERVAR.' },
+      { id:'ber-einstein', name:'EINSTEIN Unter den Linden', category:'food', city:'berlin', lat:52.5166, lng:13.3890, address:'Unter den Linden 42, 10117 Berlin', mealType:'breakfast', notes:'Café vienense. Prove o Apfelstrudel.' },
+      { id:'ber-konnopke', name:"Konnopke's Imbiss", category:'food', city:'berlin', lat:52.5400, lng:13.4128, address:'Schönhauser Allee 44B, 10435 Berlin', mealType:'snack', notes:'Currywurst classico sob o metro.' },
+      { id:'ber-turkmarket', name:'Türkenmarkt (Maybachufer)', category:'sight', city:'berlin', lat:52.4938, lng:13.4280, address:'Maybachufer, 12047 Berlin', hours:'Ter e Sex', notes:'Mercado turco colorido. Kreuzberg.' },
+
+      // TIMISOARA
+      { id:'tsr-hotel', name:'River Residence', category:'lodging', city:'timisoara', lat:45.7494, lng:21.2145, address:'Splaiul Nicolae Titulescu 7, 300160 Timisoara', notes:'Perto do centro universitario e do Bega. Conf: 6668557468, PIN: 9615.' },
+      { id:'tsr-unirii', name:'Piata Unirii', category:'sight', city:'timisoara', lat:45.7575, lng:21.2289, address:'Piata Unirii, Timisoara', whoFor:'solo', notes:'Praca barroca colorida, fonte de agua mineral. Cartao-postal.' },
+      { id:'tsr-victoriei', name:'Piata Victoriei (Operei)', category:'sight', city:'timisoara', lat:45.7537, lng:21.2257, address:'Piata Victoriei, Timisoara', whoFor:'couple', notes:'Opera + Catedral Metropolitana. Linda a noite.' },
+      { id:'tsr-catedrala', name:'Catedrala Metropolitana', category:'culture', city:'timisoara', lat:45.7516, lng:21.2247, address:'Bd. Regele Ferdinand I 19, Timisoara', notes:'Igreja ortodoxa. Ombros/joelhos cobertos, falar baixo.' },
+      { id:'tsr-artmuseum', name:'Muzeul de Arta Timisoara', category:'culture', city:'timisoara', lat:45.7574, lng:21.2293, address:'Piata Unirii 1, Timisoara', hours:'Qua-Dom 10h-18h', whoFor:'solo', notes:'No Palacio Barroco da Piata Unirii.' },
+      { id:'tsr-communist', name:'Muzeul Consumatorului Comunist', category:'culture', city:'timisoara', lat:45.7433, lng:21.2243, address:'Str. Coriolan Brediceanu 10, Timisoara', whoFor:'solo', notes:'Museu+bar da era comunista. Doacao.' },
+      { id:'tsr-fabric', name:'Bairro Fabric', category:'sight', city:'timisoara', lat:45.7575, lng:21.2350, address:'Str. Avram Imbroane, Timisoara', whoFor:'solo', notes:'Arte urbana e arquitetura do sec. XIX.' },
+      { id:'tsr-rozelor', name:'Parcul Rozelor (Rosas)', category:'sight', city:'timisoara', lat:45.7484, lng:21.2110, address:'Parcul Rozelor, Timisoara', whoFor:'solo', notes:'Parque das rosas a beira do Bega. Lindo no verao.' },
+      { id:'tsr-cartea', name:'Libraria Cartea de Nisip', category:'shopping', city:'timisoara', lat:45.7551, lng:21.2268, address:'Piata Victoriei 2, Timisoara', hours:'10h-21h30', whoFor:'solo', notes:'Livraria + café no Palacio dos Atlantes.' },
+      { id:'tsr-iulius', name:'Iulius Town + Undertown', category:'shopping', city:'timisoara', lat:45.7659, lng:21.2303, address:'Str. Demetriade 1, Timisoara', notes:'Maior mall (abre dom). Embaixo: galeria de arte urbana Undertown.' },
+      { id:'tsr-casabunicii', name:'Casa Bunicii', category:'food', city:'timisoara', lat:45.7576, lng:21.2272, address:'Str. Marasesti 14, Timisoara', mealType:'dinner', bookAhead:true, notes:'Cozinha do Banat de aldeia. RESERVAR.' },
+      { id:'tsr-beraria700', name:'Berăria 700', category:'food', city:'timisoara', lat:45.7560, lng:21.2270, address:'Piata Victoriei 7, Timisoara', mealType:'dinner', whoFor:'couple', notes:'Cervejaria com terraco. Mici e cerveja Timisoreana.' },
+      { id:'tsr-paso', name:'PASO Local Cuisine', category:'food', city:'timisoara', lat:45.7540, lng:21.2280, address:'Str. Eugeniu de Savoya 6B, Timisoara', mealType:'lunch', whoFor:'solo', notes:'Carne no espeto, descontraido.' },
+      { id:'tsr-garage', name:'Garage Café', category:'food', city:'timisoara', lat:45.7548, lng:21.2275, address:'Str. Palanca 2, Timisoara', hours:'Abre 7h30', mealType:'breakfast', whoFor:'solo', notes:'Café da manha e brunch.' },
+      { id:'tsr-baroque', name:'Baroque Café', category:'food', city:'timisoara', lat:45.7573, lng:21.2290, address:'Piata Unirii 14, Timisoara', hours:'Abre 8h', mealType:'breakfast', notes:'Café de especialidade na praca.' },
+      { id:'tsr-herculane', name:'Baile Herculane (excursao)', category:'sight', city:'timisoara', lat:44.8790, lng:22.4133, address:'Baile Herculane, Caras-Severin', notes:'Termas austro-hungaras. ~90 km, onibus da Gara de Nord.' },
+
+      // MONTREAL
+      { id:'yul-airport', name:'Aeroporto Montreal-Trudeau (YUL)', category:'transport', city:'montreal', lat:45.4577, lng:-73.7497, address:'975 Boul Romeo-Vachon N, Dorval, QC', notes:'~25-30 min de taxi/Uber ao centro. eTA obrigatorio p/ sair.' },
+      { id:'yul-notredame', name:'Basilique Notre-Dame', category:'culture', city:'montreal', lat:45.5045, lng:-73.5561, address:'110 Rue Notre-Dame O, Montreal', hours:'Abre 9h', notes:'Interior deslumbrante. ~CAD $16.' },
+      { id:'yul-vieux', name:'Vieux-Montreal (Place d Armes)', category:'sight', city:'montreal', lat:45.5051, lng:-73.5569, address:"Place d'Armes, Montreal", notes:'Cidade velha, paralelepipedos. Poutine e smoked meat.' },
+      { id:'yul-atwater', name:'Marche Atwater', category:'shopping', city:'montreal', lat:45.4795, lng:-73.5770, address:'138 Av. Atwater, Montreal', hours:'Abre 9h', notes:'Mercado publico. Queijos, paes.' }
+    ];
+
+    // GUIA GASTRONOMICO (Alemanha + Romenia). img so quando ha arquivo local.
+    const FOOD_DATA = [
+      // ALEMANHA
+      { country:'de', name:'Currywurst', orig:'O icone de Berlim', desc:'Salsicha em rodelas com molho de tomate e curry, servida com batata frita.', price:'4-7 EUR (com batata 6-9)', where:'Imbiss (barracas). Curry 36, Konnopke\'s.', img:'currywurst.jpg' },
+      { country:'de', name:'Döner Kebab', orig:'Berlim e a capital mundial', desc:'Pao pita com carne no espeto, salada, repolho e molho. Farto e barato.', price:'6-9 EUR', where:'Mustafa\'s Gemüse Kebap, lanchonetes turcas.', img:'doner-kebab.jpg' },
+      { country:'de', name:'Spargel', orig:'Aspargo branco, DE TEMPORADA', desc:'Estrela do inicio do verao: aspargo branco com molho holandes, batata e presunto. Temporada vai ate 24 de junho, no auge exato da viagem.', price:'18-26 EUR', where:'Procure placas "Spargelzeit" em junho.', seasonal:true },
+      { country:'de', name:'Schnitzel', orig:'Schnitzel Wiener Art', desc:'Bife empanado fino e crocante. Versao Jäger vem com molho de cogumelos.', price:'12-19 EUR', where:'Praticamente todo restaurante.' },
+      { country:'de', name:'Schweinshaxe / Eisbein', orig:'Joelho de porco', desc:'Eisbein (cozido, de Berlim) ou Schweinshaxe (assado). Com chucrute e pure de ervilha.', price:'14-20 EUR', where:'Zur Haxe (so dinheiro), Nikolaiviertel.' },
+      { country:'de', name:'Bratwurst + Brezel', orig:'Salsicha e pretzel', desc:'Salsicha grelhada no pao com mostarda, e a classica rosca salgada (Brezel).', price:'Bratwurst 3-5 / Brezel 1-2,50 EUR', where:'Barracas, padarias, mercados.' },
+      { country:'de', name:'Leipziger Allerlei', orig:'Especialidade de Leipzig', desc:'Mix de legumes da estacao na manteiga, as vezes com camarao de rio. Leve.', price:'12-18 EUR', where:'Restaurantes tradicionais saxoes.' },
+      { country:'de', name:'Leipziger Lerche', orig:'Cotovia de Leipzig (doce)', desc:'Tortinha amanteigada de marzipa e geleia, com cruz de massa no topo. Simbolo da cidade.', price:'2,50-4,50 EUR', where:'Café Kandler, confeitarias.' },
+      { country:'de', name:'Gose', orig:'Cerveja de Leipzig', desc:'Cerveja acida e levemente salgada com coentro. Sabor unico. As vezes com xarope.', price:'3,50-5 EUR', where:'Bayerischer Bahnhof, Gosenschenke.' },
+      { country:'de', name:'Bauernfrühstück', orig:'Café do fazendeiro', desc:'Omelete robusta com batata, bacon e cebola. Comum no leste alemao.', price:'8-13 EUR', where:'Cafés de comida caseira.' },
+      { country:'de', name:'Käsespätzle', orig:'Spätzle com queijo', desc:'A massa irregular alema com queijo derretido e cebola crocante. Reconfortante.', price:'9-14 EUR', where:'Restaurantes do sul/Suabia.' },
+      { country:'de', name:'Flammkuchen', orig:'Tarte flambee', desc:'"Pizza" fina com creme azedo, cebola e bacon. Otimo para dividir.', price:'9-14 EUR', where:'Cervejarias e restaurantes.' },
+      { country:'de', name:'Apfelstrudel', orig:'Strudel de maca', desc:'Massa fina enrolada com maca, canela e passas. Servido morno com creme.', price:'5-8 EUR', where:'Cafés. EINSTEIN Unter den Linden.' },
+      { country:'de', name:'Schwarzwälder Kirschtorte', orig:'Bolo Floresta Negra', desc:'Camadas de chocolate, chantilly, cerejas e licor de cereja. Classico absoluto.', price:'4,50-7 EUR/fatia', where:'Konditorei (confeitarias).' },
+      { country:'de', name:'Berliner Pfannkuchen', orig:'Em Berlim peca "Pfannkuchen"', desc:'Sonho recheado de geleia com acucar por cima. Em Berlim nao chame de "Berliner".', price:'1,20-2,50 EUR', where:'Padarias (Bäckerei).' },
+
+      // ROMENIA
+      { country:'ro', name:'Mici / Mititei', orig:'A estrela do Banat', desc:'Rolinhos de carne moida grelhada com alho. Comem-se com mostarda, pao e cerveja.', price:'3-6 RON/un (prato 25-45)', where:'Qualquer terraca. Berăria 700.', img:'mici.jpg' },
+      { country:'ro', name:'Sarmale', orig:'Prato de festa', desc:'Charutinhos de repolho recheados com carne e arroz, com mamaliga e creme azedo.', price:'25-45 RON', where:'Casa Bunicii, restaurantes tradicionais.', img:'sarmale.jpg' },
+      { country:'ro', name:'Papanasi', orig:'Sobremesa romena por excelencia', desc:'Bolinhos fritos de queijo fresco com creme azedo e geleia. Servidos quentes. Da para dividir.', price:'18-35 RON', where:'Quase todo restaurante. Imperdivel.', img:'papanasi.jpg' },
+      { country:'ro', name:'Ciorba de burta', orig:'Sopa azeda de bucho', desc:'Sopa cremosa de tripa com alho e vinagre. Sabor forte, para aventureiros.', price:'18-35 RON', where:'Restaurantes tradicionais.' },
+      { country:'ro', name:'Ciorba radauteana', orig:'Versao suave (frango)', desc:'Ciorba cremosa de frango com alho. Otima porta de entrada para as sopas azedas.', price:'18-30 RON', where:'Restaurantes tradicionais.' },
+      { country:'ro', name:'Mamaliga cu branza', orig:'Polenta romena', desc:'Polenta firme com queijo tipo feta e creme azedo, as vezes com ovo frito. Quase um prato.', price:'20-35 RON', where:'Acompanhamento ou prato.' },
+      { country:'ro', name:'Tochitura', orig:'Ensopado rustico', desc:'Porco na propria gordura com mamaliga, queijo e ovo frito. Bem substancioso.', price:'30-50 RON', where:'Restaurantes do Banat.' },
+      { country:'ro', name:'Zacusca', orig:'Pasta de legumes', desc:'Conserva de berinjela e pimentao assados. Vegana, espalha-se no pao.', price:'10-20 RON', where:'Entrada, mercados.' },
+      { country:'ro', name:'Covrigi', orig:'Pretzel romeno', desc:'Rosca de pao salgado fresquinho com gergelim ou papoula. Lanche barato e onipresente.', price:'2-6 RON', where:'Redes "Covrigaria", padarias.' },
+      { country:'ro', name:'Langosi', orig:'Heranca hungara', desc:'Massa frita larga coberta com alho, queijo e creme azedo. Fartissima.', price:'10-20 RON', where:'Barracas e feiras.' },
+      { country:'ro', name:'Kürtőskalács', orig:'Bolo-chamine (chimney cake)', desc:'Massa enrolada num cilindro, assada na brasa, coberta com acucar caramelizado e canela. Pode vir com sorvete.', price:'12-25 RON', where:'Barracas em Piata Unirii e Victoriei.' },
+      { country:'ro', name:'Cozonac', orig:'Pao doce trancado', desc:'Tipo panetone, recheado com nozes, cacau ou papoula. Em padarias o ano todo.', price:'8-15 RON/fatia', where:'Padarias.' },
+      { country:'ro', name:'Tuica e Palinca', orig:'Destilados de fruta', desc:'Aguardente de ameixa. Tuica leve, palinca forte (>50%). O Banat e terra de palinca. Aperitivo, brinde "Noroc!".', price:'8-18 RON/dose', where:'Oferecido como hospitalidade.' },
+      { country:'ro', name:'Vinhos Cramele Recas', orig:'Romenia e pais vinicola', desc:'Vinicola enorme pertinho da cidade. Prove Feteasca Regala (branco) e Feteasca Neagra (tinto). Qualidade por preco baixo.', price:'taca 12-25 / garrafa 50-120 RON', where:'Restaurantes e lojas.' },
+      { country:'ro', name:'Timisoreana e Socata', orig:'Cerveja e refri natural', desc:'Timisoreana e fabricada aqui desde 1718 (quase obrigatoria). Socata e refri fermentado de flor de sabugueiro, otimo para o calor.', price:'cerveja 8-16 / socata 8-15 RON', where:'Terracas.' }
+    ];
 
     // CONTROLE DE NAVEGAÇÃO DE VIEWS
     function switchView(viewId, btnEl) {
@@ -1713,6 +2293,10 @@
       // Hooks específicos de views
       if (viewId === 'agenda') {
         highlightTodayInTimeline();
+      }
+      if (viewId === 'mapas') {
+        updateCRCountdown();
+        initMapView();
       }
       
       // Não rolar ao topo se for a agenda para manter a posição de rolagem do dia corrente
@@ -2372,7 +2956,7 @@
             hotelAddress = "Alexanderplatz 7, Mitte, Berlim, 10178, Alemanha";
             mapsUrl = "https://www.google.com/maps/search/?api=1&query=Park+Inn+by+Radisson+Berlin+Alexanderplatz";
             weather = "☀️ 26°C";
-            tips = "Dia do show do Critical Role! Uber Arena portões abrem às 18h.";
+            tips = "Critical Role na segunda 06 Jul, 20h, na Uber Arena (portões 18h, Tram M10 do Alex). Chegar cedo para o merch!";
             notice = "🏨 Park Inn Berlin: Quarto Duplo com Vista. Conf: 5117675550, PIN: 5478.";
             nextEventText = "🛫 Voo de volta BER → YUL → GRU";
             nextEventTime = "08 de Julho às 11:40 — Saída BER (Term. 1)";
@@ -2693,6 +3277,229 @@
       if (action === 'help') openHelpModal();
     }
 
+    // ===== MAPAS INTERATIVOS (LEAFLET, CARREGADO SOB DEMANDA) =====
+    let mapCurrentCity = 'leipzig';
+    let mapCurrentCat = 'all';
+    let mapCurrentWho = 'all';
+    let mapInstance = null;
+    let mapMarkers = [];
+    let leafletLoaded = false;
+    let leafletLoading = false;
+
+    function getCategoryColor(cat) {
+      const palette = {
+        lodging:'#8C4A2F', food:'#CB7A3E', sight:'#74803C', culture:'#9A6BC2',
+        shopping:'#C18A35', nightlife:'#A35A2A', event:'#C0392B', transport:'#8A7B68'
+      };
+      return palette[cat] || '#8A7B68';
+    }
+
+    const MAP_CITY_VIEWS = {
+      leipzig:   { lat:51.3390, lng:12.3760, zoom:13 },
+      berlin:    { lat:52.5150, lng:13.4050, zoom:12 },
+      timisoara: { lat:45.7540, lng:21.2260, zoom:14 },
+      montreal:  { lat:45.5000, lng:-73.5700, zoom:12 }
+    };
+
+    function ensureLeaflet(cb) {
+      if (leafletLoaded) { cb(); return; }
+      if (leafletLoading) { document.addEventListener('leaflet-ready', cb, { once:true }); return; }
+      leafletLoading = true;
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(link);
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.onload = () => {
+        leafletLoaded = true; leafletLoading = false;
+        document.dispatchEvent(new Event('leaflet-ready'));
+        cb();
+      };
+      script.onerror = () => {
+        leafletLoading = false;
+        const sk = document.getElementById('map-skeleton');
+        if (sk) sk.textContent = 'Mapa indisponivel offline. A lista de locais abaixo funciona sem internet.';
+        renderPlaceList();
+      };
+      document.head.appendChild(script);
+    }
+
+    function initMapView() {
+      renderPlaceList();
+      ensureLeaflet(() => {
+        if (typeof L === 'undefined') return;
+        const skeleton = document.getElementById('map-skeleton');
+        const container = document.getElementById('map-container');
+        if (!skeleton || !container) return;
+        skeleton.style.display = 'none';
+        container.style.display = 'block';
+        if (!mapInstance) {
+          const v = MAP_CITY_VIEWS[mapCurrentCity];
+          mapInstance = L.map('map-container', { zoomControl:true }).setView([v.lat, v.lng], v.zoom);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', maxZoom:19
+          }).addTo(mapInstance);
+        }
+        renderMapMarkers();
+        setTimeout(() => { if (mapInstance) mapInstance.invalidateSize(); }, 250);
+      });
+    }
+
+    function getFilteredPlaces() {
+      return PLACES_DATA.filter(p => {
+        if (p.city !== mapCurrentCity) return false;
+        if (mapCurrentCat !== 'all' && p.category !== mapCurrentCat) return false;
+        if (mapCurrentWho === 'solo' && p.whoFor && p.whoFor !== 'solo') return false;
+        if (mapCurrentWho === 'couple' && p.whoFor && p.whoFor !== 'couple') return false;
+        return true;
+      });
+    }
+
+    function buildBadges(p) {
+      let b = '';
+      if (p.cashOnly)         b += '<span class="badge badge-cash">So dinheiro</span>';
+      if (p.bookAhead)        b += '<span class="badge badge-book">Reservar</span>';
+      if (p.closedDay)        b += '<span class="badge badge-closed">Fecha ' + p.closedDay + '</span>';
+      if (p.whoFor==='solo')  b += '<span class="badge badge-solo">Carol solo</span>';
+      if (p.whoFor==='couple')b += '<span class="badge badge-couple">A dois</span>';
+      if (p.hours)            b += '<span class="badge badge-hours">' + p.hours + '</span>';
+      return b;
+    }
+
+    function renderMapMarkers() {
+      if (!mapInstance || typeof L === 'undefined') return;
+      mapMarkers.forEach(m => m.remove());
+      mapMarkers = [];
+      const places = getFilteredPlaces();
+      places.forEach(p => {
+        const color = getCategoryColor(p.category);
+        const marker = L.circleMarker([p.lat, p.lng], {
+          radius: p.category==='lodging' || p.category==='event' ? 10 : 7,
+          fillColor: color, color:'#fff', weight:2, opacity:1, fillOpacity:0.92
+        });
+        const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng;
+        marker.bindPopup(
+          '<div style="min-width:180px;">' +
+          '<strong style="font-size:14px;">' + p.name + '</strong>' +
+          '<div style="font-size:11.5px;color:#666;margin:3px 0;">' + p.address + '</div>' +
+          (p.notes ? '<div style="font-size:12px;margin-bottom:5px;">' + p.notes + '</div>' : '') +
+          '<a href="' + mapsUrl + '" target="_blank" rel="noopener" style="font-size:12px;font-weight:700;color:#8C4A2F;">Abrir no Maps</a></div>',
+          { maxWidth:260 }
+        );
+        marker.addTo(mapInstance);
+        mapMarkers.push(marker);
+      });
+      const v = MAP_CITY_VIEWS[mapCurrentCity];
+      mapInstance.setView([v.lat, v.lng], v.zoom);
+    }
+
+    function renderPlaceList() {
+      const list = document.getElementById('map-place-list');
+      if (!list) return;
+      const places = getFilteredPlaces();
+      list.innerHTML = '';
+      if (places.length === 0) {
+        list.innerHTML = '<p style="text-align:center;color:var(--text-secondary);padding:20px 0;">Nenhum local neste filtro.</p>';
+        return;
+      }
+      places.forEach(p => {
+        const color = getCategoryColor(p.category);
+        const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + p.lat + ',' + p.lng;
+        const badges = buildBadges(p);
+        const card = document.createElement('div');
+        card.className = 'place-card';
+        card.innerHTML =
+          '<div class="place-dot" style="background:' + color + ';"></div>' +
+          '<div class="place-info">' +
+            '<div class="place-name">' + p.name + '</div>' +
+            '<div class="place-addr">' + p.address + '</div>' +
+            (p.notes ? '<div class="place-note">' + p.notes + '</div>' : '') +
+            (badges ? '<div class="place-badges">' + badges + '</div>' : '') +
+            '<a href="' + mapsUrl + '" target="_blank" rel="noopener" class="place-maps-link">Abrir no Maps</a>' +
+          '</div>';
+        list.appendChild(card);
+      });
+    }
+
+    function selectMapCity(city, btnEl) {
+      mapCurrentCity = city;
+      document.querySelectorAll('#map-city-tabs .essenciais-tab').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      if (mapInstance) renderMapMarkers();
+      else initMapView();
+      renderPlaceList();
+    }
+    function filterMapCat(cat, btnEl) {
+      mapCurrentCat = cat;
+      document.querySelectorAll('#map-cat-tabs .essenciais-tab').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      renderMapMarkers(); renderPlaceList();
+    }
+    function filterMapWho(who, btnEl) {
+      mapCurrentWho = who;
+      document.querySelectorAll('.who-btn').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      renderMapMarkers(); renderPlaceList();
+    }
+
+    // Contador regressivo do show do Critical Role (06 Jul 2026, 20:00, Uber Arena)
+    function updateCRCountdown() {
+      const el = document.getElementById('cr-countdown-widget');
+      if (!el) return;
+      const show = new Date(2026, 6, 6, 20, 0, 0);
+      const now = new Date();
+      const diff = show - now;
+      if (diff <= 0) {
+        el.innerHTML = '<div class="cr-title">CRITICAL ROLE - Echoes of Exandria</div>' +
+          '<div class="cr-days" style="font-size:18px;">Uber Arena, Berlim</div>' +
+          '<div class="cr-sub">06 Jul 2026 - que tenha sido epico!</div>';
+        return;
+      }
+      const days = Math.floor(diff/86400000);
+      const hours = Math.floor((diff%86400000)/3600000);
+      const mins = Math.floor((diff%3600000)/60000);
+      el.innerHTML = '<div class="cr-title">CRITICAL ROLE - Echoes of Exandria</div>' +
+        '<div class="cr-days">' + days + 'd ' + hours + 'h ' + mins + 'm</div>' +
+        '<div class="cr-sub">06 Jul 2026, 20:00 - Uber Arena, Berlim - Tram M10 do Alex</div>';
+    }
+
+    // ===== GUIA DE COMIDA =====
+    let foodCurrentCountry = 'de';
+    function renderFoodGuide() {
+      const list = document.getElementById('food-list');
+      if (!list) return;
+      const items = FOOD_DATA.filter(f => f.country === foodCurrentCountry);
+      list.innerHTML = '';
+      items.forEach(f => {
+        const card = document.createElement('div');
+        card.className = 'food-card';
+        if (f.img) {
+          const im = document.createElement('img');
+          im.src = f.img; im.alt = f.name; im.loading = 'lazy';
+          im.onerror = function () { this.style.display = 'none'; };
+          card.appendChild(im);
+        }
+        const body = document.createElement('div');
+        body.className = 'food-body';
+        body.innerHTML =
+          (f.seasonal ? '<span class="food-flag">DE TEMPORADA EM JUNHO</span><br>' : '') +
+          '<span class="food-name">' + f.name + '</span>' +
+          '<div class="food-orig">' + f.orig + '</div>' +
+          '<div class="food-desc">' + f.desc + '</div>' +
+          '<div class="food-price">' + f.price + '</div>' +
+          '<div class="food-where">' + f.where + '</div>';
+        card.appendChild(body);
+        list.appendChild(card);
+      });
+    }
+    function switchFoodCountry(country, btnEl) {
+      foodCurrentCountry = country;
+      document.querySelectorAll('#food-country-tabs .essenciais-tab').forEach(b => b.classList.remove('active'));
+      if (btnEl) btnEl.classList.add('active');
+      renderFoodGuide();
+    }
+
     // DOM CONTENT LOADED - INICIALIZAÇÕES
     document.addEventListener('DOMContentLoaded', () => {
       // 1. Atualizar Destino Atual e Compromissos
@@ -2720,7 +3527,11 @@
       const lastView = localStorage.getItem(STORAGE_KEYS.lastView) || 'inicio';
       switchView(lastView);
 
-      // 9. Atalhos do PWA têm prioridade sobre a última view
+      // 9. Renderizar o guia de comida e o contador do show
+      renderFoodGuide();
+      updateCRCountdown();
+
+      // 10. Atalhos do PWA têm prioridade sobre a última view
       handleLaunchParams();
     });
   </script>
