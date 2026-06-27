@@ -1263,6 +1263,22 @@
     .cr-countdown .cr-days { font-size: 34px; font-weight: 700; line-height: 1; color: #F2C18A; }
     .cr-countdown .cr-sub { font-size: 11px; opacity: .75; margin-top: 5px; }
 
+    /* Diário de bordo (memórias no card do dia) */
+    .diary {
+      background: var(--accent-soft);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      margin-top: 12px;
+    }
+    .diary-title {
+      font-size: 13px; font-weight: 700; color: var(--accent);
+      margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+    }
+    .diary ul { margin: 0 0 0 16px; padding: 0; }
+    .diary li { font-size: 12.5px; color: var(--text-primary); line-height: 1.5; margin-bottom: 3px; }
+
     /* Dica de subsecao / cabecalho de bairro */
     .tip-block { background: var(--accent-soft); border-radius: var(--radius-sm); padding: 10px 12px; margin: 8px 0; }
     .tip-block strong { color: var(--accent); }
@@ -2005,6 +2021,36 @@
     };
 
     // DADOS DO CRONOGRAMA DA AGENDA
+    // DIÁRIO DE BORDO: memórias da viagem (Carol & Lucas). Vai aparecer no card do dia.
+    const DIARY_DATA = {
+      "24jun": { icon: "🔬", title: "Primeiro dia na DBFZ e Leipzig", items: [
+        "Reunioes incriveis na DBFZ, com muitas possibilidades de colaboracao surgindo.",
+        "Exploramos o centro de Leipzig a pe e vimos varios monumentos.",
+        "Jantar vietnamita no restaurante Philosophy, uma delicia diferente.",
+        "Provei goulash e um bom prato de carne (Fleisch) bem alemao."
+      ]},
+      "25jun": { icon: "☕", title: "DBFZ, cafes e a Lukas Bäckerei", items: [
+        "Mais conversas tecnicas na DBFZ, alinhando ideias de cooperacao.",
+        "Muitos almocos gostosos e paradas em cafes pela cidade.",
+        "Ritual da manha: McCafé com um Red Bull para acordar, e pao fresquinho da Lukas Bäckerei.",
+        "Compramos board games para levar de lembranca."
+      ]},
+      "26jun": { icon: "🧱", title: "Chegada a Berlim e a historia do Muro", items: [
+        "Check-in no Garner Hotel, pertinho de tudo.",
+        "Topography of Terror e Checkpoint Charlie a pe, muita historia.",
+        "Almocos saudaveis no Mall of Berlin e uma espiada na MediaMarkt.",
+        "Jantar no Central Döner Kebab: comida muito boa.",
+        "Cerveja alema Hell (a famosa Helles) e Budweiser, com salsichas alemas."
+      ]},
+      "27jun": { icon: "🛴", title: "Portao de Brandemburgo e patinetes pela cidade", items: [
+        "Manha no Portao de Brandemburgo, finalmente ao vivo.",
+        "Memorial aos Judeus Mortos da Europa, ali do lado, no caminho para a UNIQLO.",
+        "Patinetes Bolt ate o Schwules Museum: exposicao sobre Susan Sontag e outras, experiencia sensacional.",
+        "Volta de patinete pela beira do rio ate o hotel, com o pacote de so 4 euros por 30 minutos.",
+        "Noite tranquila: amanha 5h, Uber ate o aeroporto e voo Wizz Air rumo a Timisoara."
+      ]}
+    };
+
     const TIMELINE_DATA = [
       { id: "22jun", dateStr: "22 Jun (Seg)", city: "São Paulo 🛫", tasks: [
         { time: "20:00", text: "🚗 Deslocamento para o Aeroporto de Guarulhos (GRU) e check-in" },
@@ -2767,6 +2813,17 @@
           
           dayCard.appendChild(slot);
         });
+
+        // Diário de bordo: memórias registradas (conteúdo do app, compartilhado)
+        const diary = (typeof DIARY_DATA !== 'undefined') ? DIARY_DATA[day.id] : null;
+        if (diary) {
+          const diaryBlock = document.createElement('div');
+          diaryBlock.className = 'diary';
+          diaryBlock.innerHTML =
+            '<div class="diary-title">' + (diary.icon || '✨') + ' ' + diary.title + '</div>' +
+            '<ul>' + diary.items.map(function (it) { return '<li>' + it + '</li>'; }).join('') + '</ul>';
+          dayCard.appendChild(diaryBlock);
+        }
 
         // Bloco de anotações do dia (diário de viagem)
         const notes = getNotes();
